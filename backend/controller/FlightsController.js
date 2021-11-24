@@ -28,7 +28,7 @@ Flights.findByIdAndUpdate(req.params.id,req.body).then(result =>{
 
 exports.deleteFlights =(req,res)=>
 {
-   Flights.findByIdAndRemove(req.params.id).then(result =>{
+   Flights.findByIdAndDelete(req.params.id).then(result =>{
   
       res.status(200).send("Flight Deleted ");
       console.log('The Flight is Updated successfully !');
