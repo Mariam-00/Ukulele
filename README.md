@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### Adham Kandeel 46-0746 worked on  listing all the flights (Both the frontend and backend)
+### Eslam Tamer 46-3759  worked on creating the flights(Both the backend and the front end)
+### Farah Ghonema 46-0746 worked on updating and deleted the flights (Both the front and the backend)
+### Mariam Nabil 46-0733 worked on searching for a specific flight (Both the front and the backend)
