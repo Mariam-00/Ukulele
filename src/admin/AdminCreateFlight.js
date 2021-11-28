@@ -103,7 +103,10 @@ export default function AdminCreateFlight() {
        localStorage.setItem("flightnumber",FlightNumber)
        localStorage.setItem("depTime",DepartureTime)
         axios.post('http://localhost:8000/flights/',flight)
-        .then(res => console.log(res.data))
+        .then(res => console.log(res.data))  .then(
+          ()=>{
+            alert("Flight Created Successfully!");
+          })
                
         
      }}

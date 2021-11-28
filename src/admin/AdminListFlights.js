@@ -38,11 +38,10 @@ export default function AdminListAllFlights()
      const handleClickYesDelete = async e=>{
             e.preventDefault();
             const flight_id = e.currentTarget.id;
-            //localStorage.setItem("flightid",flight_id);
-           // console.log(flight_id);
-            axios
-      .delete('http://localhost:8000/flights/delete'+flight_id)
+            localStorage.setItem("fid",flight_id);
+            axios.delete('http://localhost:8000/flights/delete'+flight_id)
       .then(() => {
+        localStorage.setItem("this",flight_id);
         alert("Flight deleted!");
         window.location.href = "/list-flights";
       });
@@ -51,7 +50,8 @@ export default function AdminListAllFlights()
             e.preventDefault();
             const flight=e.currentTarget.id;
             //localStorage.setItem("fid",flight_id);
-            window.location.href = "/update-flights/"+flight;
+           // window.location.href = "/update-flights/"+flight;
+           window.location.href="/test/"+flight;
         }    
 
     const [modalIsOpen,setModalIsOpen] = useState(false);
@@ -105,7 +105,7 @@ export default function AdminListAllFlights()
                     <h2>Are you sure you want to delete this flight?</h2>
                     <br/>               <br/>
                 <div>
-                <Button  variant="contained" color="primary" display = "flex"  id={flight} marginright onClick={handleClickYesDelete}>Yes</Button>
+                <Button  variant="contained" color="primary" display = "flex"  id={flight._id} marginright onClick={handleClickYesDelete}>Yes</Button>
                 {'                                                     '}
                 <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
                 </div>
