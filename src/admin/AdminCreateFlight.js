@@ -73,7 +73,8 @@ export default function AdminCreateFlight() {
   const [NrEconomySeats,setNrEconomySeats]= useState();
   const[NrBusinessSeats,setNrBusinessSeats]=useState();
   const[date,setDate]=useState();
-  const[Airport,setAirport]=useState();
+  const[ArrivalAirport,setArrivalAirport]=useState();
+  const[DepartureAirport,setDepartureAirport]=useState();
  
 
 
@@ -95,11 +96,11 @@ export default function AdminCreateFlight() {
     else if(NrBusinessSeats==null || NrBusinessSeats=="" ){
         //setError("Please enter a valid Number of Business Seats")
        }
-     else if(Airport==null || Airport=="" ){
+     else if(ArrivalAirport==null || ArrivalAirport=="" ){
         //setError("Please enter a valid Airport Name")
        }    
      else{
-       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,Airport:Airport}
+       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,ArrivalAirport:ArrivalAirport,DepartureAirport:DepartureAirport}
        localStorage.setItem("flightnumber",FlightNumber)
        localStorage.setItem("depTime",DepartureTime)
         axios.post('http://localhost:8000/flights/',flight)
@@ -201,11 +202,23 @@ return (
             margin="normal"
             required
             fullWidth
-            name="airport"
-            label="Airport"
+            name="arrivalAirport"
+            label="Arrival Airport"
+            id="arrivalAirport"
+            //autoComplete="current-password"
+            onChange = {e =>setArrivalAirport(e.target.value)}
+          />
+
+<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="DepartureAirport"
+            label="DepartureAirport"
             id="airport"
             //autoComplete="current-password"
-            onChange = {e =>setAirport(e.target.value)}
+            onChange = {e =>setDepartureAirport(e.target.value)}
           />
      
 

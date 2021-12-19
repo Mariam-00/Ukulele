@@ -16,7 +16,7 @@ const flightsSchema = new Schema({
     required: true,
   },
   Date: {
-    type: Date,
+    type:String ,
     required: true
   },
   NrEconomySeats: {
@@ -27,10 +27,37 @@ const flightsSchema = new Schema({
     type: Number,
     required: true
   },
-  Airport: {
+  DepartureAirport: {
     type: String,
     required: true
+  },
+  ArrivalAirport :
+  {
+    type: String,
+    required: true
+  },
+  ReservedEconomySeats:
+  {
+    type:[Number],
+    required:true
+  },
+  ReservedBusinessSeats:
+  {
+    type:[Number],
+    required:true
   }
+  ,
+  PriceEconomy:
+  {
+    type:Number,
+    required:true
+  },
+  PriceBusiness:
+  {
+    type:Number,
+    required:true
+  }
+
 } 
  );
 

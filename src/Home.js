@@ -21,7 +21,7 @@ import Grid from '@material-ui/core/Grid';
 
 const handleCreateClick = async e=>{
     e.preventDefault();
-    window.location.href = "/create-flights";
+    window.location.href = "/";
 
 }
 const handleListFlights = async e=>{
@@ -40,13 +40,13 @@ export default function AdminHome ()
     return(
         <div>
             <div>
-            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleCreateClick}>Create A Flight</Button>
+            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleCreateClick}>Continue As An Admin</Button>
             </div>
             <div>
-            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleListFlights}>List All Flights</Button>
+            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleListFlights}>Continue As an Existing User</Button>
             </div>
             <div>
-            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleSearch}>Search</Button>
+            <Button variant="contained" color="green"  display = "flex" marginright onClick={handleSearch}>Continue As a Guest User</Button>
 
             </div>
           

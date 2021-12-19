@@ -12,7 +12,7 @@ export default class Search extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-   this.state = {flightNumber:' ',departureTime:' ',arrivalTime:' ',date:' ',nrEconomySeats:' ',nrBusinessSeats:' ',airport:' ',Flights:{}}
+   this.state = {flightNumber:' ',departureTime:' ',arrivalTime:' ',date:' ',nrEconomySeats:' ',nrBusinessSeats:' ',arrivalAirport:' ',departureAirport:' ',Flights:{}}
   } 
   componentDidMount(){
     const flight = this.props.match.params.id;
@@ -38,9 +38,11 @@ export default class Search extends React.Component {
      searchlink+="NrEconomySeats="+ this.state.nrEconomySeats +"&";
      if(this.state.nrBusinessSeats!== " ")
      searchlink+="NrBusinessSeats="+ this.state.nrBusinessSeats +"&";
-     if(this.state.airport!= " ")
-     searchlink+="Airport="+ this.state.airport +"&";
-
+     if(this.state.arrivalAirport!= " ")
+     searchlink+="Airport="+ this.state.arrivalAirport +"&";
+     if(this.state.departureAirport!= " ")
+     searchlink+="Airport="+ this.state.departureAirport +"&";
+     
      searchlink= searchlink.substring(0,(searchlink.length-1));
      
      localStorage.setItem("f","f");
@@ -107,10 +109,19 @@ handleChange = function(event) {
 <br/>
 
 <TextField
-  id="airport"
-  label="Airport Name"
+  id="arrivalAirport"
+  label="Arrival Airport"
  // value={this.state.name}
-  onChange={e => this.state.airport = e.target.value}
+  onChange={e => this.state.arrivalAirport = e.target.value}
+  margin="normal"
+/>
+<br/>
+
+<TextField
+  id="departureAirport"
+  label="Departure Airport"
+ // value={this.state.name}
+  onChange={e => this.state.departureAirport = e.target.value}
   margin="normal"
 />
 <br/>
