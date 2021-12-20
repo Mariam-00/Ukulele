@@ -41,7 +41,8 @@ export default class ListSearch extends React.Component {
            Date: {flight.Date}<br/>
            NrEconomySeats: {flight.NrEconomySeats}<br/>
            NrBusinessSeats: {flight.NrBusinessSeats}<br/>
-           Airport: {flight.Airport}
+           ArrivalAirport: {flight.ArrivalAirport}<br/>
+           DepartureAirport:{flight.DepartureAirport}
        </div>
 
     

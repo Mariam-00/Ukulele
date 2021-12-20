@@ -49,8 +49,7 @@ export default function AdminListAllFlights()
      const handleUpdate = async e=>{
             e.preventDefault();
             const flight=e.currentTarget.id;
-            //localStorage.setItem("fid",flight_id);
-           // window.location.href = "/update-flights/"+flight;
+           
            window.location.href="/test/"+flight;
         }    
 

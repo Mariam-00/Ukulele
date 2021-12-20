@@ -5,7 +5,7 @@ import AdminHome from './admin/AdminHome';
 import AdminCreateFlights from './admin/AdminCreateFlight';
 import AdminListAllFlights from './admin/AdminListFlights';
 import Home from './Home';
-
+import SearchAvailableFlights from './searchAvailableFlights';
 import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
@@ -23,6 +23,7 @@ function App() {
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
+    <Route path="/search-available" exact component={SearchAvailableFlights}/>
 
 
       </div>
