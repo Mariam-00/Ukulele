@@ -6,44 +6,40 @@ import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 
 export default function DepartureDetail(props)
-{  const[flight,setFlights]=useState([]);
-const[baggage,setBaggage]=useState();
-const[cabin,setCabin]=useState();
-   const id=props.match.params.id;
-   useEffect(()=>{
-    axios.get('http://localhost:8000/flights/find/'+id).then((response) => {
-        setFlights(response.data);
-        });
-   })
-   
-  const getEconomy =()=>
-   {
-       if(localStorage.getItem("economy")==="true")
-       {
-          setBaggage(2);   
-          setCabin("Economy");
 
-       }
-       else
-       {
-        setBaggage(3);   
-        setCabin("Business"); 
-       }
-   }
+{  const[flight,setFlights]=useState([]);
+   const id=props.match.params.id;
+
+  
+    useEffect(()=>{
+      axios.get('http://localhost:8000/flights/find/'+props.match.params.id).then((response) => {
+          setFlights(response.data);
+        });
+      }, []);
+  
+   
+  
     return(
         <div>
         <h1>Flight Details</h1>
         <div >
-            {flight.map(flight=>(
+          {  localStorage.setItem("fl",flight)}
+            
             <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
               <div class="wrapper">
-              <b>FlightNumber: {flight.FlightNumber}</b><br/>
+              <b> FlightNumber: {flight.FlightNumber}</b><br/>
                   Departure Time: {flight.DepartureTime}<br/>
                   Arrival Time: {flight.ArrivalTime}<br/>
-                  Cabin Class:{cabin}<br/>
-                  Baggage Allowance: {baggage}<br/> 
+                  {localStorage.getItem("economy")==1?
+                  <p>Cabin Class:Economy</p>:
+                 <p>Cabin Class:Business</p>}
+                 <br/>
+                   {localStorage.getItem("economy")==1?
+                   <p> Baggage Allowance: Two 23 Kg Bags</p>:
+                   <p> Baggage Allowance: Two 32 Kg Bags</p>}
+              
               </div>
         
               <>
@@ -65,8 +61,7 @@ const[cabin,setCabin]=useState();
             </Paper>
             
             
-            ))
-            } 
+            
              {/* <div >
               <Button variant="contained" color="primary" id={localStorage.getItem("email")} display = "flex" marginright onClick={handleOrderClick}>View My Orders</Button>
             </div> */}
