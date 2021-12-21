@@ -21,7 +21,7 @@ Users.findByIdAndUpdate(req.params.id,req.body).then(result =>{
 exports.getAllUsers =(req, res)=>
 {  
    Users.find()
-    .then(User => res.json(User))
+    .then(Users => res.json(Users))
     .catch(err => res.status(400).json('Error: ' + err));
 }
 

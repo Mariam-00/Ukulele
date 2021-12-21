@@ -17,7 +17,7 @@ import ListReturnFlights from './existingUser/ListReturnFlights';
 import ReturnDetails from './existingUser/ReturnDetails';
 import Summary from './existingUser/Summary';
 import ConfirmReservation from './existingUser/ConfirmReservation';
-
+import MyBookings from './existingUser/MyBookings';
 function App() {
 
   return (
@@ -30,6 +30,8 @@ function App() {
     <Route path="/search-flights" exact component={Search}/>
     <Route path="/user/:id" exact component={ExistingUserHome}/> 
     <Route path="/edit/:id" exact component={EditProfile}/>
+    <Route path="/bookings/:id" exact component={MyBookings}/> 
+     <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
