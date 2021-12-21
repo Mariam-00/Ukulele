@@ -52,9 +52,9 @@ export default function SearchAvailableFlights() {
     const handleSubmit = () => { }
 
     const ShowFlights = (e) => {
-        searchlink += "DepartureAirport=" + DepartureAirport + "&" + "ArrivalAirport=" + ArrivalAirport;
+        searchlink += "DepartureAirport=" + DepartureAirport + "&" + "ArrivalAirport=" + ArrivalAirport+"&"+"Date="+departureDate;
         localStorage.setItem("NrPassengers",counterAdult+counterChildren);
-        localStorage.setItem("value",value);
+        //localStorage.setItem("value",value);
         if(oneWay===false)
         {
             searchLink+="DepartureAirport="+ArrivalAirport+"&"+"ArrivalAirport="+DepartureAirport+"&"+"Date="+arrivalDate;
@@ -94,10 +94,12 @@ export default function SearchAvailableFlights() {
         if(e.target.value==="Business")
         {
           localStorage.setItem("economy",false);
+          localStorage.setItem("business",true)
           setValue("Business");
         }
         else{
             localStorage.setItem("economy",true);
+            localStorage.setItem("business",false);
             setValue("Economy");
         }
     }
@@ -108,11 +110,13 @@ export default function SearchAvailableFlights() {
         {
            setOneWay(true);
            setValue2("One Way");
+           localStorage.setItem("oneWay",true);
         }
         else
         {
             setOneWay(false);
             setValue2("Round-Trip");
+            localStorage.setItem("oneWay",false);
         }
     }
 

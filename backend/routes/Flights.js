@@ -7,7 +7,7 @@ flightsRouter.get('/findall',flightsController.getAllFlights);
 flightsRouter.put('/update:id',flightsController.updateFlights);
 flightsRouter.delete('/delete:id',flightsController.deleteFlights);
 flightsRouter.get('/search',flightsController.searchFlights);
-flightsRouter.get('/findFlight/:id',flightsController.getFlight)
+flightsRouter.get('/find/:id',flightsController.getFlight);
 
 module.exports=flightsRouter;
 

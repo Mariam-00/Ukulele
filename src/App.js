@@ -10,6 +10,7 @@ import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
+import DepartureDetail from './existingUser/DepartureDetail';
 function App() {
 
   return (
@@ -24,6 +25,7 @@ function App() {
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
     <Route path="/search-available" exact component={SearchAvailableFlights}/>
+    <Route path="/dep-det/:id" exact component={DepartureDetail}/>
 
 
       </div>
