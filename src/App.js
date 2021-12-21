@@ -13,6 +13,7 @@ import ExistingUserHome from './existingUser/ExistingUserHome';
 import EditProfile from './existingUser/EditProfile';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
+import ListReturnFlights from './existingUser/ListReturnFlights';
 function App() {
 
   return (
@@ -30,6 +31,7 @@ function App() {
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
     <Route path="/search-available" exact component={SearchAvailableFlights}/>
     <Route path="/dep-det/:id" exact component={DepartureDetail}/>
+    <Route path="/list-ret/" exact component={ListReturnFlights}/>
 
 
       </div>
