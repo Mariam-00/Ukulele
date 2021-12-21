@@ -9,6 +9,7 @@ import SearchAvailableFlights from './searchAvailableFlights';
 import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
+import ExistingUserHome from './existingUser/ExistingUserHome';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 import ListReturnFlights from './existingUser/ListReturnFlights';

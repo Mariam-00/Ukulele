@@ -8,11 +8,20 @@ exports.createFlights =  (req, res)=>
  .catch(err => res.status(400).json('Error: ' + err));
 }
 
-exports.getAllFlights =  (req, res)=>
+exports.getAllFlights =(req, res)=>
 {  
    Flights.find()
-    .then(Flights => res.json(Flights))
+    .then((Flights) => res.json(Flights))
     .catch(err => res.status(400).json('Error: ' + err));
+}
+
+
+exports.getFlight =(req,res)=>
+ {
+   Flights.findById(req.params.id)
+   .then(Flights => res.json(Flights))
+   .catch(err => res.status(400).json('Error: ' + err));
+
 }
 
 exports.updateFlights =(req,res)=>

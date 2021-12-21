@@ -130,34 +130,7 @@ handleChange = function(event) {
  <Button  variant="contained" color="primary" display = "flex"   marginright onClick={this.handleSubmit}>Search</Button>
       </div>
   <br/>
- 
-     {/* <div >
-     {this.state.Flights.map(flight=>(
-     <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
-     <Grid container justifyContent="space-between" alignItems="center">
-     <Grid item xl>
-       <div class="wrapper">
-       <b>FlightNumber: {flight.FlightNumber}</b><br/>
-           DepartureTime: {flight.DepartureTime}<br/>
-           ArrivalTime: {flight.ArrivalTime}<br/>
-           Date: {flight.Date}<br/>
-           NrEconomySeats: {flight.NrEconomySeats}<br/>
-           NrBusinessSeats: {flight.NrBusinessSeats}<br/>
-           Airport: {flight.Airport}
-       </div>
-   
-     
-    
-     </Grid>
-     <Grid item>
-     {/* <div marginRight>
-       <Button variant="contained" color="primary" id={restr.id}  display = "flex" marginright onClick={handleMenuClick}>Menu</Button>
-     </div> */}
-     
-      {/* <div >
-       <Button variant="contained" color="primary" id={localStorage.getItem("email")} display = "flex" marginright onClick={handleOrderClick}>View My Orders</Button>
-     </div> */}
-     
+
  </div>
 
            
