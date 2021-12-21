@@ -14,6 +14,7 @@ import EditProfile from './existingUser/EditProfile';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 import ListReturnFlights from './existingUser/ListReturnFlights';
+import MyBookings from './existingUser/MyBookings';
 function App() {
 
   return (
@@ -25,6 +26,7 @@ function App() {
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>
     <Route path="/user/:id" exact component={ExistingUserHome}/> 
+    <Route path="/bookings/:id" exact component={MyBookings}/> 
      <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>

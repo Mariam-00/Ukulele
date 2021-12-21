@@ -94,10 +94,10 @@ export default function ExistingUserHome (props)
               <Link to={"/user/"+ props.match.params.id} className={classes.link}>
                 Profile
               </Link>
-              <Link to={"/user/bookings/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/bookings/"+ props.match.params.id} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/user/book/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/book/"+ props.match.params.id} className={classes.link}>
                 Book A Flight
               </Link>
               <Link to="/home" className={classes.link}>

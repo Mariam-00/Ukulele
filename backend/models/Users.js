@@ -1,4 +1,4 @@
-const { Password } = require('@mui/icons-material');
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -26,19 +26,11 @@ const userSchema = new Schema({
   MobileNumber:{
     type: String,
     required: true
-  },
-
-    Reservations : [{
-      userId : String,
-      flightNr : String,
-      NrPassengers: Number,
-      economyOrbusiness : Number, //1 eco, 2 bus
-      seatNr:[String]
-       }]
- 
+  }
 } 
  );
 
 mongoose.models = {}
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+//61c2192dada44039e79a2fca
