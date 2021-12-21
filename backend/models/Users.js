@@ -26,7 +26,16 @@ const userSchema = new Schema({
   MobileNumber:{
     type: String,
     required: true
-  }
+  },
+
+    Reservations : [{
+      userId : String,
+      flightNr : String,
+      NrPassengers: Number,
+      economyOrbusiness : Number, //1 eco, 2 bus
+      seatNr:[String]
+       }]
+ 
 } 
  );
 

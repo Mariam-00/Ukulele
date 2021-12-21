@@ -10,6 +10,7 @@ import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
 import ExistingUserHome from './existingUser/ExistingUserHome';
+import EditProfile from './existingUser/EditProfile';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 function App() {
@@ -22,6 +23,8 @@ function App() {
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>
+    <Route path="/user/:id" exact component={ExistingUserHome}/> 
+     <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
