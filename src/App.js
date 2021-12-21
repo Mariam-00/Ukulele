@@ -9,7 +9,9 @@ import Home from './Home';
 import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
+import ExistingUserHome from './existingUser/ExistingUserHome';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
+import EditProfile from './existingUser/EditProfile';
 function App() {
 
   return (
@@ -23,6 +25,9 @@ function App() {
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
+    <Route path="/user/:id" exact component={ExistingUserHome}/> 
+    <Route path="/edit/:id" exact component={EditProfile}/>
+   
 
 
       </div>

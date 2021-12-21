@@ -49,8 +49,6 @@ export default function AdminListAllFlights()
      const handleUpdate = async e=>{
             e.preventDefault();
             const flight=e.currentTarget.id;
-            //localStorage.setItem("fid",flight_id);
-           // window.location.href = "/update-flights/"+flight;
            window.location.href="/test/"+flight;
         }    
 
@@ -75,7 +73,12 @@ export default function AdminListAllFlights()
               backgroundColor       : '#FFFFFF'      
             }
         };      
-     
+        const onClickN = async e=>{
+          e.preventDefault();
+          window.location.href = "/edit/:id";
+  
+          
+      }
     return(
         <div>
         <h1>Available Flights</h1>
@@ -115,9 +118,7 @@ export default function AdminListAllFlights()
         </>
             </Grid>
             <Grid item>
-            {/* <div marginRight>
-              <Button variant="contained" color="primary" id={restr.id}  display = "flex" marginright onClick={handleMenuClick}>Menu</Button>
-            </div> */}
+    
             </Grid>
           </Grid>
          
@@ -126,9 +127,7 @@ export default function AdminListAllFlights()
             
             ))
             } 
-             {/* <div >
-              <Button variant="contained" color="primary" id={localStorage.getItem("email")} display = "flex" marginright onClick={handleOrderClick}>View My Orders</Button>
-            </div> */}
+            
             
         </div>
         </div>
