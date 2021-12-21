@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
+import Modal from 'react-modal';
 
 export default function Summary(props)
 {  const[flight1,setFlight1]=useState([]);
@@ -13,6 +14,7 @@ export default function Summary(props)
    useEffect(()=>{
     axios.get('http://localhost:8000/flights/find/'+id1).then((response) => {
         setFlight1(response.data);
+        
       });
 
     axios.get('http://localhost:8000/flights/find/'+id2).then((response) => {
@@ -21,15 +23,38 @@ export default function Summary(props)
 
     }, []);
 
-    const handleContinue=(e)=>{
-      //go to page of login and then go to confirming the reservation
-    }
+    const [modalIsOpen,setModalIsOpen] = useState(false);
+
+    const setModalIsOpenToTrue =()=>{
+            setModalIsOpen(true)
+        }
+    
+    const setModalIsOpenToFalse =()=>{
+            setModalIsOpen(false)
+        }
+        
+    const customStyles = {
+            content : {
+              top                   : '50%',
+              left                  : '50%',
+              right                 : 'auto',
+              bottom                : 'auto',
+              marginRight           : '-50%',
+              transform             : 'translate(-50%, -50%)',
+              backgroundColor       : '#FFFFFF'      
+            }
+        };      
+        const onClickN = async e=>{
+          e.preventDefault();
+          window.location.href = "/edit/:id";}
   
-   
+    const handleClickYesConfirm =(e)=>{
+
+    }
   
     return(
         <div>
-        <h1>Flight Summary</h1>
+        <h1>Confirm Reservation</h1>
         <div >
             
             <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
@@ -77,11 +102,22 @@ export default function Summary(props)
             <Grid item>
             </Grid>
           </Grid>
-         
+          
             </Paper>
-            <div>
-            <Button variant="contained" color="primary"   display = "flex" marginright onClick={handleContinue}>Continue</Button>
-            </div>
+         
+            <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Confirm Reservation</Button>
+            <Modal isOpen={modalIsOpen} style={customStyles}>
+                <button onClick={setModalIsOpenToFalse}>x</button>
+                <div>
+                    <h2>Are You Sure You Want To Confirm This Reservation ?</h2>
+                    <br/>               <br/>
+                <div>
+                <Button  variant="contained" color="primary" display = "flex"  marginright onClick={handleClickYesConfirm}>Yes</Button>
+                {'                                                     '}
+                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
+                </div>
+                </div>
+            </Modal>
             
             
           

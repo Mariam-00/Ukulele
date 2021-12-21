@@ -21,11 +21,13 @@ export default function ListReturnFlights() {
     
     const handleSelectClick =(e)=>
     {
-      localStorage.setItem("selectedReturnFlight",e.currentTarget.id)
+      localStorage.setItem("selectedReturnFlightId",e.currentTarget.id);
+      window.location.href="/summary";
+     
     };
     const handleDetailstClick =(e)=>
     {
-     // go to page of flight details
+      window.location.href="/ret-det/"+e.currentTarget.id;
     };
 
 

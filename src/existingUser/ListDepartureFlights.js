@@ -5,10 +5,8 @@ import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 export default function ListDepartureFlights(props)
-{  const [economy,setEconomy]=useState(false);
-    const[business,setBusiness]=useState(false);
+{   
     const[flight,setFlight]=useState([]);
-    const economy2=localStorage.getItem("economy");
     const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
     useEffect(()=>{
@@ -22,15 +20,26 @@ export default function ListDepartureFlights(props)
 
 
     const handleSelectClick =(e)=>
-    {   localStorage.setItem("selectedDepartureFlightId",e.currentTarget.id);
-        if(localStorage.getItem("oneWay")===true)
-        {
-            //window.location.href="";
-        }
-        else{
-            window.location.href="/list-ret/";
-        }
-    };
+    {
+     localStorage.setItem("selectedDepartureFlightId",e.currentTarget.id);
+     axios.get('http://localhost:8000/flights/find/'+e.currentTarget.id).then((response) => {
+      localStorage.setItem("departureFlightPrice",response.data.PriceEconomy);
+      localStorage.setItem("entered",true);
+    });
+
+
+    //localStorage.setItem("flight2",flight2.length);
+    // if(localStorage.getItem("economy")==1){
+    // localStorage.setItem("departureFlightPrice",flight2.PriceEconomy);
+    //  }
+    // else if(localStorage.getItem("business")==1)
+    // {
+    //   localStorage.setItem("departureFlightPrice",flight2.PriceBusiness);
+    // }
+    // localStorage.setItem("departureFlightDepartureTime",flight2.DepartureTime);
+    // localStorage.setItem("departureFlightArrivalTime",flight2.ArrivalTime);
+    window.location.href="/list-ret/";
+     };
     const handleDetailstClick =(e)=>
     {
      window.location.href="/dep-det/"+e.currentTarget.id;
@@ -56,7 +65,9 @@ export default function ListDepartureFlights(props)
               ArrivalTime: {flight.ArrivalTime}<br/>
               Date: {flight.Date}<br/>
               Price:{flight.PriceEconomy}
-              {localStorage.setItem("departureFlightPrice",flight.PriceEconomy)}
+              {localStorage.setItem("Price",flight.PriceEconomy)}
+              
+             
              </div> 
                
                  
@@ -92,7 +103,6 @@ export default function ListDepartureFlights(props)
               ArrivalTime: {flight.ArrivalTime}<br/>
               Date: {flight.Date}<br/>
               Price:{flight.PriceBusiness}
-              {localStorage.setItem("departureFlightPrice",flight.PriceBusiness)}
              </div> 
                
                  

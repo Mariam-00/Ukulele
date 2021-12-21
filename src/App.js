@@ -10,9 +10,14 @@ import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
 import Test from './admin/Test';
 import ExistingUserHome from './existingUser/ExistingUserHome';
+import EditProfile from './existingUser/EditProfile';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 import ListReturnFlights from './existingUser/ListReturnFlights';
+import ReturnDetails from './existingUser/ReturnDetails';
+import Summary from './existingUser/Summary';
+import ConfirmReservation from './existingUser/ConfirmReservation';
+
 function App() {
 
   return (
@@ -23,14 +28,17 @@ function App() {
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>
+    <Route path="/user/:id" exact component={ExistingUserHome}/> 
+    <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
     <Route path="/search-available" exact component={SearchAvailableFlights}/>
     <Route path="/dep-det/:id" exact component={DepartureDetail}/>
     <Route path="/list-ret/" exact component={ListReturnFlights}/>
-
-
+    <Route path="/ret-det/:id" exact component={ReturnDetails}/>
+    <Route path="/summary" exact component={Summary}/>
+    <Route path="/confirm" exact component={ConfirmReservation}/>
       </div>
     </Router>
     

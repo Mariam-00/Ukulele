@@ -17,9 +17,7 @@ export default class ListSearch extends React.Component {
     localStorage.setItem("bom",searchlink);
     axios.get('http://localhost:8000/flights/search?'+searchlink).then((response) => {
        this.setState({Flights:response.data});
-       localStorage.setItem("f","f");
-       
-      
+       localStorage.setItem("f","f"); 
       });
      
   }

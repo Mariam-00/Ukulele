@@ -54,11 +54,12 @@ export default function SearchAvailableFlights() {
     const ShowFlights = (e) => {
         searchlink += "DepartureAirport=" + DepartureAirport + "&" + "ArrivalAirport=" + ArrivalAirport+"&"+"Date="+departureDate;
         localStorage.setItem("NrPassengers",counterAdult+counterChildren);
-        //localStorage.setItem("value",value);
+       
         if(oneWay===false)
         {
             searchLink+="DepartureAirport="+ArrivalAirport+"&"+"ArrivalAirport="+DepartureAirport+"&"+"Date="+arrivalDate;
             localStorage.setItem("searchlinkreturn",searchLink);
+           
         }
         window.location.href="/list-dep/"+searchlink;
     }
@@ -95,11 +96,13 @@ export default function SearchAvailableFlights() {
         {
           localStorage.setItem("economy",0);
           localStorage.setItem("business",1);
+          localStorage.setItem("class","Business")
           setValue("Business");
         }
         else{
             localStorage.setItem("economy",1);
             localStorage.setItem("business",0);
+            localStorage.setItem("class","Economy");
             setValue("Economy");
         }
     }

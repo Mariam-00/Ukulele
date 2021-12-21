@@ -5,7 +5,7 @@ import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 
-export default function DepartureDetail(props)
+export default function ReturnDetails(props)
 
 {  const[flight,setFlights]=useState([]);
    const id=props.match.params.id;
@@ -17,8 +17,8 @@ export default function DepartureDetail(props)
         });
       }, []);
   
-      localStorage.setItem("departureFlightDepartureTime",flight.DepartureTime);
-      localStorage.setItem("departureFlightArrivalTime",flight.ArrivalTime);
+      localStorage.setItem("returnFlightDepartureTime",flight.DepartureTime);
+      localStorage.setItem("returnFlightArrivalTime",flight.ArrivalTime);
 
   
     return(
