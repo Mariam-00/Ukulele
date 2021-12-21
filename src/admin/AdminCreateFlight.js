@@ -75,6 +75,9 @@ export default function AdminCreateFlight() {
   const[date,setDate]=useState();
   const[ArrivalAirport,setArrivalAirport]=useState();
   const[DepartureAirport,setDepartureAirport]=useState();
+  const[priceEconomy,setPriceEconomy]=useState();
+  const[priceBusiness,setPriceBusiness]=useState();
+  
  
 
 
@@ -99,10 +102,21 @@ export default function AdminCreateFlight() {
      else if(ArrivalAirport==null || ArrivalAirport=="" ){
         //setError("Please enter a valid Airport Name")
        }    
-     else{
-       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,ArrivalAirport:ArrivalAirport,DepartureAirport:DepartureAirport}
-       localStorage.setItem("flightnumber",FlightNumber)
-       localStorage.setItem("depTime",DepartureTime)
+     else{ 
+       var reservedEconomy=[];
+       for(var i=0;i<NrEconomySeats;i++)
+       {
+         reservedEconomy.push(0);
+       }
+       var reserevedBusiness=[];
+       for(var i=0;i<NrBusinessSeats;i++)
+       {
+         reserevedBusiness.push(0);
+       }
+
+       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,DepartureAirport:DepartureAirport,ArrivalAirport:ArrivalAirport,ReservedEconomySeats:reservedEconomy,ReservedBusinessSeats:reserevedBusiness,PriceEconomy:priceEconomy,PriceBusiness:priceBusiness}
+      //  localStorage.setItem("flightnumber",FlightNumber)
+      //  localStorage.setItem("depTime",DepartureTime)
         axios.post('http://localhost:8000/flights/',flight)
         .then(res => console.log(res.data))  .then(
           ()=>{
@@ -202,9 +216,21 @@ return (
             margin="normal"
             required
             fullWidth
-            name="arrivalAirport"
-            label="Arrival Airport"
-            id="arrivalAirport"
+            name="departureAirport"
+            label="Departure Airport"
+            id="departureAirport"
+            //autoComplete="current-password"
+            onChange = {e =>setDepartureAirport(e.target.value)}
+          />
+
+<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="ArrivalAirport"
+            label="ArrivalAirport"
+            id="ArrivalAirport"
             //autoComplete="current-password"
             onChange = {e =>setArrivalAirport(e.target.value)}
           />
@@ -214,11 +240,23 @@ return (
             margin="normal"
             required
             fullWidth
-            name="DepartureAirport"
-            label="DepartureAirport"
-            id="airport"
+            name="PriceEconomy"
+            label="PriceEconomy"
+            id="PriceEconomy"
             //autoComplete="current-password"
-            onChange = {e =>setDepartureAirport(e.target.value)}
+            onChange = {e =>setPriceEconomy(e.target.value)}
+          />
+
+<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="PriceBusiness"
+            label="PriceBusiness"
+            id="PriceBusiness"
+            //autoComplete="current-password"
+            onChange = {e =>setPriceBusiness(e.target.value)}
           />
      
 

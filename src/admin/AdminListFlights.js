@@ -49,6 +49,7 @@ export default function AdminListAllFlights()
      const handleUpdate = async e=>{
             e.preventDefault();
             const flight=e.currentTarget.id;
+           
            window.location.href="/test/"+flight;
         }    
 
@@ -94,8 +95,11 @@ export default function AdminListAllFlights()
                   Date: {flight.Date}<br/>
                   NrEconomySeats: {flight.NrEconomySeats}<br/>
                   NrBusinessSeats: {flight.NrBusinessSeats}<br/>
-                  ArrivalAirport: {flight.ArrivalAirport}<br/>
-                  DepartureAirport:{flight.DepartureAirport}
+                  DepartureAirport: {flight.DepartureAirport}<br/>
+                  ArrivalAirport:{flight.ArrivalAirport}<br/>
+                  PriceEconomy:{flight.PriceEconomy}<br/>
+                  PriceBusiness:{flight.PriceBusiness}<br/>
+
               </div>
         
               <>

@@ -35,6 +35,14 @@ Flights.findByIdAndUpdate(req.params.id,req.body).then(result =>{
  });
 }
 
+exports.getFlight= (req,res)=>
+{
+  Flights.findById(req.body.id)
+  .then(Flights => res.json(Flights))
+  .catch(err => res.status(400).json('Error: ' + err));
+
+}
+
 exports.deleteFlights =(req,res)=>
 {
    Flights.findByIdAndDelete(req.params.id).then(result =>{
