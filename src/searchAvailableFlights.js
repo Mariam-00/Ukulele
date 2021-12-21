@@ -93,13 +93,13 @@ export default function SearchAvailableFlights() {
     {
         if(e.target.value==="Business")
         {
-          localStorage.setItem("economy",false);
-          localStorage.setItem("business",true)
+          localStorage.setItem("economy",0);
+          localStorage.setItem("business",1);
           setValue("Business");
         }
         else{
-            localStorage.setItem("economy",true);
-            localStorage.setItem("business",false);
+            localStorage.setItem("economy",1);
+            localStorage.setItem("business",0);
             setValue("Economy");
         }
     }
