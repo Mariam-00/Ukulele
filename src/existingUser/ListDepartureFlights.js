@@ -56,7 +56,7 @@ export default function ListDepartureFlights(props)
               ArrivalTime: {flight.ArrivalTime}<br/>
               Date: {flight.Date}<br/>
               Price:{flight.PriceEconomy}
-             
+              {localStorage.setItem("departureFlightPrice",flight.PriceEconomy)}
              </div> 
                
                  
@@ -76,9 +76,6 @@ export default function ListDepartureFlights(props)
         </>
             </Grid>
             <Grid item>
-            {/* <div marginRight>
-              <Button variant="contained" color="primary" id={restr.id}  display = "flex" marginright onClick={handleMenuClick}>Menu</Button>
-            </div> */}
             </Grid>
           </Grid>
             </Paper>
@@ -95,7 +92,7 @@ export default function ListDepartureFlights(props)
               ArrivalTime: {flight.ArrivalTime}<br/>
               Date: {flight.Date}<br/>
               Price:{flight.PriceBusiness}
-             
+              {localStorage.setItem("departureFlightPrice",flight.PriceBusiness)}
              </div> 
                
                  
@@ -115,9 +112,6 @@ export default function ListDepartureFlights(props)
         </>
             </Grid>
             <Grid item>
-            {/* <div marginRight>
-              <Button variant="contained" color="primary" id={restr.id}  display = "flex" marginright onClick={handleMenuClick}>Menu</Button>
-            </div> */}
             </Grid>
           </Grid>
             </Paper>  
