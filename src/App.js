@@ -15,13 +15,19 @@ import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 import ListReturnFlights from './existingUser/ListReturnFlights';
 import MyBookings from './existingUser/MyBookings';
+import Dummy from './existingUser/Dummy';
+import CheckIn from './existingUser/CheckIn';
+import CheckInReturn from './existingUser/CheckInReturn';
 function App() {
 
   return (
     <Router>
      <div className="App">
      <Route path="/home" exact component={Home}/> 
-    <Route path="/" exact component={AdminHome}/>
+     <Route path="/home" exact component={Home}/> 
+     <Route path="/dummy/:id" exact component={Dummy}/>
+     <Route path="/checkIn/:id" exact component={CheckIn}/>
+     <Route path="/checkInReturn/" exact component={CheckInReturn}/>
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>

@@ -38,12 +38,12 @@ const flightsSchema = new Schema({
   },
   ReservedEconomySeats:
   {
-    type:[Number],
+    type:[Object],
     required:true
   },
   ReservedBusinessSeats:
   {
-    type:[Number],
+    type:[Object],
     required:true
   }
   ,

@@ -26,7 +26,11 @@ const userSchema = new Schema({
   MobileNumber:{
     type: String,
     required: true
-  }
+  },
+  PassportNumber: {
+    type: String,
+    required: true
+  },
 } 
  );
 

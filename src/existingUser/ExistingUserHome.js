@@ -76,6 +76,11 @@ export default function ExistingUserHome (props)
         localStorage.setItem("button",4);
         window.location.href = "/edit/"+props.match.params.id;
     }
+    const onClickPass = async e=>{
+      e.preventDefault();
+      localStorage.setItem("button",5);
+      window.location.href = "/edit/"+props.match.params.id;
+  }
     useEffect(()=>{
         axios.get('http://localhost:8000/users/'+props.match.params.id).then((response) => {
             setUser(response.data);
@@ -135,7 +140,7 @@ export default function ExistingUserHome (props)
               <div class="wrapper">
               <b>Password: ******** </b><br/>
               </div>
-              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickP}>Edit</Button>
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickPass}>Edit</Button>
         
               </Grid> 
               </Grid> 
@@ -147,6 +152,17 @@ export default function ExistingUserHome (props)
               <b>Mobile Number: {user.MobileNumber} </b><br/>
             
               <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickM}>Edit</Button>
+        </div>
+              </Grid> 
+              </Grid> 
+      </Paper>
+      <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+             <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item xl>
+              <div class="wrapper">
+              <b>Passport Number: {user.PassportNumber} </b><br/>
+            
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickPass}>Edit</Button>
         </div>
               </Grid> 
               </Grid> 
