@@ -1,4 +1,13 @@
 const Reservation = require('../models/Reservations');
+const Flights = require('../models/Flights');
+var fl;
+var rt;
+var flight;
+var ren;
+var result;
+var rest=[];
+var finalresult=[];
+var reservations;
 
 exports.createReservation =  (req, res)=>
 { 
@@ -8,13 +17,42 @@ exports.createReservation =  (req, res)=>
  .catch(err => res.status(400).json('Error: ' + err));
 }
 
-exports.searchUserReservation=(req,res)=>
+exports.searchUserReservation= async(req,res)=>
 {
-   Reservation.find(req.query).then
+   await Reservation.find(req.query).then
    (reservationn => res.json(reservationn))
    .catch(err => res.status(400).json('Error: ' + err));
     
 }
+
+// exports.MyBookings= (req,res)=>
+// {
+
+//     Reservation.find(req.query).then(reservationn =>{res.json(reservationn);
+      
+//      for(var i=0;i<reservationn.length;i++){
+//       fl = reservationn[i].FlightDepartureNr;
+//       rt= reservationn[i].FlightReturnNr;
+//       finalresult.push({reservation:reservationn[i]});
+//       Flights.findOne({FlightNumber:fl}).then(flig=>result1.json(flig)).catch(err=>result1.status(400).json('Error:'+err));
+//     //   Flights.find({FlightNumber:fl}).then( flig=> 
+//     //  { console.log(res.json(flig))}).catch(err=>res.status(400).json('Error:'+err))
+//       //Flights.find({FlightNumber:rt}).then(flog=>{ res.json(flog) });
+//     //   result={Reservation: reservationn[i], FlightDeparture: res.json(flig)
+//     //  finalresult.push(result);
+//     // console.log(finalresult);
+//   }
+//    }).catch(err=>res.json(err));
+     
+// }
+
+exports.MyBookings =(req,res)=>
+{
+   Reservation.find(req.query).then(reservationn=>{
+      res.json(reservationn);
+   }).catch(err=>res.status("404").json("Error:"+err));
+}
+
 
 exports.getAllReservations =(req, res)=>
 {  
@@ -51,4 +89,9 @@ exports.getReservation =(req,res)=>
    .then(Reservations => res.json(Reservations))
    .catch(err => res.status(400).json('Error: ' + err));
 
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 8ddde792d90f110d909e0865a74105180ecb4d2a

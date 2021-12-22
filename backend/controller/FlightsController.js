@@ -45,9 +45,9 @@ exports.deleteFlights =(req,res)=>
       console.log(err);
     });
 }
-exports.searchFlights=(req,res)=>
+exports.searchFlights= async(req,res)=>
 {
-   Flights.find(req.query).then
+   await Flights.find(req.query).then
    (Flights => res.json(Flights))
    .catch(err => res.status(400).json('Error: ' + err));
     

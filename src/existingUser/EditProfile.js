@@ -165,7 +165,17 @@ const buttonn= localStorage.getItem("button");
                  id="changeMobile"
                  onChange = {onChange}
                />
-              </div>):(<div></div>)
+              </div>):buttonn==5?(
+               <TextField
+                 variant="outlined"
+                 margin="normal"
+                 required
+                 fullWidth
+                 name="PassportNumber"
+                 label="New Passport Number"
+                 id="changePassport"
+                 onChange = {onChange}
+               />):(<div></div>)
               )
               }
             

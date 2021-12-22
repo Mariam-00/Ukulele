@@ -10,6 +10,7 @@ import {
     Button,
     Typography,
     makeStyles,
+    withMobileDialog,
   } from "@material-ui/core";
   import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -17,6 +18,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Link } from "react-router-dom";
 import Modal from 'react-modal';
+import { getAccordionSummaryUtilityClass } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     navlinks: {
@@ -43,6 +45,11 @@ export default function MyBookings (props)
 {   const classes = useStyles();
     const[user,setUser]=useState();
     const[reservations,setReservations]=useState([]);
+    const[depFlight, setDepFlight]=useState([]);
+    const[retFlight,setRetFlight]=useState([]);
+    const[depRetFlight,setDepRetFlight]=useState([]);
+    var arraytry =[];
+    var arrays =[];
     const customStyles = {
         content : {
           top                   : '50%',
@@ -55,28 +62,41 @@ export default function MyBookings (props)
         }
     }; 
 
+
     useEffect(()=>{
         axios.get('http://localhost:8000/reservations/search?userId='+localStorage.getItem("userId")).then((response) => {
           setReservations(response.data);
           });
-        }, []);
-       console.log(reservations);
+        
+       
+         }, []);
+     
+    
+
        const handleClickYesDelete = async e=>{
         e.preventDefault();
-  //       const flight_id = e.currentTarget.id;
-  //       localStorage.setItem("fid",flight_id);
-  //       axios.delete('http://localhost:8000/flights/delete'+flight_id)
-  // .then(() => {
-  //   localStorage.setItem("this",flight_id);
-  //   alert("Flight deleted!");
-  //   window.location.href = "/list-flights";
-  // });
+      console.log(e.currentTarget.id);
+        axios.delete('http://localhost:8000/reservations/delete/'+e.currentTarget.id)
+  .then(() => {
+    alert("Flight deleted!");
+    window.location.href = "/bookings/"+ props.match.params.id;
+  });
     }
- const handleUpdate = async e=>{
+ const handleCheckIn = async e=>{
         e.preventDefault();
-      //   const flight=e.currentTarget.id;
+       const res=e.currentTarget.id;
+
+       axios.get('http://localhost:8000/reservations/'+res).then((response) => {
+           if (response.data.CheckedIn===0) {
+             localStorage.setItem("reservationIdCheckIn",res);
+             window.location.href="/checkIn/"+props.match.params.id;}
+        else{
+               alert("You Are Already Checked in to this flight!");
+        }
+           
+         
+       });
        
-      //  window.location.href="/test/"+flight;
     }    
 
 const [modalIsOpen,setModalIsOpen] = useState(false);
@@ -89,12 +109,7 @@ const setModalIsOpenToFalse =()=>{
         setModalIsOpen(false)
     }
 
-    const onClickN = async e=>{
-      e.preventDefault();
-      // window.location.href = "/edit/:id";
-
-      
-  }
+  
      
     return (
       <div>
@@ -120,38 +135,31 @@ const setModalIsOpenToFalse =()=>{
             </div>
         </Toolbar>
       </AppBar>
-      <div >
-            {reservations.map(reservation=>(
+      
+      {reservations.map((reservation)=>(
+        <div>
+          <div>
+         <div>
+            <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item xl>
+              <div class="wrapper"></div>
             <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
               <div class="wrapper">
-              <b> Departure Flight Number: {reservation.FlightDepartureNr}</b><br/>
-                  Return Flight Number: {reservation.FlightReturnNr}<br/>
+            <b> Departure Flight</b><br/>
+                 Departure Flight Number: {reservation.FlightDep.FlightNumber}<br/>
+                  Date: {reservation.FlightDep.Date}<br/>
+                  Departure Time:{reservation.FlightDep. DepartureTime}<br/>
+                  Arrival Time:{reservation.FlightDep. ArrivalTime}<br/>
+                  Seats: {reservation.FlightDep.DepartureseatNrs}<br/>
+                  
                   Number of Passengers: {reservation.NrPassengers}<br/>
                   Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
-                  Seats: {reservation.seatNrs}
-
-              </div>
-        
-              <>
-            <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Delete</Button>
-           {" "}
-            <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={handleUpdate}>Update</Button>
-
-            <Modal isOpen={modalIsOpen} style={customStyles}>
-                <button onClick={setModalIsOpenToFalse}>x</button>
-                <div>
-                    <h2>Are you sure you want to delete this flight?</h2>
-                    <br/>               <br/>
-                <div>
-                <Button  variant="contained" color="primary" display = "flex"  id={reservation._id} marginright onClick={handleClickYesDelete}>Yes</Button>
-                {'                                                     '}
-                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
-                </div>
-                </div>
-            </Modal>
-        </>
+                  Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
+                  </div>
+             
             </Grid>
             <Grid item>
     
@@ -159,17 +167,55 @@ const setModalIsOpenToFalse =()=>{
           </Grid>
          
             </Paper>
-            
-            
-            ))
-            } 
-            
-            
-        </div>
+            <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item xl>
+              <div class="wrapper">
+              <b> Return Flight</b><br/>
+Return Flight Number: {reservation.FlightRet.FlightNumber}<br/>
+Date: {reservation.FlightRet.Date}<br/>
+Departure Time:{reservation.FlightRet. DepartureTime}<br/> 
+Arrival Time:{reservation.FlightRet. ArrivalTime}<br/>
+Seats: {reservation.ReturnseatNrs}<br/>
 
-
-
-
+Number of Passengers: {reservation.NrPassengers}<br/>
+Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
+Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
+</div>
+  
+</Grid>
+          </Grid>
+            </Paper>
+            <>
+           
+           <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={handleCheckIn}>Check In</Button>
+           {" "}
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Cancel Reservation</Button>
+         
+           <Modal isOpen={modalIsOpen} style={customStyles}>
+               <button onClick={setModalIsOpenToFalse}>x</button>
+               <div>
+                   <h2>Are you sure you want to cancel this reservation?</h2>
+                   <br/>               <br/>
+               <div>
+               <Button  variant="contained" color="primary" display = "flex"  id={reservation._id} marginright onClick={handleClickYesDelete}>Yes</Button>
+               {'                                                     '}
+               <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
+               </div>
+               </div>
+           </Modal>
+       </>
+            </Grid>
+          </Grid>
+            </Paper>
+            </div>
+          
+</div> 
+ 
+      <div/>
+           
+        </div>))
+      }
       </div>
       );
-      }
+      } 
