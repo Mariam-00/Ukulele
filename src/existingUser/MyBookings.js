@@ -56,7 +56,7 @@ export default function MyBookings (props)
     }; 
 
     useEffect(()=>{
-        axios.get('http://localhost:8000/reservations/search?userId='+props.match.params.id).then((response) => {
+        axios.get('http://localhost:8000/reservations/search?userId='+localStorage.getItem("userId")).then((response) => {
           setReservations(response.data);
           });
         }, []);
@@ -105,13 +105,13 @@ const setModalIsOpenToFalse =()=>{
            FlyFast
           </Typography>
             <div className={classes.navlinks}>
-              <Link to={"/user/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
                 Profile
               </Link>
               <Link to={"/bookings/"+ props.match.params.id} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/book/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
               </Link>
               <Link to="/home" className={classes.link}>

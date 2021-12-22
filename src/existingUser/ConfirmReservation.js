@@ -6,19 +6,28 @@ import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 import Modal from 'react-modal';
 
-export default function Summary(props)
+export default function ConfirmReservation(props)
 {  const[flight1,setFlight1]=useState([]);
    const[flight2,setFlight2]=useState([]);
-   const id1=localStorage.getItem("selectedDepartureFlightId");
-   const id2=localStorage.getItem("selectedReturnFlightId"); 
+   const[depFlighNr,setDep]=useState();
+   const[retFlighNr,setRet]=useState();
+   const[nrPassengers,setPass]=useState();
+   const[economyOrbusiness,setEco]=useState();
+   const seatNrs=[];
+  const id1=localStorage.getItem("selectedDepartureFlightId");
+  const id2=localStorage.getItem("selectedReturnFlightId");
    useEffect(()=>{
     axios.get('http://localhost:8000/flights/find/'+id1).then((response) => {
         setFlight1(response.data);
+        setDep(response.data.FlightNumber);
+      
         
       });
 
     axios.get('http://localhost:8000/flights/find/'+id2).then((response) => {
         setFlight2(response.data);
+        setRet(response.data.FlightNumber);
+       
       });  
 
     }, []);
@@ -49,7 +58,24 @@ export default function Summary(props)
           window.location.href = "/edit/:id";}
   
     const handleClickYesConfirm =(e)=>{
-
+     
+        // if(localStorage.getItem("class")==="Economy")
+        // {
+        //     setEco(1);
+        // }
+        // else if(localStorage.getItem("class")==="Business")
+        // {
+        //     setEco(2);
+        // }
+        // setPass(localStorage.getItem("NrPassengers"));
+        // const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,seatNrs:seatNrs,FlightDepartureNr:depFlighNr,FlightReturnNr:retFlighNr};
+        // axios.post('http://localhost:8000/reservations/',Reservation)
+        // .then(res => console.log(res.data))  .then(
+        //   ()=>{
+        //     window.location.href="/bookings/"+userId;
+        //   })
+        
+      
     }
   
     return(
@@ -84,8 +110,11 @@ export default function Summary(props)
                 :
                 <b> Total Price :{(flight1.PriceBusiness)+(flight2.PriceBusiness)} </b>
               }
-           
-                  
+              {/* {
+                setDep(flight1.FlightNumber),
+                setRet(flight2.FlightNumber)
+              }
+                   */}
                  
                 
               </div>

@@ -18,20 +18,21 @@ import ReturnDetails from './existingUser/ReturnDetails';
 import Summary from './existingUser/Summary';
 import ConfirmReservation from './existingUser/ConfirmReservation';
 import MyBookings from './existingUser/MyBookings';
+import Login from './Login'
 function App() {
 
   return (
     <Router>
      <div className="App">
      <Route path="/home" exact component={Home}/> 
-    <Route path="/" exact component={AdminHome}/>
+    <Route path="/" exact component={Login}/>
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>
     <Route path="/user/:id" exact component={ExistingUserHome}/> 
     <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/bookings/:id" exact component={MyBookings}/> 
-     <Route path="/edit/:id" exact component={EditProfile}/>
+    <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
     <Route path="/test/:id" exact component={Test}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
@@ -41,6 +42,7 @@ function App() {
     <Route path="/ret-det/:id" exact component={ReturnDetails}/>
     <Route path="/summary" exact component={Summary}/>
     <Route path="/confirm" exact component={ConfirmReservation}/>
+    <Route path="/adminHome" exact component={AdminHome}/>
       </div>
     </Router>
     

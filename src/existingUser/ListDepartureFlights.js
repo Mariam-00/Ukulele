@@ -9,6 +9,10 @@ export default function ListDepartureFlights(props)
     const[flight,setFlight]=useState([]);
     const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
+    const[flight2,setFlight2]=useState([]);
+
+   
+   
     useEffect(()=>{
         axios.get('http://localhost:8000/flights/search?'+searchLink).then((response) => {
             setFlight(response.data);
@@ -20,28 +24,18 @@ export default function ListDepartureFlights(props)
 
 
     const handleSelectClick =(e)=>
-    {
-     localStorage.setItem("selectedDepartureFlightId",e.currentTarget.id);
-     axios.get('http://localhost:8000/flights/find/'+e.currentTarget.id).then((response) => {
-      localStorage.setItem("departureFlightPrice",response.data.PriceEconomy);
-      localStorage.setItem("entered",true);
-    });
-
-
-    //localStorage.setItem("flight2",flight2.length);
-    // if(localStorage.getItem("economy")==1){
-    // localStorage.setItem("departureFlightPrice",flight2.PriceEconomy);
-    //  }
-    // else if(localStorage.getItem("business")==1)
-    // {
-    //   localStorage.setItem("departureFlightPrice",flight2.PriceBusiness);
-    // }
-    // localStorage.setItem("departureFlightDepartureTime",flight2.DepartureTime);
-    // localStorage.setItem("departureFlightArrivalTime",flight2.ArrivalTime);
-    window.location.href="/list-ret/";
+    { e.preventDefault();
+     const id=e.currentTarget.id;
+     localStorage.setItem("selectedDepartureFlightId",id);
+     window.location.href="/list-ret/"; 
+   
+   
+    
+   
      };
     const handleDetailstClick =(e)=>
-    {
+    { 
+     e.preventDefault();
      window.location.href="/dep-det/"+e.currentTarget.id;
     };
 

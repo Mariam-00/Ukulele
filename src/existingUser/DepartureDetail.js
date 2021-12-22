@@ -17,8 +17,7 @@ export default function DepartureDetail(props)
         });
       }, []);
   
-      localStorage.setItem("departureFlightDepartureTime",flight.DepartureTime);
-      localStorage.setItem("departureFlightArrivalTime",flight.ArrivalTime);
+    
 
   
     return(

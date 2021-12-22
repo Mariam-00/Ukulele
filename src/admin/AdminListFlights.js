@@ -34,7 +34,6 @@ export default function AdminListAllFlights()
             setFlights(response.data);
           });
         }, []);
-
      const handleClickYesDelete = async e=>{
             e.preventDefault();
             const flight_id = e.currentTarget.id;

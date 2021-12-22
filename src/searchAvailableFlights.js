@@ -127,11 +127,7 @@ export default function SearchAvailableFlights() {
 
     return (
         <div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+            <h1>Book A Flight</h1>
             <br />
             <br />
             <br />

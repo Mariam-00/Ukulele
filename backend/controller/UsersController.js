@@ -7,6 +7,13 @@ exports.createUser =  (req, res)=>
  .then(() => res.json('user added!'))
  .catch(err => res.status(400).json('Error: ' + err));
 }
+exports.verifyUser=(req,res)=>
+{
+   Users.find(req.query).then
+   (Users => res.json(Users))
+   .catch(err => res.status(400).json('Error: ' + err));
+    
+}
 
 exports.updateUsers =(req,res)=>
  {
@@ -24,6 +31,8 @@ exports.getAllUsers =(req, res)=>
     .then(Users => res.json(Users))
     .catch(err => res.status(400).json('Error: ' + err));
 }
+
+
 
 exports.getUser =(req,res)=>
  {

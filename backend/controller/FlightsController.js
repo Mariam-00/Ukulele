@@ -3,7 +3,7 @@ const Flights = require('../models/Flights');
 exports.createFlights =  (req, res)=>
 { 
   const flight = new Flights(req.body)
- flight.save()
+  flight.save()
  .then(() => res.json('flight added!'))
  .catch(err => res.status(400).json('Error: ' + err));
 }

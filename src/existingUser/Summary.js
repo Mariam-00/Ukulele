@@ -5,7 +5,7 @@ import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 
-export default function Summary(props)
+export default function Summary()
 {  const[flight1,setFlight1]=useState([]);
    const[flight2,setFlight2]=useState([]);
    const id1=localStorage.getItem("selectedDepartureFlightId");
@@ -13,6 +13,7 @@ export default function Summary(props)
    useEffect(()=>{
     axios.get('http://localhost:8000/flights/find/'+id1).then((response) => {
         setFlight1(response.data);
+        
       });
 
     axios.get('http://localhost:8000/flights/find/'+id2).then((response) => {
@@ -22,7 +23,15 @@ export default function Summary(props)
     }, []);
 
     const handleContinue=(e)=>{
-      //go to page of login and then go to confirming the reservation
+     if(localStorage.getItem("userId")===null)
+     {
+       window.location.href="/";
+     }
+     else
+     {
+       window.location.href="/confirm";
+     }
+
     }
   
    
