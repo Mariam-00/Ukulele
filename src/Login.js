@@ -97,14 +97,16 @@ export default function Login() {
             localStorage.setItem("typeOfUser",res.data.typeOfUser);
             localStorage.setItem("user",JSON.stringify(res.data.user));
             localStorage.setItem("userId",res.data.user._id);
+            localStorage.setItem("User",res.data.user);
 
             if(localStorage.getItem("typeOfUser")==="Admin")
         {
             window.location.href="/adminHome";
         }
         else
-        {   const user=localStorage.getItem("user");
-            console.log(user);
+        {   const user = localStorage.getItem("User");
+           console.log(user);
+            //console.log(id);
             const userId=localStorage.getItem("userId");
            
             if(localStorage.getItem("searchlinkreturn")===null)
@@ -117,11 +119,13 @@ export default function Login() {
         }
         }
 
-        } ) .catch()
-        {
+         } )
+         .catch(
+            function(error){
             alert("Invalid Email Or Password");
-        } 
+            }
         
+       );
                
         
      }

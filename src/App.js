@@ -24,6 +24,8 @@ import CheckIn from './existingUser/CheckIn';
 import CheckInReturn from './existingUser/CheckInReturn';
 import SignUp from './SignUp';
 import StripeContainer from './StripeContainer';
+import ChangePassword from './existingUser/ChangePassword';
+import SearchForFlight from './existingUser/SearchForAFlight';
 function App() {
 
   return (
@@ -53,7 +55,10 @@ function App() {
     <Route path="/confirm" exact component={ConfirmReservation}/>
     <Route path="/adminHome" exact component={AdminHome}/>
     <Route path="/sign-up" exact component={SignUp}/>
-  
+    <Route path="/change-password" exact component={ChangePassword}/>
+    <Route path="/look-flight" exact component={SearchForFlight}/>
+
+       
       </div>
     </Router>
     

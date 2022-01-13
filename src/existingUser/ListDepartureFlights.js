@@ -27,7 +27,10 @@ export default function ListDepartureFlights(props)
     { e.preventDefault();
      const id=e.currentTarget.id;
      localStorage.setItem("selectedDepartureFlightId",id);
+    
      window.location.href="/list-ret/"; 
+     
+     
    
    
     
@@ -47,7 +50,7 @@ export default function ListDepartureFlights(props)
             
             {flight.map(flight=>(
                 <div>
-           { (localStorage.getItem("economy")==1) && (flight.NrEconomySeats>passengers) ? 
+           { (localStorage.getItem("economy")==1) && (flight.NrEconomy>passengers)? 
            <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
@@ -85,7 +88,7 @@ export default function ListDepartureFlights(props)
           </Grid>
             </Paper>
           
-       :(localStorage.getItem("business")==1) && (flight.NrBusinessSeats>passengers)?(
+       :(localStorage.getItem("business")==1) && (flight.NrBusiness>passengers)?(
         <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>

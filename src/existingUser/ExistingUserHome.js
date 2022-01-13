@@ -81,6 +81,11 @@ export default function ExistingUserHome (props)
       localStorage.setItem("button",5);
       window.location.href = "/edit/"+props.match.params.id;
   }
+  const handleChangePassword= async e=>
+  {
+    e.preventDefault();
+    window.location.href="/change-password";
+  }
     useEffect(()=>{
         axios.get('http://localhost:8000/users/'+props.match.params.id).then((response) => {
             setUser(response.data);
@@ -104,6 +109,9 @@ export default function ExistingUserHome (props)
               </Link>
               <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
+              </Link>
+              <Link to="/look-flight" className={classes.link}>
+                Search For A Flight
               </Link>
               <Link to="/home" className={classes.link}>
                 Sign Out
@@ -167,7 +175,8 @@ export default function ExistingUserHome (props)
               </Grid> 
               </Grid> 
       </Paper>
-       
+      <Button  variant="contained" color="primary" display = "flex"   marginright onClick={handleChangePassword}>Change Password</Button>
+
       </div>
 
     );

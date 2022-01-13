@@ -129,6 +129,9 @@ const setModalIsOpenToFalse =()=>{
               <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
               </Link>
+              <Link to="/look-flight" className={classes.link}>
+                Search For A Flight
+              </Link>
               <Link to="/home" className={classes.link}>
                 Sign Out
               </Link>

@@ -52,6 +52,8 @@ export default function ExistingUserHome (props)
   const [mobile,setMobile]= useState();
   const [password,setPassword]= useState();
   const[user,setUser]=useState({});
+  const[oldPassword,setOldPassword]=useState();
+  const[newPassword,setNewPassword]=useState();
 //   var flag =false;
 //   localStorage.setItem("flag",flag);
 const buttonn= localStorage.getItem("button");
@@ -59,7 +61,7 @@ const buttonn= localStorage.getItem("button");
     const onClickChange = async e=>{
         e.preventDefault();
        
-        axios.put('http://localhost:8000/users/update'+props.match.params.id,user)
+        axios.put('http://localhost:8000/users/update/'+props.match.params.id,user)
         .then(res => console.log(res.data))
         .then(
           ()=>{
@@ -70,6 +72,11 @@ const buttonn= localStorage.getItem("button");
   const onChange= (e)=>{
     if(e.target.value !=" ")
     setUser({...user,[e.target.name]:e.target.value});
+  }
+
+  const handleChangePassword =(e)=>
+  {
+    window.location.href="/change-password";
   }
         
     
@@ -148,10 +155,12 @@ const buttonn= localStorage.getItem("button");
                  required
                  fullWidth
                  name="Password"
-                 label="New Password"
-                 id="changePassword"
-                 onChange = {onChange}
+                 label="Old Password"
+                 id="OldPassword"
+                 onChange={e =>setOldPassword(e.target.value)}
                />
+              
+
 
               </div>):buttonn==4?(
               <div>
@@ -184,6 +193,8 @@ const buttonn= localStorage.getItem("button");
         </div>
               </Grid> 
               </Grid> 
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={handleChangePassword}>Change Password</Button>
+
       </Paper>
 </div>
     );
