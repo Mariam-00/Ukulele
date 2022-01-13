@@ -89,9 +89,4 @@ exports.getReservation =(req,res)=>
    .then(Reservations => res.json(Reservations))
    .catch(err => res.status(400).json('Error: ' + err));
 
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 8ddde792d90f110d909e0865a74105180ecb4d2a

@@ -58,22 +58,35 @@ export default function ConfirmReservation(props)
           window.location.href = "/edit/:id";}
   
     const handleClickYesConfirm =(e)=>{
-     
-        // if(localStorage.getItem("class")==="Economy")
-        // {
-        //     setEco(1);
-        // }
-        // else if(localStorage.getItem("class")==="Business")
-        // {
-        //     setEco(2);
-        // }
-        // setPass(localStorage.getItem("NrPassengers"));
-        // const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,seatNrs:seatNrs,FlightDepartureNr:depFlighNr,FlightReturnNr:retFlighNr};
-        // axios.post('http://localhost:8000/reservations/',Reservation)
-        // .then(res => console.log(res.data))  .then(
-        //   ()=>{
-        //     window.location.href="/bookings/"+userId;
-        //   })
+      const userId=localStorage.getItem("userId");
+        if(localStorage.getItem("class")==="Economy")
+        {
+            setEco(1);
+        }
+        else if(localStorage.getItem("class")==="Business")
+        {
+            setEco(2);
+        }
+        setPass(localStorage.getItem("NrPassengers"));
+        var DepartureSeatNrs =[];
+        for(var i=0;i<nrPassengers;i++)
+        {
+          DepartureSeatNrs.push(" ");
+        }
+        var ReturnSeatNrs =[];
+        for(var i=0;i<nrPassengers;i++)
+        {
+          ReturnSeatNrs.push(" ");
+        }
+        const FlightDep =flight1;
+        const FlightRet=flight2;
+        const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,DepartureseatNrs:DepartureSeatNrs,ReturnseatNrs:ReturnSeatNrs,CheckedIn:0,FlightDep:FlightDep,FlightRet:FlightRet};
+       console.log(Reservation);
+        axios.post('http://localhost:8000/reservations/',Reservation)
+        .then(res => console.log(res.data))  .then(
+          ()=>{
+            window.location.href="/bookings/"+userId;
+          })
         
       
     }

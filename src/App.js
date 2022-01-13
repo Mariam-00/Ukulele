@@ -18,27 +18,21 @@ import ReturnDetails from './existingUser/ReturnDetails';
 import Summary from './existingUser/Summary';
 import ConfirmReservation from './existingUser/ConfirmReservation';
 import MyBookings from './existingUser/MyBookings';
-<<<<<<< HEAD
 import Login from './Login'
-=======
 import Dummy from './existingUser/Dummy';
 import CheckIn from './existingUser/CheckIn';
 import CheckInReturn from './existingUser/CheckInReturn';
->>>>>>> 8ddde792d90f110d909e0865a74105180ecb4d2a
 function App() {
 
   return (
     <Router>
      <div className="App">
      <Route path="/home" exact component={Home}/> 
-<<<<<<< HEAD
     <Route path="/" exact component={Login}/>
-=======
      <Route path="/home" exact component={Home}/> 
      <Route path="/dummy/:id" exact component={Dummy}/>
      <Route path="/checkIn/:id" exact component={CheckIn}/>
      <Route path="/checkInReturn/" exact component={CheckInReturn}/>
->>>>>>> 8ddde792d90f110d909e0865a74105180ecb4d2a
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>
     <Route path="/search-flights" exact component={Search}/>
