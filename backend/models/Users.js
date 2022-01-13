@@ -17,20 +17,32 @@ const userSchema = new Schema({
   },
   Email:{
     type: String,
-    required: true
+    required: true,
+    unique:true
   },
   Password:{
     type: String,
     required: true
   },
+  Address:
+  { 
+    type:String,
+    required:true
+  },
+  CountryCode:
+  { 
+    type:String,
+    required:true
+  },
   MobileNumber:{
     type: String,
     required: true
   },
-  PassportNumber: {
+ PassportNumber: {
     type: String,
     required: true
   },
+  
 
 } 
  );

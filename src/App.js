@@ -22,6 +22,8 @@ import Login from './Login'
 import Dummy from './existingUser/Dummy';
 import CheckIn from './existingUser/CheckIn';
 import CheckInReturn from './existingUser/CheckInReturn';
+import SignUp from './SignUp';
+import StripeContainer from './StripeContainer';
 function App() {
 
   return (
@@ -50,6 +52,8 @@ function App() {
     <Route path="/summary" exact component={Summary}/>
     <Route path="/confirm" exact component={ConfirmReservation}/>
     <Route path="/adminHome" exact component={AdminHome}/>
+    <Route path="/sign-up" exact component={SignUp}/>
+  
       </div>
     </Router>
     
