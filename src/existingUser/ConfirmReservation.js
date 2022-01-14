@@ -13,23 +13,39 @@ export default function ConfirmReservation(props)
    const[retFlighNr,setRet]=useState();
    const[nrPassengers,setPass]=useState();
    const[economyOrbusiness,setEco]=useState();
+   const[totalPrice, setTotalPrice]=useState(0);
+
+   
    const seatNrs=[];
   const id1=localStorage.getItem("selectedDepartureFlightId");
   const id2=localStorage.getItem("selectedReturnFlightId");
-   useEffect(()=>{
+   useEffect(async ()=>{
     axios.get('http://localhost:8000/flights/find/'+id1).then((response) => {
         setFlight1(response.data);
         setDep(response.data.FlightNumber);
       
-        
+
+    axios.get('http://localhost:8000/flights/find/'+id2).then((response2) => {
+        setFlight2(response2.data);
+        setRet(response2.data.FlightNumber);
+
+
+      setPass(Number(localStorage.getItem("NrPassengers")));
+
+      if(localStorage.getItem("class")==="Economy")
+      {
+         setEco(1)
+         setTotalPrice((Number(response.data.PriceEconomy)+Number(response2.data.PriceEconomy))*Number(localStorage.getItem("NrPassengers")));
+
+      }
+    else if(localStorage.getItem("class")==="Business")
+        {
+            setEco(2);
+            setTotalPrice((Number(response.data.PriceBusiness)+Number(response2.data.PriceBusiness))*Number(localStorage.getItem("NrPassengers")));
+
+        }
       });
-
-    axios.get('http://localhost:8000/flights/find/'+id2).then((response) => {
-        setFlight2(response.data);
-        setRet(response.data.FlightNumber);
-       
-      });  
-
+    });  
     }, []);
 
     const [modalIsOpen,setModalIsOpen] = useState(false);
@@ -59,15 +75,9 @@ export default function ConfirmReservation(props)
   
     const handleClickYesConfirm =(e)=>{
       const userId=localStorage.getItem("userId");
-        if(localStorage.getItem("class")==="Economy")
-        {
-            setEco(1);
-        }
-        else if(localStorage.getItem("class")==="Business")
-        {
-            setEco(2);
-        }
-        setPass(localStorage.getItem("NrPassengers"));
+        // console.log(totalPrice);
+        // console.log(economyOrbusiness);
+        
         var DepartureSeatNrs =[];
         for(var i=0;i<nrPassengers;i++)
         {
@@ -78,10 +88,11 @@ export default function ConfirmReservation(props)
         {
           ReturnSeatNrs.push(" ");
         }
+       
         const FlightDep =flight1;
         const FlightRet=flight2;
-        const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,DepartureseatNrs:DepartureSeatNrs,ReturnseatNrs:ReturnSeatNrs,CheckedIn:0,FlightDep:FlightDep,FlightRet:FlightRet};
-       console.log(Reservation);
+        const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,DepartureseatNrs:DepartureSeatNrs,ReturnseatNrs:ReturnSeatNrs,CheckedIn:0,FlightDep:FlightDep,FlightRet:FlightRet,TotalPrice:totalPrice};
+        console.log(Reservation);
         axios.post('http://localhost:8000/reservations/',Reservation)
         .then(res => console.log(res.data))  .then(
           ()=>{
@@ -119,15 +130,13 @@ export default function ConfirmReservation(props)
               <br/>
               <b> Return Flight's Seat Number: Seat Number Not Chosen Yet Please Check In To Choose It</b><br/>
               {localStorage.getItem("class")==="Economy"?
-                <b> Total Price :{flight1.PriceEconomy+flight2.PriceEconomy} </b>
-                :
-                <b> Total Price :{(flight1.PriceBusiness)+(flight2.PriceBusiness)} </b>
+    
+                 <b> Total Price :{(Number(flight1.PriceEconomy)+Number(flight2.PriceEconomy))*Number(localStorage.getItem("NrPassengers")) }</b>
+                 :
+                 <b> Total Price :{(Number(flight1.PriceBusiness)+Number(flight2.PriceBusiness))*Number(localStorage.getItem("NrPassengers")) }</b>
+    
               }
-              {/* {
-                setDep(flight1.FlightNumber),
-                setRet(flight2.FlightNumber)
-              }
-                   */}
+           
                  
                 
               </div>

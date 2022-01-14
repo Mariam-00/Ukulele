@@ -37,6 +37,10 @@ const reservationsSchema = new Schema({
      type:Object,
      required:true
  
+     },
+     TotalPrice:{
+      type:Number,
+      required:true
      }
   } 
    );
