@@ -31,6 +31,7 @@ import ChangeRetSeats from './existingUser/ChangeRetSeats';
 import OneWayDep from './existingUser/OneWayDep';
 import SearchForARetFlight from './existingUser/SearchForARetFlight';
 import OneWayRet from './existingUser/OneWayRet';
+import Payment from './existingUser/Payment';
 function App() {
 
   return (
@@ -67,6 +68,7 @@ function App() {
     <Route path="/lookret-flight" exact component={SearchForARetFlight}/>
     <Route path="/onewayret/:id" exact component={OneWayRet}/>
     <Route path="/changeRetSeats/:id"  exact component={ChangeRetSeats }/>
+    <Route path="/payment/:id"  exact component={Payment }/>
       </div>
     </Router>
     

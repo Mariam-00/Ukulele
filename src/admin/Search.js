@@ -42,8 +42,9 @@ export default class Search extends React.Component {
      searchlink+="ArrivalAirport="+ this.state.arrivalAirport +"&";
      if(this.state.departureAirport!== " ")
      searchlink+="DepartureAirport="+ this.state.departureAirport +"&";
-     if(this.state.duration!== " ")
-     searchlink+="Duration="+ this.state.duration +"&";
+
+    //  if(this.state.duration!== " ")
+    //  searchlink+="Duration="+ this.state.duration +"&";
      
      searchlink= searchlink.substring(0,(searchlink.length-1));
      

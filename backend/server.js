@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
+//const uuid =require('uuid/v4');
+const stripe = require("stripe")("sk_test_51KHYYqFthQdbjWDo3G0D1y9ifAegziYpy0yPBwcn7Wf0BuN1MybV8u7rjKWwmtZJvOGmJ9uTwuSf6Zac29w5SDde00UjlDjmEo")
 
 require('dotenv').config();
 
@@ -25,33 +26,35 @@ const flightsRouter = require('./routes/Flights');
 const usersRouter = require('./routes/Users');
 const reservationsRouter = require('./routes/Reservations');
 const emailsRouter = require('./routes/Emails');
+const paymentsRouter=require('./routes/Payments');
 
 app.use('/flights', flightsRouter);
 app.use('/users', usersRouter);
 app.use('/reservations', reservationsRouter);
 app.use('/emails', emailsRouter);
-app.post("/payment", cors(), async (req, res) => {
-	let { amount, id } = req.body
-	try {
-		const payment = await stripe.paymentIntents.create({
-			amount,
-			currency: "USD",
-			description: "Flight",
-			payment_method: id,
-			confirm: true
-		})
-		console.log("Payment", payment)
-		res.json({
-			message: "Payment successful",
-			success: true
-		})
-	} catch (error) {
-		console.log("Error", error)
-		res.json({
-			message: "Payment failed",
-			success: false
-		})
-	}
+
+app.post("/payment",(req,res)=>
+{
+	const { totalPrice, token } = req.body;
+
+  return stripe.customers
+    .create({
+      email: token.email,
+      source: token.id,
+    })
+    .then((customer) => {
+      stripe.charges.create(
+        {
+          amount: totalPrice * 100,
+          currency: "egp",
+          customer: customer.id,
+          receipt_email: token.email,
+        },
+      );
+    })
+    .then((result) => res.status(200).json(result))
+    .catch((err) => console.log(err));
+
 })
 
 app.listen(port, () => {

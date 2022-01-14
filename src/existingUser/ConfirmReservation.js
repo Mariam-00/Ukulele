@@ -96,7 +96,7 @@ export default function ConfirmReservation(props)
         axios.post('http://localhost:8000/reservations/',Reservation)
         .then(res => console.log(res.data))  .then(
           ()=>{
-            window.location.href="/bookings/"+userId;
+            window.location.href="/payment/"+totalPrice;
           })
         
       
