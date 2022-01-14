@@ -26,6 +26,8 @@ import SignUp from './SignUp';
 import StripeContainer from './StripeContainer';
 import ChangePassword from './existingUser/ChangePassword';
 import SearchForFlight from './existingUser/SearchForAFlight';
+import ChangeDepSeats from './existingUser/ChangeDepSeat';
+import OneWayDep from './existingUser/OneWayDep';
 function App() {
 
   return (
@@ -57,8 +59,8 @@ function App() {
     <Route path="/sign-up" exact component={SignUp}/>
     <Route path="/change-password" exact component={ChangePassword}/>
     <Route path="/look-flight" exact component={SearchForFlight}/>
-
-       
+    <Route path="/onewaydep/:id" exact component={OneWayDep}/>
+    <Route path="/changeDepSeats/:id"  exact component={ChangeDepSeats}/>
       </div>
     </Router>
     

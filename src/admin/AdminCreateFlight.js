@@ -106,12 +106,13 @@ export default function AdminCreateFlight() {
        var reservedEconomy=[];
        for(var i=0;i<NrEconomySeats;i++)
        {
-         reservedEconomy.push(0);
+         const seatname = "S"+i;
+         reservedEconomy.push({SeatId: seatname, Available:1});
        }
        var reserevedBusiness=[];
        for(var i=0;i<NrBusinessSeats;i++)
        {
-         reserevedBusiness.push(0);
+         reserevedBusiness.push({SeatId:"S"+i, Available:1});
        }
 
        const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,DepartureAirport:DepartureAirport,ArrivalAirport:ArrivalAirport,ReservedEconomySeats:reservedEconomy,ReservedBusinessSeats:reserevedBusiness,PriceEconomy:priceEconomy,PriceBusiness:priceBusiness}

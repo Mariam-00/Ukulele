@@ -109,6 +109,42 @@ const setModalIsOpenToFalse =()=>{
         setModalIsOpen(false)
     }
 
+    const changeDepart = async e=>{
+       e.preventDefault();
+       localStorage.setItem("depFlightResId",e.currentTarget.id);
+       window.location.href="/look-flight";
+       
+    }
+    const changeDepSeat = async e=>{
+      e.preventDefault();
+      const res=e.currentTarget.id;
+
+      axios.get('http://localhost:8000/reservations/'+res).then((response) => {
+          if (response.data.CheckedIn===1) {
+            localStorage.setItem("reservationIdChangeDepFlight",res);
+            window.location.href="/changeDepSeats/"+props.match.params.id;}
+       else{
+              alert("You Are Not Checked In To This Flight. Please Check In First!");
+       }
+      })
+    }
+    const changeRetSeat = async e=>{
+      e.preventDefault();
+      const res=e.currentTarget.id;
+
+      axios.get('http://localhost:8000/reservations/'+res).then((response) => {
+          if (response.data.CheckedIn===1) {
+            localStorage.setItem("reservationIdChangeRetFlight",res);
+            window.location.href="/changeDepSeats/"+props.match.params.id;}
+       else{
+              alert("You Are Not Checked In To This Flight. Please Check In First!");
+       }
+      })
+    }
+    const changeReturn = async e=>{
+       
+    }
+    
   
      
     return (
@@ -161,6 +197,8 @@ const setModalIsOpenToFalse =()=>{
                   Number of Passengers: {reservation.NrPassengers}<br/>
                   Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
                   Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
+                  Price:{reservation.EconomyorBusiness==1? reservation.FlightDep.PriceEconomy: reservation.FlightDep.PriceBusiness} <br/>
+
                   </div>
              
             </Grid>
@@ -177,13 +215,14 @@ const setModalIsOpenToFalse =()=>{
               <b> Return Flight</b><br/>
 Return Flight Number: {reservation.FlightRet.FlightNumber}<br/>
 Date: {reservation.FlightRet.Date}<br/>
-Departure Time:{reservation.FlightRet. DepartureTime}<br/> 
-Arrival Time:{reservation.FlightRet. ArrivalTime}<br/>
+Departure Time:{reservation.FlightRet.DepartureTime}<br/> 
+Arrival Time:{reservation.FlightRet.ArrivalTime}<br/>
 Seats: {reservation.ReturnseatNrs}<br/>
 
 Number of Passengers: {reservation.NrPassengers}<br/>
 Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
 Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
+Price:{reservation.EconomyorBusiness==1? reservation.FlightRet.PriceEconomy: reservation.FlightRet.PriceBusiness} <br/>
 </div>
   
 </Grid>
@@ -194,7 +233,21 @@ Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<b
            <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={handleCheckIn}>Check In</Button>
            {" "}
            <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Cancel Reservation</Button>
-         
+           {" "}
+        
+           <br/> 
+        <br/> 
+        
+           <Button  variant="contained" color="primary" display = "flex"  id={reservation._id}  marginright onClick={changeDepart}>Change Departure Flight</Button>
+           {" "}
+           <Button  variant="contained" color="primary" display = "flex"   id={reservation._id} marginright onClick={changeReturn}>Change Return Flight</Button>
+           {" "}
+           <br/> 
+        <br/> 
+           <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={changeDepSeat}>Change Departure Flight Seat</Button>
+           {" "}
+           <Button  variant="contained" color="primary" display = "flex"  id={reservation._id} marginright onClick={changeRetSeat}>Change Return Flight Seat</Button>
+
            <Modal isOpen={modalIsOpen} style={customStyles}>
                <button onClick={setModalIsOpenToFalse}>x</button>
                <div>

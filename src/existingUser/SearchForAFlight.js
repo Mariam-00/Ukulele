@@ -35,11 +35,18 @@ export default function SearchForFlight() {
  }
  const handleSubmit =async e=>{
     e.preventDefault();
+    const res=localStorage.getItem("depFlightResId");
+    console.log(res);
+    axios.get('http://localhost:8000/reservations/'+res).then((response) => {
+       
     let searchlink = "";
     localStorage.setItem("oneWay",1);
-    searchlink+="DepartureDate="+depDate;
+    searchlink+="DepartureAirport="+response.data.FlightDep.DepartureAirport+"&"+"ArrivalAirport="+response.data.FlightDep.ArrivalAirport+"&"+"Date="+depDate;
     
-    window.location.href="/list-dep/"+searchlink;
+    window.location.href="/onewaydep/"+searchlink;
+        
+    })
+    
 
     
 }

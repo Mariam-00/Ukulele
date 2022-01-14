@@ -26,6 +26,7 @@ export default function CheckIn (props)
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
     const [seatsClicked, setSeatsClicked] = useState(0);
+    const [arrayS , setArrayS] = useState([]);
    
 
     const customStyles = {
@@ -40,14 +41,14 @@ export default function CheckIn (props)
       }
   };      
     useEffect(()=>{
-        axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdCheckIn")).then((response) => {
+        axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdChangeDepFlight")).then((response) => {
             setReservation(response.data)
             
             if(response.data.EconomyorBusiness==2) {
-            setDepSeats(response.data.FlightRet.ReservedBusinessSeats); 
+            setDepSeats(response.data.FlightDep.ReservedBusinessSeats); 
             }
             else {
-              setDepSeats(response.data.FlightRet.ReservedEconomySeats);
+              setDepSeats(response.data.FlightDep.ReservedEconomySeats);
             }
           
           });
@@ -80,7 +81,7 @@ export default function CheckIn (props)
           for(var i=0;i<arr2.length;i++)
           { 
             if(arr2[i].SeatId===seatId)
-            { 
+            {  console.log("engteredddd")
                  arr2[i]={SeatId:seatId,Available:1};
                  break;
             }
@@ -134,7 +135,7 @@ export default function CheckIn (props)
   }
 
 
-    const FlightNr=reservation.FlightRet.FlightNumber;
+    const FlightNr=reservation.FlightDep.FlightNumber;
     console.log(FlightNr)
     var Flight={};
 
@@ -163,12 +164,12 @@ Flight={ReservedBusinessSeats:depSeats};
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response)=>{
       console.log(response.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{CheckedIn:1, ReturnseatNrs: arraySeats,FlightRet:response.data[0]})
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response.data[0]})
       .then(res => console.log(res.data))
       .then(
         ()=>{
          
-          window.location.href="/bookings/"+ props.match.params.id;
+          window.location.href="/checkInReturn/"
         })
      })
     }
@@ -197,29 +198,6 @@ return(
     )
     } 
 
-    {/* {(depSeats??[]).map((row,i)=>{
-      return(
-<Box>
-  {
-    (row??[]).map((col,j)=> {
-  if(col!=null){
-     return(
- <div>
-   <Button>Pop</Button>
- </div>
-     )
-  }
-    }
-    )
-  }
-</Box>
-
-      )
-    }
-
-
-    )
-  } */}
 
   
      <Button onClick={onSubmit}>Confirm</Button>
