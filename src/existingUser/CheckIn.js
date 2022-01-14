@@ -24,8 +24,11 @@ import { Link } from "react-router-dom";
 export default function CheckIn (props)
 {   const[reservation, setReservation]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
-    const[retSeats,setRetSeats]=useState([]);
-    const [depSeatIds, setDepSeatIds]=useState([]);
+    const [arraySeats, setArraySeats] = useState([]);
+    const [seatsClicked, setSeatsClicked] = useState(0);
+    const [arrayS , setArrayS] = useState([]);
+   
+
     const customStyles = {
       content : {
         top                   : '50%',
@@ -43,138 +46,186 @@ export default function CheckIn (props)
             
             if(response.data.EconomyorBusiness==2) {
             setDepSeats(response.data.FlightDep.ReservedBusinessSeats); 
+           // setArraySeats((prev) => [...prev, 'S2']);
             }
             else {
               setDepSeats(response.data.FlightDep.ReservedEconomySeats);
+              //setArraySeats((prev) => [...prev, 'S2']);
             }
           
           });
            
-             
-
         }, []);
-        const onClickSeat = async e=>{
-          e.preventDefault();
-         
-  
-      }
       
-    const [modalIsOpen,setModalIsOpen] = useState(false);
-
-    const setModalIsOpenToTrue =()=>{
-            setModalIsOpen(true)
-        }
-    
-    const setModalIsOpenToFalse =()=>{
-            setModalIsOpen(false)
-        }
-      const [color, setColor] = useState();
-
-      const changeColor = (e) => {
-          // setColor = "Hello";
-        
-
-
-
-      }
-      const handleClickYesDelete = async e=>{
+     
+      const handleClickYesDelete = async  e=>{
         e.preventDefault();
         var arr=depSeats;
+        var arr2=depSeats;
+        console.log("ENTERED")
         var flag= true;
-        const seatId=e.currentTarget.id;
+        var flag2= true;
+        const seatId= e.currentTarget.id
+
+
+        if (seatsClicked === (reservation.NrPassengers)&&!arraySeats.includes(seatId)) {
+          
+          alert("You cant choose more than "+reservation.NrPassengers+" seats")
+          return;}
+    
+        if (arraySeats.includes(seatId)) {
+          setArraySeats((prev) =>
+            prev.filter((seat) => seatId !== seat)
+          );
+          setSeatsClicked((prev) => prev - 1);
+
+
+          for(var i=0;i<arr2.length;i++)
+          { 
+            if(arr2[i].SeatId===seatId)
+            {  console.log("engteredddd")
+                 arr2[i]={SeatId:seatId,Available:1};
+                 break;
+            }
+          }
+           setDepSeats(arr2);
+  
+    return;
+
+
+        } 
+        
+        else {
+          setSeatsClicked((prev) => prev + 1);
+          console.log(seatsClicked);
+    
+          setArraySeats((prev) => [...prev, seatId]);
+        }
+        console.log(arraySeats);
+
+
+
+
         for(var i=0;i<arr.length;i++)
-        {  console.log("for loop");
+        { 
+          
+        console.log("for loop");
         console.log(arr[i].SeatId)
         console.log(seatId);
         console.log(arr[i].SeatId===seatId)
+
+
+
           if(arr[i].SeatId===seatId)
-          {  console.log("first if");
-            if(arr[i].Available==1)
-             { console.log("second if ");
-               alert("Sorry This Seat is Already Reserved!");
-             }
-             else
-             { console.log("else");
+          {  
              flag=false;
-               arr[i]={SeatId:seatId,Available:1};
-               localStorage.setItem("arr[i]",arr[i]);
+               arr[i]={SeatId:seatId,Available:0};
                break;
-             }
           }
         }
         if(flag===false){
-        const FlightNr=reservation.FlightDep.FlightNumber;
-        console.log(FlightNr)
-        var Flight={};
-  if(reservation.EconomyorBusiness==1)
-  {
-    Flight={ReservedEconomySeats:arr};
-  }
-  else
-  {
-    Flight={ReservedBusinessSeats:arr};
-  }
-        console.log(Flight);
-        axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response) => {
-          console.log(response.data._id)
-
-          axios.put('http://localhost:8000/flights/update'+response.data[0]._id,Flight)
-          .then(res => console.log(res.data))
-          .then(
-            ()=>{
-         
-            })
-            
-          
-         });
-
-         axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response)=>{
-          console.log(response.data)
-          axios.put('http://localhost:8000/reservations/update/'+reservation._id,{CheckedIn:1,FlightDep:response.data[0]})
-          .then(res => console.log(res.data))
-          .then(
-            ()=>{
-              window.location.href="/checkInReturn/"
-            })
-         })
-        }
-  
-  
-  
+         setDepSeats(arr);
 
     }
+  }
+
+  const onSubmit = ()=>{
+    
+    if (seatsClicked< reservation.NrPassengers){
+      alert("Please choose "+ (( reservation.NrPassengers)-seatsClicked) +" more seat(s)")
+    return;
+  }
+
+
+    const FlightNr=reservation.FlightDep.FlightNumber;
+    console.log(FlightNr)
+    var Flight={};
+
+
+if(reservation.EconomyorBusiness==1)
+{
+Flight={ReservedEconomySeats:depSeats};
+}
+else
+{
+Flight={ReservedBusinessSeats:depSeats};
+}
+    console.log(Flight);
+    axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response) => {
+      console.log(response.data._id)
+
+      axios.put('http://localhost:8000/flights/update'+response.data[0]._id,Flight)
+      .then(res => console.log(res.data))
+      .then(
+        ()=>{
+     
+        })
+        
+      
+     });
+
+     axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response)=>{
+      console.log(response.data)
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response.data[0]})
+      .then(res => console.log(res.data))
+      .then(
+        ()=>{
+         
+          window.location.href="/checkInReturn/"
+        })
+     })
+    }
+
+  
+
     
 return(
 <div>  
-    {depSeats.map((seatDep)=>(
-    <div>
+     {depSeats.map((seatDep)=>(
+    <div>  <l> {seatDep.SeatId}
+    {console.log(seatDep.SeatId +" av:" +seatDep.Available)}
+  
        
-      
-        <l> {seatDep.SeatId}<br/>
-    
-            <IconButton color="primary" aria-label="seat0"  id={seatDep.SeatId} onClick={setModalIsOpenToTrue} >
+             <IconButton        color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+
+            disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
+             
+             aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
                 <ChairSeat /> 
             </IconButton>
             </l>
-            <Modal isOpen={modalIsOpen} style={customStyles}>
-                <button onClick={setModalIsOpenToFalse}>x</button>
-                <div>
-                    <h2>Are you sure you want to confirm this seat?</h2>
-                    <br/>               <br/>
-                <div>
-                <Button  variant="contained" color="primary" display = "flex"  id={seatDep.SeatId} marginright onClick={handleClickYesDelete}>Yes</Button>
-                {'                                                     '}
-                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
-                </div>
-                </div>
-            </Modal>
-     
+       
 
     </div>)
     )
-    }
-   
+    } 
 
+    {/* {(depSeats??[]).map((row,i)=>{
+      return(
+<Box>
+  {
+    (row??[]).map((col,j)=> {
+  if(col!=null){
+     return(
+ <div>
+   <Button>Pop</Button>
+ </div>
+     )
+  }
+    }
+    )
+  }
+</Box>
+
+      )
+    }
+
+
+    )
+  } */}
+
+  
+     <Button onClick={onSubmit}>Confirm</Button>
 
 </div>
 );

@@ -109,6 +109,19 @@ const setModalIsOpenToFalse =()=>{
         setModalIsOpen(false)
     }
 
+    const changeDepart = async e=>{
+       
+    }
+    const changeDepSeat = async e=>{
+       
+    }
+    const changeRetSeat = async e=>{
+       
+    }
+    const changeReturn = async e=>{
+       
+    }
+    
   
      
     return (
@@ -191,7 +204,21 @@ Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<b
            <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={handleCheckIn}>Check In</Button>
            {" "}
            <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Cancel Reservation</Button>
-         
+           {" "}
+        
+           <br/> 
+        <br/> 
+        
+           <Button  variant="contained" color="primary" display = "flex"  id={reservation._id}  marginright onClick={changeDepart}>Change Departure Flight</Button>
+           {" "}
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={changeReturn}>Change Return Flight</Button>
+           {" "}
+           <br/> 
+        <br/> 
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={changeDepSeat}>Change Departure Flight Seat</Button>
+           {" "}
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={changeRetSeat}>Change Return Flight Seat</Button>
+
            <Modal isOpen={modalIsOpen} style={customStyles}>
                <button onClick={setModalIsOpenToFalse}>x</button>
                <div>

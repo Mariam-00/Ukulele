@@ -59,7 +59,7 @@ const buttonn= localStorage.getItem("button");
     const onClickChange = async e=>{
         e.preventDefault();
        
-        axios.put('http://localhost:8000/users/update'+props.match.params.id,user)
+        axios.put('http://localhost:8000/users/update/'+props.match.params.id,user)
         .then(res => console.log(res.data))
         .then(
           ()=>{
@@ -178,7 +178,6 @@ const buttonn= localStorage.getItem("button");
                />):(<div></div>)
               )
               }
-            
             
               <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickChange}>Change</Button>
         </div>
