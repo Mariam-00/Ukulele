@@ -16,6 +16,7 @@ export default function ListDepartureFlights(props)
     useEffect(()=>{
         axios.get('http://localhost:8000/flights/search?'+searchLink).then((response) => {
             setFlight(response.data);
+            localStorage.setItem("error","yes");
           });
          
 
@@ -27,11 +28,8 @@ export default function ListDepartureFlights(props)
     { e.preventDefault();
      const id=e.currentTarget.id;
      localStorage.setItem("selectedDepartureFlightId",id);
-     window.location.href="/list-ret/"; 
-   
-   
     
-   
+     window.location.href="/list-ret/"; 
      };
     const handleDetailstClick =(e)=>
     { 
@@ -47,7 +45,7 @@ export default function ListDepartureFlights(props)
             
             {flight.map(flight=>(
                 <div>
-           { (localStorage.getItem("economy")==1) && (flight.NrEconomySeats>passengers) ? 
+           { (localStorage.getItem("economy")==1) && (flight.NrEconomySeats>passengers)? 
            <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>

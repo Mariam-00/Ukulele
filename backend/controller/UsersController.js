@@ -27,6 +27,8 @@ exports.getUser =(req,res)=>
 //    .catch(err => res.status(400).json('Error: ' + err));
     
 // }
+
+
 const findUserEmail = async (req, res, next) => {
    try {
      const user = req.body.user;
@@ -85,6 +87,52 @@ const checkAdmin = async (req, res, next) => {
    }
  };
 
+ 
+ 
+
+const checkPassword=async(req,res,next)=>
+{
+   const passIsValid = await authUtils.comparePass(
+      req.body.OldPassword,
+      req.body.Password
+    );
+    if(passIsValid)
+    {  
+       
+      const newPassword= await authUtils.hashPass(req.body.NewPassword);
+      req.body= {Password:newPassword};
+      next();
+    }
+    else
+    {
+       const err= new Error("Invalid Old Password")
+       next(err);
+    }
+
+}
+
+const updatePassword =async(req,res,next)=>
+{  try{
+   Users.findByIdAndUpdate(req.params.id,req.body).then(result=>
+      {
+         res.status("password updated");
+         console.log('The password has been updated successfully !');
+         next();
+      }).catch(err=>
+         {
+            console.log(err);
+            next(err);
+         })
+ }
+  catch(err){
+     next(err);
+  }
+};
+exports.changePassword=[
+ checkPassword,
+ updatePassword,
+];
+
 exports.updateUsers =(req,res)=>
  {
 Users.findByIdAndUpdate(req.params.id,req.body).then(result =>{
@@ -108,6 +156,8 @@ exports.getAllUsers =(req, res)=>
    authenticateUser,
    generateJWT,
  ];
+
+
 
 
 

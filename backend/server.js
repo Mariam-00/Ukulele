@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
 
 require('dotenv').config();
 
@@ -29,6 +30,29 @@ app.use('/flights', flightsRouter);
 app.use('/users', usersRouter);
 app.use('/reservations', reservationsRouter);
 app.use('/emails', emailsRouter);
+app.post("/payment", cors(), async (req, res) => {
+	let { amount, id } = req.body
+	try {
+		const payment = await stripe.paymentIntents.create({
+			amount,
+			currency: "USD",
+			description: "Flight",
+			payment_method: id,
+			confirm: true
+		})
+		console.log("Payment", payment)
+		res.json({
+			message: "Payment successful",
+			success: true
+		})
+	} catch (error) {
+		console.log("Error", error)
+		res.json({
+			message: "Payment failed",
+			success: false
+		})
+	}
+})
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
