@@ -21,7 +21,7 @@ import {
   } from "@material-ui/core";
 import { Link } from "react-router-dom";
    
-export default function ChangeDepSeats (props)
+export default function ChangeRetSeats (props)
 {   const[reservation, setReservation]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
@@ -40,17 +40,17 @@ export default function ChangeDepSeats (props)
       }
   };      
     useEffect(()=>{
-        axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdChangeDepFlight")).then((response) => {
+        axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdChangeRetFlight")).then((response) => {
             setReservation(response.data)
             
             if(response.data.EconomyorBusiness==2) {
-            setDepSeats(response.data.FlightDep.ReservedBusinessSeats); 
-            setArraySeats(response.data.DepartureseatNrs); 
+            setDepSeats(response.data.FlightRet.ReservedBusinessSeats); 
+            setArraySeats(response.data.ReturnseatNrs ); 
             setSeatsClicked(response.data.NrPassengers);
             }
             else {
-              setDepSeats(response.data.FlightDep.ReservedEconomySeats);
-              setArraySeats(response.data.DepartureseatNrs); 
+              setDepSeats(response.data.FlightRet.ReservedEconomySeats);
+              setArraySeats(response.data.ReturnseatNrs);
               setSeatsClicked(response.data.NrPassengers);
 
             }
@@ -85,7 +85,7 @@ export default function ChangeDepSeats (props)
           for(var i=0;i<arr2.length;i++)
           { 
             if(arr2[i].SeatId===seatId)
-            {  console.log("engteredddd")
+            { 
                  arr2[i]={SeatId:seatId,Available:1};
                  break;
             }
@@ -93,8 +93,6 @@ export default function ChangeDepSeats (props)
            setDepSeats(arr2);
   
     return;
-
-
         } 
         
         else {
@@ -139,7 +137,7 @@ export default function ChangeDepSeats (props)
   }
 
 
-    const FlightNr=reservation.FlightDep.FlightNumber;
+    const FlightNr=reservation.FlightRet.FlightNumber;
     console.log(FlightNr)
     var Flight={};
 
@@ -168,7 +166,7 @@ Flight={ReservedBusinessSeats:depSeats};
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response)=>{
       console.log(response.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response.data[0]})
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ ReturnseatNrs: arraySeats,FlightRet:response.data[0]})
       .then(res => console.log(res.data))
       .then(
         ()=>{

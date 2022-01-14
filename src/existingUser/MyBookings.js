@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
    
 export default function MyBookings (props)
 {   const classes = useStyles();
-    const[user,setUser]=useState();
+    const[userEmail,setUserEmail]=useState();
     const[reservations,setReservations]=useState([]);
     const[depFlight, setDepFlight]=useState([]);
     const[retFlight,setRetFlight]=useState([]);
@@ -67,21 +67,36 @@ export default function MyBookings (props)
         axios.get('http://localhost:8000/reservations/search?userId='+localStorage.getItem("userId")).then((response) => {
           setReservations(response.data);
           });
-        
+          
+          axios.get('http://localhost:8000/users/'+localStorage.getItem("userId")).then((response) => {
+              setUserEmail(response.data.Email);
+              });
        
          }, []);
      
     
 
-       const handleClickYesDelete = async e=>{
-        e.preventDefault();
-      console.log(e.currentTarget.id);
-        axios.delete('http://localhost:8000/reservations/delete/'+e.currentTarget.id)
+       const handleClickYesDelete = async (resv)=>{
+      //preventDefault();
+        axios.delete('http://localhost:8000/reservations/delete/'+resv._id)
   .then(() => {
     alert("Flight deleted!");
+
+
+ const resid=resv._id;
+ const price= resv.TotalPrice;
+    axios.post("http://localhost:8000/emails/cancellation", {
+      userEmail,
+      price,
+     resid,
+    });
+
     window.location.href = "/bookings/"+ props.match.params.id;
   });
     }
+
+
+
  const handleCheckIn = async e=>{
         e.preventDefault();
        const res=e.currentTarget.id;
@@ -115,6 +130,22 @@ const setModalIsOpenToFalse =()=>{
        window.location.href="/look-flight";
        
     }
+    const emailItinerary = async (reservation)=>{
+     
+    axios.post("http://localhost:8000/emails/emailItinerary", {
+      userEmail,
+      reservation
+    })
+    .then(response=>{
+      alert("Sent Successfully!");
+    })
+    .catch(error=>{
+       console.log(error.response)
+    });
+  
+    }
+
+
     const changeDepSeat = async e=>{
       e.preventDefault();
       const res=e.currentTarget.id;
@@ -188,10 +219,12 @@ const setModalIsOpenToFalse =()=>{
               <div class="wrapper">
             <b> Departure Flight</b><br/>
                  Departure Flight Number: {reservation.FlightDep.FlightNumber}<br/>
+                  From: {reservation.FlightDep.DepartureAirport}<br/>
+                  To: {reservation.FlightDep.ArrivalAirport}<br/>
                   Date: {reservation.FlightDep.Date}<br/>
                   Departure Time:{reservation.FlightDep. DepartureTime}<br/>
                   Arrival Time:{reservation.FlightDep. ArrivalTime}<br/>
-                  Seats: {reservation.FlightDep.DepartureseatNrs}<br/>
+                  Seats: {reservation.DepartureseatNrs}<br/>
                   
                   Number of Passengers: {reservation.NrPassengers}<br/>
                   Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
@@ -213,6 +246,8 @@ const setModalIsOpenToFalse =()=>{
               <div class="wrapper">
               <b> Return Flight</b><br/>
 Return Flight Number: {reservation.FlightRet.FlightNumber}<br/>
+From: {reservation.FlightRet.DepartureAirport}<br/>
+ To: {reservation.FlightRet.ArrivalAirport}<br/>
 Date: {reservation.FlightRet.Date}<br/>
 Departure Time:{reservation.FlightRet.DepartureTime}<br/> 
 Arrival Time:{reservation.FlightRet.ArrivalTime}<br/>
@@ -231,8 +266,11 @@ Price:{reservation.EconomyorBusiness==1? reservation.FlightRet.PriceEconomy: res
            
            <Button  variant="contained" color="primary" display = "flex" id={reservation._id}  marginright onClick={handleCheckIn}>Check In</Button>
            {" "}
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={() => {emailItinerary(reservation);}}>E-mail Itinerary</Button>
+           {" "}
            <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Cancel Reservation</Button>
            {" "}
+
         
            <br/> 
         <br/> 
@@ -253,7 +291,7 @@ Price:{reservation.EconomyorBusiness==1? reservation.FlightRet.PriceEconomy: res
                    <h2>Are you sure you want to cancel this reservation?</h2>
                    <br/>               <br/>
                <div>
-               <Button  variant="contained" color="primary" display = "flex"  id={reservation._id} marginright onClick={handleClickYesDelete}>Yes</Button>
+               <Button  variant="contained" color="primary" display = "flex"  id={reservation._id} marginright onClick={() => {handleClickYesDelete(reservation);}}>Yes</Button>
                {'                                                     '}
                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
                </div>

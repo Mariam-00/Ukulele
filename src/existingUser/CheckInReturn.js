@@ -21,7 +21,7 @@ import {
   } from "@material-ui/core";
 import { Link } from "react-router-dom";
    
-export default function CheckIn (props)
+export default function CheckInReturn (props)
 {   const[reservation, setReservation]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
