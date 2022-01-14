@@ -142,7 +142,9 @@ const setModalIsOpenToFalse =()=>{
       })
     }
     const changeReturn = async e=>{
-       
+      e.preventDefault();
+      localStorage.setItem("retFlightResId",e.currentTarget.id);
+      window.location.href="/lookret-flight";
     }
     
   
@@ -164,9 +166,6 @@ const setModalIsOpenToFalse =()=>{
               </Link>
               <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
-              </Link>
-              <Link to="/look-flight" className={classes.link}>
-                Search For A Flight
               </Link>
               <Link to="/home" className={classes.link}>
                 Sign Out

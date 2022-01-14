@@ -12,7 +12,7 @@ export default class Search extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-   this.state = {flightNumber:' ',departureTime:' ',arrivalTime:' ',date:' ',nrEconomySeats:' ',nrBusinessSeats:' ',arrivalAirport:' ',departureAirport:' ',Flights:{}}
+   this.state = {flightNumber:' ',departureTime:' ',arrivalTime:' ',date:' ',nrEconomySeats:' ',nrBusinessSeats:' ',arrivalAirport:' ',departureAirport:' ',Flights:{},duration:''}
   } 
   componentDidMount(){
     const flight = this.props.match.params.id;
@@ -38,10 +38,12 @@ export default class Search extends React.Component {
      searchlink+="NrEconomySeats="+ this.state.nrEconomySeats +"&";
      if(this.state.nrBusinessSeats!== " ")
      searchlink+="NrBusinessSeats="+ this.state.nrBusinessSeats +"&";
-     if(this.state.arrivalAirport!= " ")
+     if(this.state.arrivalAirport!== " ")
      searchlink+="ArrivalAirport="+ this.state.arrivalAirport +"&";
-     if(this.state.departureAirport!= " ")
+     if(this.state.departureAirport!== " ")
      searchlink+="DepartureAirport="+ this.state.departureAirport +"&";
+     if(this.state.duration!== " ")
+     searchlink+="Duration="+ this.state.duration +"&";
      
      searchlink= searchlink.substring(0,(searchlink.length-1));
      
@@ -108,20 +110,29 @@ handleChange = function(event) {
 />
 <br/>
 
-<TextField
-  id="arrivalAirport"
-  label="Arrival Airport"
- // value={this.state.name}
-  onChange={e => this.state.arrivalAirport = e.target.value}
-  margin="normal"
-/>
-<br/>
+
 
 <TextField
   id="departureAirport"
   label="Departure Airport"
  // value={this.state.name}
   onChange={e => this.state.departureAirport = e.target.value}
+  margin="normal"
+/>
+<br/>
+<TextField
+  id="arrivalAirport"
+  label="Arrival Airport"
+ 
+  onChange={e => this.state.arrivalAirport = e.target.value}
+  margin="normal"
+/>
+<br/>
+<TextField
+  id="duration"
+  label="Duration"
+ // value={this.state.name}
+  onChange={e => this.state.duration = e.target.value}
   margin="normal"
 />
 <br/>

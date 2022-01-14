@@ -49,18 +49,20 @@ export default function Summary()
               <b> Departure Flight's Departure Time: {flight1.DepartureTime}</b><br/>
               <b> Departure Flight's Arrival Time: {flight1.ArrivalTime}</b><br/>
               <b> Departure Flight's Cabin Class:{localStorage.getItem("class")}</b><br/>
+              <b> Departure's Flight Duration"{flight1.Duration}</b><br/>
               {localStorage.getItem("class")==="Economy"?
-              <b>Departure Flight's Price:{flight1.PriceEconomy}</b>:
-              <b>Departure Flight's Price:{flight1.PriceBusiness}</b>}
+              <b>Departure Flight's Price Per Passenger:{flight1.PriceEconomy}</b>:
+              <b>Departure Flight's Price Per Passenger:{flight1.PriceBusiness}</b>}
               <br/>
               <b> Departure Flight's Seat Number: Seat Number Not Chosen Yet Please Check In To Choose It</b><br/>
               <b> Return Flight's Date:{flight2.Date} </b><br/>
               <b> Return Flight's Departure Time : {flight2.DepartureTime}</b><br/>
               <b> Return Flight's Arrival Time :{flight2.ArrivalTime}</b><br/>
               <b> Return Flight's Cabin Class:{localStorage.getItem("class")}</b><br/>
+              <b> Return Flight's Duration:{flight2.Duration}</b>
               {localStorage.getItem("class")==="Economy"?
-              <b>Return Flight's Price:{flight2.PriceEconomy}</b>:
-              <b>Return Flight's Price:{flight2.PriceBusiness}</b>}
+              <b>Return Flight's Price Per Passenger:{flight2.PriceEconomy}</b>:
+              <b>Return Flight's Price Per Passenger :{flight2.PriceBusiness}</b>}
               <br/>
               <b> Return Flight's Seat Number: Seat Number Not Chosen Yet Please Check In To Choose It</b><br/>
               {localStorage.getItem("class")==="Economy"?

@@ -28,6 +28,8 @@ import ChangePassword from './existingUser/ChangePassword';
 import SearchForFlight from './existingUser/SearchForAFlight';
 import ChangeDepSeats from './existingUser/ChangeDepSeat';
 import OneWayDep from './existingUser/OneWayDep';
+import SearchForARetFlight from './existingUser/SearchForARetFlight';
+import OneWayRet from './existingUser/OneWayRet';
 function App() {
 
   return (
@@ -61,6 +63,8 @@ function App() {
     <Route path="/look-flight" exact component={SearchForFlight}/>
     <Route path="/onewaydep/:id" exact component={OneWayDep}/>
     <Route path="/changeDepSeats/:id"  exact component={ChangeDepSeats}/>
+    <Route path="/lookret-flight" exact component={SearchForARetFlight}/>
+    <Route path="/onewayret/:id" exact component={OneWayRet}/>
       </div>
     </Router>
     

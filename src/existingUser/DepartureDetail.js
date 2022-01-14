@@ -30,15 +30,16 @@ export default function DepartureDetail(props)
             <Grid item xl>
               <div class="wrapper">
               <b> FlightNumber: {flight.FlightNumber}</b><br/>
-                  Departure Time: {flight.DepartureTime}<br/>
-                  Arrival Time: {flight.ArrivalTime}<br/>
+                 <b> Departure Time: {flight.DepartureTime}<br/></b>
+                <b>  Arrival Time: {flight.ArrivalTime}<br/></b>
+                 <b> Duration:{flight.Duartion}<br/></b>
                   {localStorage.getItem("economy")==1?
-                  <p>Cabin Class:Economy</p>:
-                 <p>Cabin Class:Business</p>}
+                 <b> Cabin Class:Economy</b>:
+                 <b>Cabin Class:Business</b>}
                  <br/>
                    {localStorage.getItem("economy")==1?
-                   <p> Baggage Allowance: Two 23 Kg Bags</p>:
-                   <p> Baggage Allowance: Two 32 Kg Bags</p>}
+                   <b> Baggage Allowance: Two 23 Kg Bags</b>:
+                    <b>Baggage Allowance: Two 32 Kg Bags</b>}
                 
               </div>
         

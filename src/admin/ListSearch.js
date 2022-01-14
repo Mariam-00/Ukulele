@@ -34,13 +34,15 @@ export default class ListSearch extends React.Component {
      <Grid item xl>
        <div class="wrapper">
        <b>FlightNumber: {flight.FlightNumber}</b><br/>
-           DepartureTime: {flight.DepartureTime}<br/>
-           ArrivalTime: {flight.ArrivalTime}<br/>
-           Date: {flight.Date}<br/>
-           NrEconomySeats: {flight.NrEconomySeats}<br/>
-           NrBusinessSeats: {flight.NrBusinessSeats}<br/>
-           ArrivalAirport: {flight.ArrivalAirport}<br/>
-           DepartureAirport:{flight.DepartureAirport}
+           DepartureTime: {flight.DepartureTime}<br/><b/>
+           ArrivalTime: {flight.ArrivalTime}<br/><b/>
+           Date: {flight.Date}<br/><b/>
+           NrEconomySeats: {flight.NrEconomySeats}<br/><b/>
+           NrBusinessSeats: {flight.NrBusinessSeats}<br/><b/>
+           DepartureAirport:{flight.DepartureAirport}<br/><b/>
+           ArrivalAirport: {flight.ArrivalAirport}<br/><b/>
+           Duration:{flight.Duration}<br/><b/>
+          
        </div>
 
     

@@ -78,6 +78,16 @@ export default function Test(props)
         <br/>
         
         <TextField
+          id="departureAirport"
+          label="Departure Airport"
+          name="Departure Airport"
+         // value={this.state.name}
+        onChange={handleChange}
+          margin="normal"
+        />
+
+        <br/>
+        <TextField
           id="arrivalAirport"
           label="Arrival Airport"
           name="Arrival Airport"
@@ -85,12 +95,13 @@ export default function Test(props)
         onChange={handleChange}
           margin="normal"
         />
-        <br/>
+      
 
+        <br/>
         <TextField
-          id="departureAirport"
-          label="Departure Airport"
-          name="Departure Airport"
+          id="duration"
+          label="Duration"
+          name="Duration"
          // value={this.state.name}
         onChange={handleChange}
           margin="normal"

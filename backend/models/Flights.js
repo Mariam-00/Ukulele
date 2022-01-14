@@ -56,6 +56,11 @@ const flightsSchema = new Schema({
   {
     type:Number,
     required:true
+  },
+  Duration:
+  {
+    type:String,
+    required:true
   }
 
 } 

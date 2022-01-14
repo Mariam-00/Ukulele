@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }))
 
-export default function SearchForFlight() {
+export default function SearchForARetFlight() {
     const classes = useStyles();
   const [depDate,setDepDate]=useState();
   const[value,setValue]=useState();
@@ -65,15 +65,15 @@ export default function SearchForFlight() {
  }
  const handleSubmit =async e=>{
     e.preventDefault();
-    const res=localStorage.getItem("depFlightResId");
+    const res=localStorage.getItem("retFlightResId");
     console.log(res);
     axios.get('http://localhost:8000/reservations/'+res).then((response) => {
        
     let searchlink = "";
     localStorage.setItem("oneWay",1);
-    searchlink+="DepartureAirport="+response.data.FlightDep.DepartureAirport+"&"+"ArrivalAirport="+response.data.FlightDep.ArrivalAirport+"&"+"Date="+depDate;
+    searchlink+="DepartureAirport="+response.data.FlightRet.DepartureAirport+"&"+"ArrivalAirport="+response.data.FlightRet.ArrivalAirport+"&"+"Date="+depDate;
     
-    window.location.href="/onewaydep/"+searchlink;
+    window.location.href="/onewayret/"+searchlink;
         
     })
     
@@ -94,7 +94,7 @@ export default function SearchForFlight() {
               <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
                 Profile
               </Link>
-              <Link to= {"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
+              <Link to= {"/bookings/"+localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
               <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
@@ -106,7 +106,7 @@ export default function SearchForFlight() {
             </div>
         </Toolbar>
       </AppBar>
-<h2>Search For A Departure Flight</h2>;
+<h2>Search For A Return Flight</h2>;
 <TextField
   id="depDate"
   label="Departure Date"
