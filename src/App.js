@@ -64,12 +64,9 @@ function App() {
     <Route path="/look-flight" exact component={SearchForFlight}/>
     <Route path="/onewaydep/:id" exact component={OneWayDep}/>
     <Route path="/changeDepSeats/:id"  exact component={ChangeDepSeats}/>
-<<<<<<< HEAD
     <Route path="/lookret-flight" exact component={SearchForARetFlight}/>
     <Route path="/onewayret/:id" exact component={OneWayRet}/>
-=======
     <Route path="/changeRetSeats/:id"  exact component={ChangeRetSeats }/>
->>>>>>> 356e1852307351f36d61f5d298272125c3098438
       </div>
     </Router>
     
