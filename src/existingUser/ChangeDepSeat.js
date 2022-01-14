@@ -26,7 +26,6 @@ export default function CheckIn (props)
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
     const [seatsClicked, setSeatsClicked] = useState(0);
-    const [arrayS , setArrayS] = useState([]);
    
 
     const customStyles = {
@@ -46,9 +45,14 @@ export default function CheckIn (props)
             
             if(response.data.EconomyorBusiness==2) {
             setDepSeats(response.data.FlightDep.ReservedBusinessSeats); 
+            setArraySeats(response.data.DepartureseatNrs); 
+            setSeatsClicked(response.data.NrPassengers);
             }
             else {
               setDepSeats(response.data.FlightDep.ReservedEconomySeats);
+              setArraySeats(response.data.DepartureseatNrs); 
+              setSeatsClicked(response.data.NrPassengers);
+
             }
           
           });
@@ -168,8 +172,8 @@ Flight={ReservedBusinessSeats:depSeats};
       .then(res => console.log(res.data))
       .then(
         ()=>{
-         
-          window.location.href="/checkInReturn/"
+           
+            window.location.href="/bookings/"+ props.match.params.id;
         })
      })
     }
@@ -184,9 +188,10 @@ return(
     {console.log(seatDep.SeatId +" av:" +seatDep.Available)}
   
        
-             <IconButton        color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+             <IconButton      
+            color={( arraySeats.includes(seatDep.SeatId) ) ?"success": (seatDep.Available===1)?"primary":"error"} 
 
-            disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
+            disabled={(arraySeats.includes(seatDep.SeatId)||(seatDep.Available==1))?false:true}
              
              aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
                 <ChairSeat /> 
