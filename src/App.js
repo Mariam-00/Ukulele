@@ -29,6 +29,7 @@ import SearchForFlight from './existingUser/SearchForAFlight';
 import ChangeDepSeats from './existingUser/ChangeDepSeat';
 import ChangeRetSeats from './existingUser/ChangeRetSeats';
 import OneWayDep from './existingUser/OneWayDep';
+import NewDepSeats from './existingUser/NewDepSeats';
 function App() {
 
   return (
@@ -63,6 +64,8 @@ function App() {
     <Route path="/onewaydep/:id" exact component={OneWayDep}/>
     <Route path="/changeDepSeats/:id"  exact component={ChangeDepSeats}/>
     <Route path="/changeRetSeats/:id"  exact component={ChangeRetSeats }/>
+    <Route path="/NewDepSeats/"  exact component={NewDepSeats }/>
+   
       </div>
     </Router>
     

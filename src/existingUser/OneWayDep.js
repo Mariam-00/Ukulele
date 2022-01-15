@@ -58,10 +58,21 @@ export default function OneWayDep(props)
     
 
 
-   const handleClickYesSelect =(e)=>
-   {
+   const handleClickYesSelect = async (reservation,flight)=>
+   {  if(window.confirm(
+     "Are you sure you want to select this flight?"
+  ))
+  { 
+    localStorage.setItem("reservationIdNewDepSeats",reservation._id);
+    localStorage.setItem("flightIdNewDepSeats",flight._id);
+    window.location.href="/NewDepSeats/";
+  }
      // go to choose seats 
+
+ 
+
    }
+
     const handleDetailstClick =(e)=>
     { 
      e.preventDefault();
@@ -110,26 +121,10 @@ export default function OneWayDep(props)
               <>
             
            {" "}
-           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Select</Button>
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={() => {handleClickYesSelect(reservation,flight);}}>Select</Button>
            {" "}
            <Button variant="contained" color="primary" id={flight._id}  display = "flex" marginright onClick={handleDetailstClick}>See Details</Button>
 
-            <Modal isOpen={modalIsOpen} style={customStyles}>
-                <button onClick={setModalIsOpenToFalse}>x</button>
-                <div>
-                    <h2>Are You Sure You Want To Select This Flight ?</h2>
-                    <br/>               <br/>
-                <div>
-                <Button  variant="contained" color="primary" display = "flex"  marginright onClick={handleClickYesSelect}>Yes</Button>
-                {'                                                     '}
-                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
-                </div>
-                </div>
-            </Modal>
-
-
-
-            
            
         </>
             </Grid>
@@ -168,29 +163,9 @@ export default function OneWayDep(props)
            {" "}
             
 
-           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={setModalIsOpenToTrue}>Select</Button>
+           <Button  variant="contained" color="primary" display = "flex"   marginright onClick={() => {handleClickYesSelect(reservation,flight);}}>Select</Button>
            {" "}
            <Button variant="contained" color="primary" id={flight._id}  display = "flex" marginright onClick={handleDetailstClick}>See Details</Button>
-
-            <Modal isOpen={modalIsOpen} style={customStyles}>
-                <button onClick={setModalIsOpenToFalse}>x</button>
-                <div>
-                    <h2>Are You Sure You Want To Select This Flight ?</h2>
-                    <br/>               <br/>
-                <div>
-                <Button  variant="contained" color="primary" display = "flex"  marginright onClick={handleClickYesSelect}>Yes</Button>
-                {'                                                     '}
-                <Button  variant="contained" color="primary" display = "flex"   marginleft onClick={setModalIsOpenToFalse}>No</Button>
-                </div>
-                </div>
-            </Modal>
-
-
-
-
-
-
-         
         </>
             </Grid>
             <Grid item>
@@ -209,4 +184,4 @@ export default function OneWayDep(props)
         </div>
     );
     
-}
+        }

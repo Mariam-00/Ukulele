@@ -151,7 +151,7 @@ const setModalIsOpenToFalse =()=>{
       const res=e.currentTarget.id;
 
       axios.get('http://localhost:8000/reservations/'+res).then((response) => {
-          if (response.data.CheckedIn===1) {
+          if (response.data.CheckedIn===1|| localStorage.getItem("CheckedInNewDepSeats")=="1") {
             localStorage.setItem("reservationIdChangeDepFlight",res);
             window.location.href="/changeDepSeats/"+props.match.params.id;}
        else{

@@ -161,10 +161,7 @@ Flight={ReservedBusinessSeats:depSeats};
       .then(
         ()=>{
      
-        })
-        
-      
-     });
+       
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response)=>{
       console.log(response.data)
@@ -176,6 +173,10 @@ Flight={ReservedBusinessSeats:depSeats};
             window.location.href="/bookings/"+ props.match.params.id;
         })
      })
+    })
+        
+      
+  });
     }
 
   
