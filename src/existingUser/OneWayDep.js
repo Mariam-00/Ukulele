@@ -5,10 +5,42 @@ import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 import Modal from 'react-modal';
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  makeStyles,
+  withMobileDialog,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
+
 export default function OneWayDep(props)
 {   
     const[flight,setFlight]=useState([]);
-    const passengers=localStorage.getItem("NrPassengers");
+    const classes = useStyles();
+    //const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
     const[flight2,setFlight2]=useState([]);
     const res=localStorage.getItem("depFlightResId");
@@ -16,21 +48,36 @@ export default function OneWayDep(props)
     const[priceBusiness,setPriceBusiness]=useState();
     const [modalIsOpen,setModalIsOpen] = useState(false);
     const[reservation,setReservation]=useState();
+    const[passengers,setPassengers]=useState();
     useEffect(()=>{
       console.log(searchLink);
       axios.get('http://localhost:8000/flights/search?'+searchLink).then((response) => {
           setFlight(response.data);
           axios.get('http://localhost:8000/reservations/'+res).then((response) => {
              setPriceEconomy(response.data.FlightDep.PriceEconomy);
-            setPriceBusiness(response.data.FlightDep.PriceBusiness);
-            setReservation(response.data);
-             localStorage.setItem("priceEconomy",response.data.FlightDep.PriceEconomy);
+             setPriceBusiness(response.data.FlightDep.PriceBusiness);
+             setPassengers(response.data.NrPassengers);
+             setReservation(response.data);
+             localStorage.setItem("reservationn",JSON.stringify(response.data));
+             //localStorage.setItem("priceEconomy",response.data.FlightDep.PriceEconomy);
              
          })
         });
        
 
       }, []);
+
+      const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)',
+          backgroundColor       : '#FFFFFF'      
+        }
+    }; 
 
     const setModalIsOpenToTrue =()=>{
             setModalIsOpen(true)
@@ -39,17 +86,7 @@ export default function OneWayDep(props)
     const setModalIsOpenToFalse =()=>{
             setModalIsOpen(false)
         }
-        const customStyles = {
-          content : {
-            top                   : '50%',
-            left                  : '50%',
-            right                 : 'auto',
-            bottom                : 'auto',
-            marginRight           : '-50%',
-            transform             : 'translate(-50%, -50%)',
-            backgroundColor       : '#FFFFFF'      
-          }
-      };      
+        
       const onClickN = async e=>{
         e.preventDefault();
         window.location.href = "/edit/:id";}
@@ -82,6 +119,28 @@ export default function OneWayDep(props)
     return(
         
         <div>
+          <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}>
+           FlyFast
+          </Typography>
+            <div className={classes.navlinks}>
+              <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
+                Profile
+              </Link>
+              <Link to= {"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
+                My Bookings
+              </Link>
+              <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
+                Book A Flight
+              </Link>
+              <Link to="/home" className={classes.link}>
+                Sign Out
+              </Link>
+            </div>
+        </Toolbar>
+      </AppBar>
         <h1>Choose A Departure Flight</h1>
         <div >
             
@@ -100,9 +159,9 @@ export default function OneWayDep(props)
             <b>  Date: {flight.Date}<br/></b>
               {
               (priceEconomy<flight.PriceEconomy)?
-             <b> Extra Amount To Be Paid:{(flight.PriceEconomy)-(priceEconomy)}</b>
+             <b> Extra Amount To Be Paid:{(passengers*flight.PriceEconomy)-(passengers*priceEconomy)}</b>
               :(priceEconomy>flight.PriceEconomy)?
-              <b> Amount To Be Refunded:{(priceEconomy)-(flight.PriceEconomy)}</b>
+              <b> Amount To Be Refunded:{(passengers*priceEconomy)-(passengers*flight.PriceEconomy)}</b>
               :(<div></div>)
               
                 }
@@ -145,9 +204,9 @@ export default function OneWayDep(props)
              <b> ArrivalTime: {flight.ArrivalTime}<br/></b>
              <b> Date: {flight.Date}<br/></b>
              {(priceBusiness<flight.PriceBusiness)?
-             <b> Extra Amount To Be Paid:{(flight.PriceBusiness)-(priceBusiness)}</b>
+             <b> Extra Amount To Be Paid:{(passengers*flight.PriceBusiness)-(passengers*priceBusiness)}</b>
              :(priceBusiness>flight.PriceBusiness)?
-             <b>Amount To Be Refunded :{(priceBusiness)-(flight.PriceBusiness)}</b>
+             <b>Amount To Be Refunded :{(passengers*priceBusiness)-(passengers*flight.PriceBusiness)}</b>
              :(<div></div>)
               }
              </div> 

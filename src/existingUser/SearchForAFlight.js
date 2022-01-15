@@ -7,12 +7,42 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  makeStyles,
+  withMobileDialog,
+} from "@material-ui/core";
 
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles((theme) => ({
+    navlinks: {
+      marginLeft: theme.spacing(10),
+      display: "flex",
+    },
+   logo: {
+      flexGrow: "1",
+      cursor: "pointer",
+    },
+    link: {
+      textDecoration: "none",
+      color: "white",
+      fontSize: "20px",
+      marginLeft: theme.spacing(20),
+      "&:hover": {
+        color: "yellow",
+        borderBottom: "1px solid white",
+      },
+    },
+  }))
+
 export default function SearchForFlight() {
-  
+    const classes = useStyles();
   const [depDate,setDepDate]=useState();
   const[value,setValue]=useState();
  
@@ -54,7 +84,29 @@ export default function SearchForFlight() {
  
     return(
       <div>
-<h2>Search For Flight</h2>;
+          <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}>
+           FlyFast
+          </Typography>
+            <div className={classes.navlinks}>
+              <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
+                Profile
+              </Link>
+              <Link to= {"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
+                My Bookings
+              </Link>
+              <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
+                Book A Flight
+              </Link>
+              <Link to="/home" className={classes.link}>
+                Sign Out
+              </Link>
+            </div>
+        </Toolbar>
+      </AppBar>
+<h2>Search For A Departure Flight</h2>;
 <TextField
   id="depDate"
   label="Departure Date"

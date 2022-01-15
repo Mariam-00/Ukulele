@@ -77,6 +77,7 @@ export default function AdminCreateFlight() {
   const[DepartureAirport,setDepartureAirport]=useState();
   const[priceEconomy,setPriceEconomy]=useState();
   const[priceBusiness,setPriceBusiness]=useState();
+  const[duration,setDuration]=useState();
   
  
 
@@ -115,7 +116,7 @@ export default function AdminCreateFlight() {
          reserevedBusiness.push({SeatId:"S"+i, Available:1});
        }
 
-       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,DepartureAirport:DepartureAirport,ArrivalAirport:ArrivalAirport,ReservedEconomySeats:reservedEconomy,ReservedBusinessSeats:reserevedBusiness,PriceEconomy:priceEconomy,PriceBusiness:priceBusiness}
+       const flight ={FlightNumber:FlightNumber,DepartureTime:DepartureTime,ArrivalTime:ArrivalTime,Date:date,NrEconomySeats:NrEconomySeats,NrBusinessSeats,DepartureAirport:DepartureAirport,ArrivalAirport:ArrivalAirport,ReservedEconomySeats:reservedEconomy,ReservedBusinessSeats:reserevedBusiness,PriceEconomy:priceEconomy,PriceBusiness:priceBusiness,Duration:duration}
       //  localStorage.setItem("flightnumber",FlightNumber)
       //  localStorage.setItem("depTime",DepartureTime)
         axios.post('http://localhost:8000/flights/',flight)
@@ -229,8 +230,8 @@ return (
             margin="normal"
             required
             fullWidth
-            name="ArrivalAirport"
-            label="ArrivalAirport"
+            name="Arrival Airport"
+            label="Arrival Airport"
             id="ArrivalAirport"
             //autoComplete="current-password"
             onChange = {e =>setArrivalAirport(e.target.value)}
@@ -241,8 +242,8 @@ return (
             margin="normal"
             required
             fullWidth
-            name="PriceEconomy"
-            label="PriceEconomy"
+            name="Price Economy"
+            label="Price Economy"
             id="PriceEconomy"
             //autoComplete="current-password"
             onChange = {e =>setPriceEconomy(e.target.value)}
@@ -253,11 +254,23 @@ return (
             margin="normal"
             required
             fullWidth
-            name="PriceBusiness"
-            label="PriceBusiness"
+            name="Price Business"
+            label="Price Business"
             id="PriceBusiness"
             //autoComplete="current-password"
             onChange = {e =>setPriceBusiness(e.target.value)}
+          />
+
+<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="Duration"
+            label="Duration"
+            id="duration"
+            //autoComplete="current-password"
+            onChange = {e =>setDuration(e.target.value)}
           />
      
 
