@@ -94,12 +94,11 @@ export default function ConfirmReservation(props)
         const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,DepartureseatNrs:DepartureSeatNrs,ReturnseatNrs:ReturnSeatNrs,CheckedIn:0,FlightDep:FlightDep,FlightRet:FlightRet,TotalPrice:totalPrice};
         console.log(Reservation);
         axios.post('http://localhost:8000/reservations/',Reservation)
-        .then(res => console.log(res.data))  .then(
-          ()=>{
+        .then((res)=>{
+         localStorage.setItem("currentReservationForPayment",res.data);
             window.location.href="/payment/"+totalPrice;
-          })
-        
-      
+      });
+
     }
   
     return(

@@ -13,7 +13,7 @@ exports.createReservation =  (req, res)=>
 { 
   const reservation = new Reservation(req.body)
  reservation.save()
- .then(() => res.json('reservation added!'))
+ .then(() => res.json(reservation))
  .catch(err => res.status(400).json('Error: ' + err));
 }
 

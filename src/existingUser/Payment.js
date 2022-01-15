@@ -36,6 +36,18 @@ const useStyles = makeStyles((theme) => ({
 export default function Payment(props)
 {  const classes = useStyles();
     const totalPrice= props.match.params.id;
+    const[userEmail,setUserEmail]=useState();
+    const reservation= localStorage.getItem("currentReservationForPayment");
+
+  useEffect(()=>{
+      
+      axios.get('http://localhost:8000/users/'+localStorage.getItem("userId")).then((response) => {
+          setUserEmail(response.data.Email);
+          });
+   
+     }, []);
+
+
 
     const makePayment =token =>
     {
@@ -44,11 +56,25 @@ export default function Payment(props)
             totalPrice
         }
 
-        axios.post('http://localhost:8000/payment',body).then(response=>{
+        axios.post('http://localhost:8000/payment',body).
+        then(response=>{
             console.log("response",response)
             const {status}= response;
             console.log('status',status)
-        }).catch(err=>{
+     
+            axios.post("http://localhost:8000/emails/emailItinerary", {
+              userEmail,
+              reservation
+            })
+            .then(response=>{
+              alert("Please Check Your E-mail For Your Itinerary!");
+            })
+            .catch(error=>{
+               console.log(error.response)
+            });
+
+        })
+        .catch(err=>{
          console.log(err);
         })
     }
