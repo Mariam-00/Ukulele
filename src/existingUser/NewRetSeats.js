@@ -40,17 +40,14 @@ export default function NewRetSeats ()
     useEffect(()=>{
         axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdNewRetSeats")).then((response) => {
             setReservation(response.data)
-            setOldFlight(response.data.FlightDep);
-
-            console.log("FlightDeP OLD" + response.data.FlightDep.FlightNumber);
-
-            setOldSeats(response.data.DepartureseatNrs);
+            setOldFlight(response.data.FlightRet);
+            setOldSeats(response.data.ReturnseatNrs);
           });
           axios.get('http://localhost:8000/flights/find/'+ localStorage.getItem("flightIdNewRetSeats")).then((response) => {
 
-           console.log("FLIGHT NEW " +response.data.FlightNumber);
-           console.log(localStorage.getItem("business")=="1");
-           console.log("BUSINESS" );
+        //    console.log("FLIGHT NEW " +response.data.FlightNumber);
+        //    console.log(localStorage.getItem("business")=="1");
+        //    console.log("BUSINESS" );
 
               setDepFlight(response.data);
              
@@ -75,7 +72,7 @@ export default function NewRetSeats ()
         var flag2= true;
         const seatId= e.currentTarget.id;
 
-        console.log("DEPSEATS" + depSeats[0].SeatId);
+        // console.log("DEPSEATS" + depSeats[0].SeatId);
 
 
         if (seatsClicked === (reservation.NrPassengers)&&!arraySeats.includes(seatId)) {
@@ -140,11 +137,11 @@ export default function NewRetSeats ()
     const FlightNr=depFlight.FlightNumber;
     const FlightNrOld=oldFlight.FlightNumber;
 
-    console.log("New Flight" + FlightNr);
-    console.log("ArraySeats"+ arraySeats[0]);
-    console.log("DEPSEATS"+ depSeats[0].SeatId);
-    console.log("OldFlight"+ oldFlight.FlightNumber);
-    console.log("reservation eco or bus"+ reservation.EconomyorBusiness);
+    // console.log("New Flight" + FlightNr);
+    // console.log("ArraySeats"+ arraySeats[0]);
+    // console.log("DEPSEATS"+ depSeats[0].SeatId);
+    // console.log("OldFlight"+ oldFlight.FlightNumber);
+    // console.log("reservation eco or bus"+ reservation.EconomyorBusiness);
 
     var Flight={};
     var FlightOld={};
@@ -156,8 +153,8 @@ export default function NewRetSeats ()
     else{
         arrayOfSeats=oldFlight.ReservedBusinessSeats;
     }
-    console.log("arrayOfSeats"+ arrayOfSeats[0]);
-    console.log("oldSeats"+ oldSeats);
+    // console.log("arrayOfSeats"+ arrayOfSeats[0]);
+    // console.log("oldSeats"+ oldSeats);
     var arrr= arrayOfSeats;
     for(var i=0;i<arrr.length;i++)
     { 
@@ -170,8 +167,8 @@ export default function NewRetSeats ()
 
         }
     }
-    console.log("arrayOfSeats"+ arrayOfSeats[0].SeatId + " " +arrayOfSeats[0].Available + ","+ 
-    arrayOfSeats[1].SeatId + " " +arrayOfSeats[1].Available);
+    // console.log("arrayOfSeats"+ arrayOfSeats[0].SeatId + " " +arrayOfSeats[0].Available + ","+ 
+    // arrayOfSeats[1].SeatId + " " +arrayOfSeats[1].Available);
 
 if(reservation.EconomyorBusiness==1){
  FlightOld={ReservedEconomySeats:arrr};
@@ -193,8 +190,8 @@ console.log("flighNr",FlightNrOld);
 axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNrOld).then((response) => {
     
 console.log("THE FLIGHT" + response.data[0]._id)
-     localStorage.setItem("flight",JSON.stringify(response.data));
-     localStorage.setItem("FLIGHTOLD",JSON.stringify(FlightOld));
+    //  localStorage.setItem("flight",JSON.stringify(response.data));
+    //  localStorage.setItem("FLIGHTOLD",JSON.stringify(FlightOld));
     axios.put('http://localhost:8000/flights/update'+response.data[0]._id,FlightOld)
     .then(res =>
          console.log(res.data))
@@ -215,13 +212,13 @@ console.log("THE FLIGHT" + response.data[0]._id)
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response2)=>{
       console.log(response2.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response2.data[0]})
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ ReturnseatNrs: arraySeats,FlightRet:response2.data[0]})
       .then(res2 => console.log(res2.data))
       .then(
         ()=>{
             alert("Booked Successfully!");
-            localStorage.setItem("CheckedInNewDepSeats",1);
-          window.location.href="/bookings/"
+            localStorage.setItem("CheckedInNewRetSeats",1);
+          window.location.href="/bookings/"+localStorage.getItem("userId");
         })
      })
     })

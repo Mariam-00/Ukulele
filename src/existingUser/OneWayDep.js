@@ -40,7 +40,6 @@ export default function OneWayDep(props)
 {   
     const[flight,setFlight]=useState([]);
     const classes = useStyles();
-    //const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
     const[flight2,setFlight2]=useState([]);
     const res=localStorage.getItem("depFlightResId");
@@ -59,7 +58,6 @@ export default function OneWayDep(props)
              setPassengers(response.data.NrPassengers);
              setReservation(response.data);
              localStorage.setItem("reservationn",JSON.stringify(response.data));
-             //localStorage.setItem("priceEconomy",response.data.FlightDep.PriceEconomy);
              
          })
         });
@@ -210,13 +208,7 @@ export default function OneWayDep(props)
              :(<div></div>)
               }
              </div> 
-               
-                 
-                
-             
-                       
               
-        
               <>
             
            {" "}

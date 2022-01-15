@@ -164,9 +164,9 @@ const setModalIsOpenToFalse =()=>{
       const res=e.currentTarget.id;
 
       axios.get('http://localhost:8000/reservations/'+res).then((response) => {
-          if (response.data.CheckedIn===1) {
+          if (response.data.CheckedIn===1 || localStorage.getItem("CheckedInNewRetSeats")=="1") {
             localStorage.setItem("reservationIdChangeRetFlight",res);
-            window.location.href="/changeDepSeats/"+props.match.params.id;}
+            window.location.href="/changeRetSeats/"+props.match.params.id;}
        else{
               alert("You Are Not Checked In To This Flight. Please Check In First!");
        }

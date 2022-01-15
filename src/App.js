@@ -23,13 +23,13 @@ import Dummy from './existingUser/Dummy';
 import CheckIn from './existingUser/CheckIn';
 import CheckInReturn from './existingUser/CheckInReturn';
 import SignUp from './SignUp';
-import StripeContainer from './StripeContainer';
 import ChangePassword from './existingUser/ChangePassword';
 import SearchForFlight from './existingUser/SearchForAFlight';
 import ChangeDepSeats from './existingUser/ChangeDepSeat';
 import ChangeRetSeats from './existingUser/ChangeRetSeats';
 import OneWayDep from './existingUser/OneWayDep';
 import NewDepSeats from './existingUser/NewDepSeats';
+import NewRetSeats from './existingUser/NewRetSeats';
 import SearchForARetFlight from './existingUser/SearchForARetFlight';
 import OneWayRet from './existingUser/OneWayRet';
 import Payment from './existingUser/Payment';
@@ -69,7 +69,8 @@ function App() {
     <Route path="/lookret-flight" exact component={SearchForARetFlight}/>
     <Route path="/onewayret/:id" exact component={OneWayRet}/>
     <Route path="/changeRetSeats/:id"  exact component={ChangeRetSeats }/>
-    <Route path="/NewDepSeats/"  exact component={NewDepSeats }/>
+    <Route path="/NewDepSeats/"  exact component={NewDepSeats }/>   
+    <Route path="/NewRetSeats/"  exact component={NewRetSeats }/>
     <Route path="/payment/:id"  exact component={Payment }/>
       </div>
     </Router>
