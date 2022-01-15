@@ -94,7 +94,41 @@ export default function OneWayDep(props)
 
 
    const handleClickYesSelect = async (reservation,flight)=>
-   {  if(window.confirm(
+   { 
+    if(localStorage.getItem("economy")==1)
+    {
+        const priceFlight=passengers*flight.PriceEconomy;
+        const priceOldFlight=passengers*priceEconomy;
+        if(priceFlight>priceOldFlight)
+        {   const extra=priceFlight-priceOldFlight;
+            localStorage.setItem("depPriceExtra",extra);
+        }
+        else if(priceFlight<priceOldFlight)
+        {
+            const refund=priceOldFlight-priceFlight;
+            localStorage.setItem("depPriceRef",refund);
+        }
+    }
+    if(localStorage.getItem("business")==1)
+    {  
+        const priceFlight=passengers*(flight.PriceBusiness);
+        const priceOldFlight=passengers*(priceBusiness);
+        if(priceFlight>priceOldFlight)
+        {   const extra=priceFlight-priceOldFlight;
+            localStorage.setItem("retPriceExtra",extra);
+        }
+        else if(priceFlight<priceOldFlight)
+        {
+            const refund=priceOldFlight-priceFlight;
+            localStorage.setItem("retPriceRef",refund);
+        }
+        
+    }
+     
+    
+    
+    
+    if(window.confirm(
      "Are you sure you want to select this flight?"
   ))
   { 

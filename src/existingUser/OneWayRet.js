@@ -42,7 +42,7 @@ export default function OneWayRet(props)
     //const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
     const[flight2,setFlight2]=useState([]);
-    const res=localStorage.getItem("depFlightResId");
+    const res=localStorage.getItem("retFlightResId");
     const [priceEconomy,setPriceEconomy]=useState();
     const[priceBusiness,setPriceBusiness]=useState();
     const [modalIsOpen,setModalIsOpen] = useState(false);
@@ -90,7 +90,37 @@ export default function OneWayRet(props)
       
    const handleClickYesSelect = async (reservation,flight)=>
    {
-    {  if(window.confirm(
+
+    if(localStorage.getItem("economy")==1)
+    {
+        const priceFlight=passengers*flight.PriceEconomy;
+        const priceOldFlight=passengers*priceEconomy;
+        if(priceFlight>priceOldFlight)
+        {   const refund=priceFlight-priceOldFlight;
+            localStorage.setItem("retPriceRef",refund);
+        }
+        else if(priceFlight<priceOldFlight)
+        {
+            const extra=priceOldFlight-priceFlight;
+            localStorage.setItem("retPriceExtra",extra);
+        }
+    }
+    if(localStorage.getItem("business")==1)
+    {  
+        const priceFlight=passengers*(flight.PriceBusiness);
+        const priceOldFlight=passengers*(priceBusiness);
+        if(priceFlight>priceOldFlight)
+        {   const extra=priceFlight-priceOldFlight;
+            localStorage.setItem("retPriceExtra",extra);
+        }
+        else if(priceFlight<priceOldFlight)
+        {
+            const refund=priceOldFlight-priceFlight;
+            localStorage.setItem("retPriceRef",refund);
+        }
+        
+    }
+   if(window.confirm(
       "Are you sure you want to select this flight?"
    ))
    { 
@@ -99,7 +129,7 @@ export default function OneWayRet(props)
      window.location.href="/NewRetSeats/";
    }
      // go to choose seats 
-   }
+  
   }
     const handleDetailstClick =(e)=>
     { 
