@@ -21,7 +21,6 @@ exports.sendCancellation = (req, res, next) => {
   exports.sendItenerary = (req, res, next) => {
     var user = req.body.userEmail;
     var reservation = req.body.reservation;
-  
     var mailOptions = {
       to: user,
       subject: "Your Itinerary ",
@@ -60,4 +59,3 @@ exports.sendCancellation = (req, res, next) => {
     email.sendEmail(req, res, next);
     res.status(200).json({ message: "Sent successfully" });
   };
-  

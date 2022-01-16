@@ -26,6 +26,8 @@ export default function NewRetSeats ()
     const [depFlight , setDepFlight] = useState();
     const[oldSeats,setOldSeats]=useState([]);
     const[oldFlight, setOldFlight]=useState();
+  const [oldPrice,setOldPrice]=useState();
+  const [newPrice,setNewPrice]=useState();
     const customStyles = {
       content : {
         top                   : '50%',
@@ -42,20 +44,26 @@ export default function NewRetSeats ()
             setReservation(response.data)
             setOldFlight(response.data.FlightRet);
             setOldSeats(response.data.ReturnseatNrs);
+            
+            if(response.data.EconomyorBusiness===2){
+             
+              setOldPrice(response.data.FlightRet.PriceBusiness);
+              }
+              else{
+                setOldPrice(response.data.FlightRet.PriceEconomy);
+              }
           });
           axios.get('http://localhost:8000/flights/find/'+ localStorage.getItem("flightIdNewRetSeats")).then((response) => {
 
-        //    console.log("FLIGHT NEW " +response.data.FlightNumber);
-        //    console.log(localStorage.getItem("business")=="1");
-        //    console.log("BUSINESS" );
 
               setDepFlight(response.data);
-             
-            if(localStorage.getItem("business")=="1") {
+              if(localStorage.getItem("business")=="1") {
                 setDepSeats(response.data.ReservedBusinessSeats); 
+                setNewPrice(response.data.PriceBusiness);
                 }
                 else {
                   setDepSeats(response.data.ReservedEconomySeats);
+                  setNewPrice(response.data.PriceEconomy);
                 }
         });      
          
@@ -71,8 +79,6 @@ export default function NewRetSeats ()
         var flag= true;
         var flag2= true;
         const seatId= e.currentTarget.id;
-
-        // console.log("DEPSEATS" + depSeats[0].SeatId);
 
 
         if (seatsClicked === (reservation.NrPassengers)&&!arraySeats.includes(seatId)) {
@@ -136,12 +142,8 @@ export default function NewRetSeats ()
      
     const FlightNr=depFlight.FlightNumber;
     const FlightNrOld=oldFlight.FlightNumber;
+    const totalP = Number(reservation.TotalPrice) - ( oldPrice*Number(reservation.NrPassengers)) +(newPrice*Number(reservation.NrPassengers));
 
-    // console.log("New Flight" + FlightNr);
-    // console.log("ArraySeats"+ arraySeats[0]);
-    // console.log("DEPSEATS"+ depSeats[0].SeatId);
-    // console.log("OldFlight"+ oldFlight.FlightNumber);
-    // console.log("reservation eco or bus"+ reservation.EconomyorBusiness);
 
     var Flight={};
     var FlightOld={};
@@ -212,7 +214,8 @@ console.log("THE FLIGHT" + response.data[0]._id)
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response2)=>{
       console.log(response2.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ ReturnseatNrs: arraySeats,FlightRet:response2.data[0]})
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ ReturnseatNrs: arraySeats,FlightRet:response2.data[0]
+    , TotalPrice: totalP})
       .then(res2 => console.log(res2.data))
       .then(
         ()=>{

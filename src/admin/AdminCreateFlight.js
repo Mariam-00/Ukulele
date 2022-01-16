@@ -107,8 +107,7 @@ export default function AdminCreateFlight() {
        var reservedEconomy=[];
        for(var i=0;i<NrEconomySeats;i++)
        {
-         const seatname = "S"+i;
-         reservedEconomy.push({SeatId: seatname, Available:1});
+         reservedEconomy.push({SeatId: "S"+i, Available:1});
        }
        var reserevedBusiness=[];
        for(var i=0;i<NrBusinessSeats;i++)

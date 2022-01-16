@@ -95,7 +95,7 @@ export default function ConfirmReservation(props)
         console.log(Reservation);
         axios.post('http://localhost:8000/reservations/',Reservation)
         .then((res)=>{
-         localStorage.setItem("currentReservationForPayment",res.data);
+         localStorage.setItem("currentReservationForPayment",JSON.stringify(res.data));
             window.location.href="/payment/"+totalPrice;
       });
 

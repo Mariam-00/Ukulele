@@ -37,8 +37,8 @@ export default function Payment(props)
 {  const classes = useStyles();
     const totalPrice= props.match.params.id;
     const[userEmail,setUserEmail]=useState();
-    const reservation= localStorage.getItem("currentReservationForPayment");
-
+    const resv= localStorage.getItem("currentReservationForPayment");
+    const reservation =JSON.parse(resv);
   useEffect(()=>{
       
       axios.get('http://localhost:8000/users/'+localStorage.getItem("userId")).then((response) => {

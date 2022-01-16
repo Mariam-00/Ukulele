@@ -165,7 +165,7 @@ Flight={ReservedBusinessSeats:depSeats};
       .then(
         ()=>{
          
-          window.location.href="/bookings/"+ props.match.params.id;
+          window.location.href="/bookings/"+ localStorage.getItem("userId");
         })
      })
     })
