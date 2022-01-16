@@ -232,7 +232,14 @@ console.log("THE FLIGHT" + response.data[0]._id)
         ()=>{
             alert("Booked Successfully!");
             localStorage.setItem("CheckedInNewDepSeats",1);
-          window.location.href="/bookings/"+ localStorage.getItem("userId");
+        
+            if(localStorage.getItem("depPriceExtra")==null){
+              window.location.href="/bookings/"+localStorage.getItem("userId");
+              }
+              else if(localStorage.getItem("depPriceExtra")!==null)
+              {
+                window.location.href="/payment/"+localStorage.getItem("depPriceExtra");
+              }
         })
      })
     })
