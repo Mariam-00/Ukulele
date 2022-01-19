@@ -45,7 +45,7 @@ function App() {
     <Route path="/" exact component={Login}/>
      <Route path="/home" exact component={Home}/> 
      <Route path="/dummy/:id" exact component={Dummy}/>
-     <Route path="/checkIn/:id" exact component={CheckIn}/>
+     <Route path="/checkIn/" exact component={CheckIn}/>
      <Route path="/checkInReturn/" exact component={CheckInReturn}/>
     <Route path="/create-flights" exact component={AdminCreateFlights}/>
     <Route path="/list-flights" exact component={AdminListAllFlights}/>

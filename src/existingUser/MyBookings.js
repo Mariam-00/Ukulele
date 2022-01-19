@@ -98,12 +98,99 @@ export default function MyBookings (props)
     
 
        const handleClickYesDelete = async (resv)=>{
-      //preventDefault();
+        
+         var depSeats=[];
+         var retSeats=[];
+
+         var FlightOldD={};
+         var FlightOldR={};
+
+         var flOldEcoPassD= resv.FlightDep.NrEconomySeats+resv.NrPassengers;
+         var flOldBusPassD= resv.FlightDep.NrBusinessSeats+resv.NrPassengers;
+         var flOldEcoPassR= resv.FlightRet.NrEconomySeats+resv.NrPassengers;
+         var flOldBusPassR= resv.FlightRet.NrBusinessSeats+resv.NrPassengers;
+
+         var reservedRSeat=resv.ReturnseatNrs;
+         var reservedDSeat=resv.DepartureseatNrs;
+
+    if(resv.EconomyorBusiness==1){
+      depSeats=resv.FlightDep.ReservedEconomySeats;
+      retSeats=resv.FlightRet.ReservedEconomySeats;
+    }
+    else{
+      depSeats=resv.FlightDep.ReservedBusinessSeats;
+      retSeats=resv.FlightRet.ReservedBusinessSeats;
+    }
+         if (resv.CheckedIn===1) {
+          //remove seats from old flight
+        
+          for(var i=0;i<depSeats.length;i++)
+          { 
+              for(var j=0;j<reservedDSeat.length;j++){
+      
+                  if(depSeats[i].SeatId===reservedDSeat[j])
+                  {  
+                    depSeats[i]={SeatId:depSeats[i].SeatId,Available:1};
+                  }
+      
+              }
+          }
+
+          for(var i=0;i<retSeats.length;i++)
+          { 
+              for(var j=0;j<reservedRSeat.length;j++){
+      
+                  if(retSeats[i].SeatId===reservedRSeat[j])
+                  {  
+                    retSeats[i]={SeatId:retSeats[i].SeatId,Available:1};
+                  }
+      
+              }
+          }
+  
+
+         if(resv.EconomyorBusiness==1){
+            FlightOldD={NrEconomySeats:flOldEcoPassD,ReservedEconomySeats:depSeats};
+            FlightOldR={NrEconomySeats:flOldEcoPassR,ReservedEconomySeats:retSeats};
+
+          }
+        else{
+             FlightOldD={NrBusinessSeats:flOldBusPassD,ReservedBusinessSeats:depSeats};
+             FlightOldR={NrBusinessSeats:flOldBusPassR,ReservedBusinessSeats:retSeats};
+
+           }
+          }
+
+        else{
+          if(resv.EconomyorBusiness==1){
+            FlightOldD={NrEconomySeats:flOldEcoPassD};
+            FlightOldR={NrEconomySeats:flOldEcoPassR};
+
+          }
+        else{
+             FlightOldD={NrBusinessSeats:flOldBusPassD};
+             FlightOldR={NrBusinessSeats:flOldBusPassR};
+
+        
+        }
+      }
+          
+         //remove passengers from oldflight 
+         axios.put('http://localhost:8000/flights/update'+resv.FlightDep._id,FlightOldD)
+         .then(res => console.log(res.data));
+         
+           
+           axios.put('http://localhost:8000/flights/update'+resv.FlightRet._id,FlightOldR)
+           .then(res => console.log(res.data));
+          
+
+
+
         axios.delete('http://localhost:8000/reservations/delete/'+resv._id)
   .then(() => {
     alert("Flight deleted!");
-
-
+  
+       
  const resid=resv._id;
  const price= resv.TotalPrice;
     axios.post("http://localhost:8000/emails/cancellation", {
@@ -111,6 +198,8 @@ export default function MyBookings (props)
       price,
      resid,
     });
+   
+
 
     window.location.href = "/bookings/"+ localStorage.getItem("userId");
   });
@@ -125,7 +214,7 @@ export default function MyBookings (props)
        axios.get('http://localhost:8000/reservations/'+res).then((response) => {
            if (response.data.CheckedIn===0) {
              localStorage.setItem("reservationIdCheckIn",res);
-             window.location.href="/checkIn/"+props.match.params.id;}
+             window.location.href="/checkIn/";}
         else{
                alert("You Are Already Checked in to this flight!");
         }
@@ -245,12 +334,14 @@ const setModalIsOpenToFalse =()=>{
                   Date: {reservation.FlightDep.Date}<br/>
                   Departure Time:{reservation.FlightDep. DepartureTime}<br/>
                   Arrival Time:{reservation.FlightDep. ArrivalTime}<br/>
-                  Seats: {reservation.DepartureseatNrs}<br/>
+                  Seats: {reservation.DepartureseatNrs.map((reservedSeat)=>( <div>
+<l>{reservedSeat}</l>
+</div>))}
                   
                   Number of Passengers: {reservation.NrPassengers}<br/>
                   Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
                   Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
-                  Price:{reservation.EconomyorBusiness==1? reservation.FlightDep.PriceEconomy: reservation.FlightDep.PriceBusiness} <br/>
+                  Price:{reservation.EconomyorBusiness==1? (reservation.FlightDep.PriceEconomy*reservation.NrPassengers): (reservation.FlightDep.PriceBusiness*reservation.NrPassengers)} <br/>
 
                   </div>
              
@@ -272,12 +363,16 @@ From: {reservation.FlightRet.DepartureAirport}<br/>
 Date: {reservation.FlightRet.Date}<br/>
 Departure Time:{reservation.FlightRet.DepartureTime}<br/> 
 Arrival Time:{reservation.FlightRet.ArrivalTime}<br/>
-Seats: {reservation.ReturnseatNrs}<br/>
+Seats: { 
+reservation.ReturnseatNrs.map((reservedSeat)=>( <div>
+<l>{reservedSeat}</l>
+</div>))
+}
 
 Number of Passengers: {reservation.NrPassengers}<br/>
 Class: {reservation.EconomyorBusiness==1? "Economy":"Business"}<br/>
 Baggage: {reservation.EconomyorBusiness==1? "Two 23 KG Bags":"Two 32 KG Bags"}<br/>
-Price:{reservation.EconomyorBusiness==1? reservation.FlightRet.PriceEconomy: reservation.FlightRet.PriceBusiness} <br/>
+Price:{reservation.EconomyorBusiness==1? (reservation.FlightRet.PriceEconomy*reservation.NrPassengers):( reservation.FlightRet.PriceBusiness*reservation.NrPassengers)} <br/>
 </div>
   
 </Grid>

@@ -20,7 +20,27 @@ import {
     makeStyles,
   } from "@material-ui/core";
 import { Link } from "react-router-dom";
-   
+    
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
 export default function NewDepSeats ()
 {   const[reservation, setReservation]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
@@ -31,6 +51,9 @@ export default function NewDepSeats ()
   const[oldFlight, setOldFlight]=useState();
   const [oldPrice,setOldPrice]=useState();
   const [newPrice,setNewPrice]=useState();
+  const  [newArr,setNewArr]=useState([]);
+  const classes = useStyles();
+
     const customStyles = {
       content : {
         top                   : '50%',
@@ -43,6 +66,8 @@ export default function NewDepSeats ()
       }
   };      
     useEffect(()=>{
+      const arr=[];
+
         axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdNewDepSeats")).then((response) => {
             setReservation(response.data)
             setOldFlight(response.data.FlightDep);
@@ -60,7 +85,7 @@ export default function NewDepSeats ()
 
               setDepFlight(response.data);
              
-            if(localStorage.getItem("business")=="1") {
+            if(localStorage.getItem("business2")=="1") {
                 setDepSeats(response.data.ReservedBusinessSeats); 
                 setNewPrice(response.data.PriceBusiness);
                 }
@@ -69,8 +94,19 @@ export default function NewDepSeats ()
                   setNewPrice(response.data.PriceEconomy);
                 }
         });      
-         
+        axios.get('http://localhost:8000/flights/find/'+ localStorage.getItem("flightIdNewDepSeats")).then((response) => {
 
+          if(localStorage.getItem("business2")=="1") {
+            while(response.data.ReservedBusinessSeats.length) arr.push(response.data.ReservedBusinessSeats.splice(0,5));
+            setNewArr(arr);
+          }
+          else{
+            while(response.data.ReservedEconomySeats.length) arr.push(response.data.ReservedEconomySeats.splice(0,5));
+            setNewArr(arr);
+
+          }
+
+      });
            
         }, []);
       
@@ -159,6 +195,12 @@ export default function NewDepSeats ()
     var Flight={};
     var FlightOld={};
     var arrayOfSeats=[];
+    var ecoOrb=0;
+    const flOldEcoPass=oldFlight.NrEconomySeats +reservation.NrPassengers;
+    const flOldBusPass=oldFlight.NrBusinessSeats+reservation.NrPassengers;
+    const flNewEcoPass=depFlight.NrEconomySeats-reservation.NrPassengers;
+    const flNewBusPass=depFlight.NrBusinessSeats-reservation.NrPassengers;
+
 
     if(reservation.EconomyorBusiness==1){
       arrayOfSeats=oldFlight.ReservedEconomySeats;
@@ -180,23 +222,23 @@ export default function NewDepSeats ()
 
         }
     }
-    // console.log("arrayOfSeats"+ arrayOfSeats[0].SeatId + " " +arrayOfSeats[0].Available + ","+ 
-    // arrayOfSeats[1].SeatId + " " +arrayOfSeats[1].Available);
 
 if(reservation.EconomyorBusiness==1){
- FlightOld={ReservedEconomySeats:arrr};
+ FlightOld={NrEconomySeats:flOldEcoPass,ReservedEconomySeats:arrr};
 }
 else{
-    FlightOld={ReservedBusinessSeats:arrr};
+    FlightOld={NrBusinessSeats:flOldBusPass,ReservedBusinessSeats:arrr};
 }
 
-if(localStorage.getItem("business")=="1")
+if(localStorage.getItem("business2")=="1")
 {
-    Flight={ReservedBusinessSeats:depSeats};
+    Flight={NrBusinessSeats:flNewBusPass,ReservedBusinessSeats:depSeats};
+    ecoOrb=2;
 }
 else
 {
-    Flight={ReservedEconomySeats:depSeats};
+    Flight={NrEconomySeats:flNewEcoPass,ReservedEconomySeats:depSeats};
+    ecoOrb=1;
 }
 
 console.log("flighNr",FlightNrOld);
@@ -225,12 +267,12 @@ console.log("THE FLIGHT" + response.data[0]._id)
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response2)=>{
       console.log(response2.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response2.data[0],
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ EconomyorBusiness: ecoOrb,DepartureseatNrs: arraySeats,
+      CheckedIn:1,FlightDep:response2.data[0],
     TotalPrice: totalP})
       .then(res2 => console.log(res2.data))
       .then(
         ()=>{
-            alert("Booked Successfully!");
             localStorage.setItem("CheckedInNewDepSeats",1);
            
         
@@ -254,52 +296,57 @@ console.log("THE FLIGHT" + response.data[0]._id)
     
 return(
 <div>  
-   { console.log(depSeats)}
-     {depSeats.map((seatDep)=>(
-    <div>  <l> {seatDep.SeatId}
-    {console.log(seatDep.SeatId +" av:" +seatDep.Available)}
-  
-       
-             <IconButton        color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+<AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}  style={{textAlign:"left"}}>
+           FlyFast
+          </Typography>
+           
+              
+        </Toolbar>
+      </AppBar>
+      <br/>   <br/>   
+      <h1>Please Choose Your Seat</h1>
+      <Paper elevation={6} style={{margin:"50px",padding:"150px", textAlign:"center"}} >
 
-            disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
-             
-             aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
-                <ChairSeat /> 
-            </IconButton>
-            </l>
-       
 
-    </div>)
-    )
+{newArr.map((row,i) =>(
+                 <div>
+                       <Box display="flex">
+                    { 
+                     
+                      row.map((seatDep,j)=>
+                      <div style={{ display: "flex", justifyContent: "space-between" , padding:10}}>
+
+                       <div>
+                         <l>{seatDep.SeatId}
+                         <IconButton  color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+
+                          disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
+ 
+                        aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
+                         <ChairSeat /> 
+                          </IconButton>
+                         
+                         </l> 
+                         
+                       </div>
+                       </div>
+                      )
+                    }
+                    </Box>
+                   </div>
+                   
+       ))
+
+   
     } 
 
-    {/* {(depSeats??[]).map((row,i)=>{
-      return(
-<Box>
-  {
-    (row??[]).map((col,j)=> {
-  if(col!=null){
-     return(
- <div>
-   <Button>Pop</Button>
- </div>
-     )
-  }
-    }
-    )
-  }
-</Box>
-
-      )
-    }
-
-
-    )
-  } */}
-
+  </Paper>
   
-     <Button color="primary" onClick={onSubmit}>Confirm</Button>
+<Button variant="contained" color="primary" display = "flex" onClick={onSubmit}>Confirm</Button>
+
 
 </div>
 );
