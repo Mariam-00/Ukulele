@@ -33,6 +33,8 @@ import NewRetSeats from './existingUser/NewRetSeats';
 import SearchForARetFlight from './existingUser/SearchForARetFlight';
 import OneWayRet from './existingUser/OneWayRet';
 import Payment from './existingUser/Payment';
+import DepDetailOneWay from './existingUser/DepDetailOneWay';
+import RetDetailOneWay from './existingUser/RetDetailOneWay';
 function App() {
 
   return (
@@ -72,6 +74,8 @@ function App() {
     <Route path="/NewDepSeats/"  exact component={NewDepSeats }/>   
     <Route path="/NewRetSeats/"  exact component={NewRetSeats }/>
     <Route path="/payment/:id"  exact component={Payment }/>
+    <Route path="/dep-one/:id" exact component={DepDetailOneWay}/>
+    <Route path="/ret-one/:id" exact component={RetDetailOneWay}/>
       </div>
     </Router>
     

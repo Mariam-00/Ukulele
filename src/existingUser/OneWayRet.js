@@ -48,6 +48,8 @@ export default function OneWayRet(props)
     const [modalIsOpen,setModalIsOpen] = useState(false);
     const[reservation,setReservation]=useState();
     const[passengers,setPassengers]=useState();
+    const[classFlight,setClassFlight]=useState();
+    const[oldFlightId,setOldFlightId]=useState();
     useEffect(()=>{
       console.log(searchLink);
       axios.get('http://localhost:8000/flights/search?'+searchLink).then((response) => {
@@ -56,7 +58,9 @@ export default function OneWayRet(props)
              setPriceEconomy(response.data.FlightRet.PriceEconomy);
              setPriceBusiness(response.data.FlightRet.PriceBusiness);
              setPassengers(response.data.NrPassengers);
+             setOldFlightId(response.data.FlightRet._id);
              setReservation(response.data);
+             setClassFlight(response.data.EconomyorBusiness);
              localStorage.setItem("retres",JSON.stringify(response.data));
              //localStorage.setItem("priceEconomy",response.data.FlightDep.PriceEconomy);
              
@@ -90,26 +94,25 @@ export default function OneWayRet(props)
       
    const handleClickYesSelect = async (reservation,flight)=>
    {
-
-    if(localStorage.getItem("economy")==1)
-    {
-        const priceFlight=passengers*flight.PriceEconomy;
-        const priceOldFlight=passengers*priceEconomy;
-        if(priceFlight>priceOldFlight)
-        {   const refund=priceFlight-priceOldFlight;
-            localStorage.setItem("retPriceRef",refund);
-        }
-        else if(priceFlight<priceOldFlight)
-        {
-            const extra=priceOldFlight-priceFlight;
-            localStorage.setItem("retPriceExtra",extra);
-        }
+    var priceFlight;
+    var priceOldFlight;
+    if(localStorage.getItem("economy2")==1)
+    {  priceFlight=passengers*flight.PriceEconomy;
     }
-    if(localStorage.getItem("business")==1)
-    {  
-        const priceFlight=passengers*(flight.PriceBusiness);
-        const priceOldFlight=passengers*(priceBusiness);
-        if(priceFlight>priceOldFlight)
+    else if(localStorage.getItem("business2")==1)
+    {
+      priceFlight=passengers*flight.PriceEconomy;
+    }
+      if(classFlight==1) // economy
+      {
+         priceOldFlight=passengers*priceEconomy;
+      }
+      else if(classFlight==2) // business
+      {
+         priceOldFlight=passengers*priceBusiness;
+      }
+
+      if(priceFlight>priceOldFlight)
         {   const extra=priceFlight-priceOldFlight;
             localStorage.setItem("retPriceExtra",extra);
         }
@@ -118,8 +121,36 @@ export default function OneWayRet(props)
             const refund=priceOldFlight-priceFlight;
             localStorage.setItem("retPriceRef",refund);
         }
+
+    // if(localStorage.getItem("economy")==1)
+    // {
+    //     const priceFlight=passengers*flight.PriceEconomy;
+    //     const priceOldFlight=passengers*priceEconomy;
+    //     if(priceFlight>priceOldFlight)
+    //     {   const refund=priceFlight-priceOldFlight;
+    //         localStorage.setItem("retPriceRef",refund);
+    //     }
+    //     else if(priceFlight<priceOldFlight)
+    //     {
+    //         const extra=priceOldFlight-priceFlight;
+    //         localStorage.setItem("retPriceExtra",extra);
+    //     }
+    // }
+    // if(localStorage.getItem("business")==1)
+    // {  
+    //     const priceFlight=passengers*(flight.PriceBusiness);
+    //     const priceOldFlight=passengers*(priceBusiness);
+    //     if(priceFlight>priceOldFlight)
+    //     {   const extra=priceFlight-priceOldFlight;
+    //         localStorage.setItem("retPriceExtra",extra);
+    //     }
+    //     else if(priceFlight<priceOldFlight)
+    //     {
+    //         const refund=priceOldFlight-priceFlight;
+    //         localStorage.setItem("retPriceRef",refund);
+    //     }
         
-    }
+    // }
    if(window.confirm(
       "Are you sure you want to select this flight?"
    ))
@@ -134,7 +165,7 @@ export default function OneWayRet(props)
     const handleDetailstClick =(e)=>
     { 
      e.preventDefault();
-     window.location.href="/ret-det/"+e.currentTarget.id;
+     window.location.href="/dep-one/"+e.currentTarget.id;
     };
 
     return(
@@ -166,8 +197,9 @@ export default function OneWayRet(props)
         <div >
             
             {flight.map(flight=>(
+              (flight._id !==oldFlightId)?
                 <div>
-           { (localStorage.getItem("economy")==1) && (flight.NrEconomySeats>passengers)? 
+           { (localStorage.getItem("economy2")==1) && (flight.NrEconomySeats>passengers)? 
            <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
@@ -178,7 +210,10 @@ export default function OneWayRet(props)
              <b> DepartureTime: {flight.DepartureTime}<br/></b>
             <b>  ArrivalTime: {flight.ArrivalTime}<br/></b>
             <b>  Date: {flight.Date}<br/></b>
-              {
+            {
+                  (classFlight==1)?
+                  <div>
+                     {
               (priceEconomy<flight.PriceEconomy)?
              <b> Extra Amount To Be Paid:{(passengers*flight.PriceEconomy)-(passengers*priceEconomy)}</b>
               :(priceEconomy>flight.PriceEconomy)?
@@ -186,7 +221,22 @@ export default function OneWayRet(props)
               :(<div></div>)
               
                 }
+                  </div>
+                  :(classFlight==2)?
+                   <div>
+                      {
+              (priceBusiness<flight.PriceEconomy)?
+             <b> Extra Amount To Be Paid:{(passengers*flight.PriceEconomy)-(passengers*priceBusiness)}</b>
+              :(priceBusiness>flight.PriceEconomy)?
+              <b> Amount To Be Refunded:{(passengers*priceBusiness)-(passengers*flight.PriceEconomy)}</b>
+              :(<div></div>)
+              
+                }
+                   </div>
+                  :(<div></div>)
+                }
              
+            
              </div> 
                
                  
@@ -209,7 +259,7 @@ export default function OneWayRet(props)
           </Grid>
             </Paper>
           
-       :(localStorage.getItem("business")==1) && (flight.NrBusinessSeats>passengers)?(
+       :(localStorage.getItem("business2")==1) && (flight.NrBusinessSeats>passengers)?(
         <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
@@ -220,12 +270,30 @@ export default function OneWayRet(props)
              <b> DepartureTime: {flight.DepartureTime}<br/></b>
              <b> ArrivalTime: {flight.ArrivalTime}<br/></b>
              <b> Date: {flight.Date}<br/></b>
-             {(priceBusiness<flight.PriceBusiness)?
+
+             {
+               (classFlight==1)?
+               <div>
+            {(priceEconomy<flight.PriceBusiness)?
+             <b> Extra Amount To Be Paid:{(passengers*flight.PriceBusiness)-(passengers*priceEconomy)}</b>
+             :(priceEconomy>flight.PriceBusiness)?
+             <b>Amount To Be Refunded :{(passengers*priceEconomy)-(passengers*flight.PriceBusiness)}</b>
+             :(<div></div>)
+              }
+              </div> 
+               :(classFlight==2)?
+                <div>
+                 {(priceBusiness<flight.PriceBusiness)?
              <b> Extra Amount To Be Paid:{(passengers*flight.PriceBusiness)-(passengers*priceBusiness)}</b>
              :(priceBusiness>flight.PriceBusiness)?
              <b>Amount To Be Refunded :{(passengers*priceBusiness)-(passengers*flight.PriceBusiness)}</b>
              :(<div></div>)
               }
+                </div>
+               :(<div></div>)
+             }
+             
+            
              </div> 
                
                
@@ -248,8 +316,9 @@ export default function OneWayRet(props)
           </Grid>
             </Paper>  
        ):(<div></div>)}
-
+     
          </div>
+           :(<div></div>)
             ))
           } 
              

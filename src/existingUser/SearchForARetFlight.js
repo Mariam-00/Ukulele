@@ -51,15 +51,15 @@ export default function SearchForARetFlight() {
  {
     if(e.target.value==="Business")
     {
-      localStorage.setItem("economy",0);
-      localStorage.setItem("business",1);
-      localStorage.setItem("class","Business")
+      localStorage.setItem("economy2",0);
+      localStorage.setItem("business2",1);
+      localStorage.setItem("class2","Business")
       setValue("Business");
     }
     else{
-        localStorage.setItem("economy",1);
-        localStorage.setItem("business",0);
-        localStorage.setItem("class","Economy");
+        localStorage.setItem("economy2",1);
+        localStorage.setItem("business2",0);
+        localStorage.setItem("class2","Economy");
         setValue("Economy");
     }
  }

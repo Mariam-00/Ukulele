@@ -71,6 +71,27 @@ export default function MyBookings (props)
           axios.get('http://localhost:8000/users/'+localStorage.getItem("userId")).then((response) => {
               setUserEmail(response.data.Email);
               });
+
+            if(localStorage.getItem("depPriceRef")!=null)
+            {
+              window.confirm("The Amount " + localStorage.getItem("depPriceRef") +"Will Be Refunded To Your Account As Soon As Possible");
+              localStorage.removeItem("depPriceRef");
+            } 
+            
+            if(localStorage.getItem("retPriceRef")!=null)
+            {
+              window.confirm("The Amount " + localStorage.getItem("retPriceRef") +"Will Be Refunded To Your Account As Soon As Possible");
+              localStorage.removeItem("retPriceRef");
+            } 
+
+            if(localStorage.getItem("depPriceExtra")!==null)
+             {
+              localStorage.removeItem("depPriceExtra");
+             }
+             if(localStorage.getItem("retPriceExtra")!==null)
+             {
+              localStorage.removeItem("retPriceExtra");
+             }
        
          }, []);
      
