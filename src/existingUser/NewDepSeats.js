@@ -232,24 +232,17 @@ console.log("THE FLIGHT" + response.data[0]._id)
         ()=>{
             alert("Booked Successfully!");
             localStorage.setItem("CheckedInNewDepSeats",1);
-<<<<<<< HEAD
-            if(localStorage.getItem("depPriceExtra")==null && localStorage.getItem("depPriceRef")==null){
-=======
+           
         
             if(localStorage.getItem("depPriceExtra")==null){
->>>>>>> 46a78c4437bd03eb08741d62f479c86c873c50bd
               window.location.href="/bookings/"+localStorage.getItem("userId");
               
               }
-              else if (localStorage.getItem("depPriceRef")!==null)
-              {
-                window.location.href="/bookings/"+localStorage.getItem("depPriceRef");
-                localStorage.setItem("depPriceRef",null);
-              }
+            
               else if(localStorage.getItem("depPriceExtra")!==null)
               {
                 window.location.href="/payment/"+localStorage.getItem("depPriceExtra");
-                localStorage.setItem("depPriceExtra",null);
+                
               }
         })
      })
