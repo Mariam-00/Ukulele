@@ -101,7 +101,7 @@ export default function OneWayRet(props)
     }
     else if(localStorage.getItem("business2")==1)
     {
-      priceFlight=passengers*flight.PriceEconomy;
+      priceFlight=passengers*flight.PriceBusiness;
     }
       if(classFlight==1) // economy
       {

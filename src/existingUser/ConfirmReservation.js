@@ -75,8 +75,7 @@ export default function ConfirmReservation(props)
   
     const handleClickYesConfirm =(e)=>{
       const userId=localStorage.getItem("userId");
-        // console.log(totalPrice);
-        // console.log(economyOrbusiness);
+       
         
         var DepartureSeatNrs =[];
         for(var i=0;i<nrPassengers;i++)
@@ -88,9 +87,28 @@ export default function ConfirmReservation(props)
         {
           ReturnSeatNrs.push(" ");
         }
+
+        var passengersF1=0;
+        var passengersF2=0;
+        if(economyOrbusiness==1){
+           passengersF1= flight1.NrEconomySeats-nrPassengers;
+           passengersF2= flight2.NrEconomySeats-nrPassengers;
+          flight1.NrEconomySeats=passengersF1;
+          flight2.NrEconomySeats=passengersF2;
+        }
+        if(economyOrbusiness==2){
+          passengersF1= flight1.NrBusinessSeats-nrPassengers;
+          passengersF2= flight2.NrBusinessSeats-nrPassengers;
+         flight1.NrBusinessSeats=passengersF1;
+         flight2.NrBusinessSeats=passengersF2;
+       }
+       
        
         const FlightDep =flight1;
         const FlightRet=flight2;
+        axios.put('http://localhost:8000/flights/update'+flight1._id,flight1);
+        axios.put('http://localhost:8000/flights/update'+flight2._id,flight2);
+        
         const Reservation = {userId:userId,NrPassengers:nrPassengers,EconomyorBusiness:economyOrbusiness,DepartureseatNrs:DepartureSeatNrs,ReturnseatNrs:ReturnSeatNrs,CheckedIn:0,FlightDep:FlightDep,FlightRet:FlightRet,TotalPrice:totalPrice};
         console.log(Reservation);
         axios.post('http://localhost:8000/reservations/',Reservation)
@@ -98,9 +116,10 @@ export default function ConfirmReservation(props)
          localStorage.setItem("currentReservationForPayment",JSON.stringify(res.data));
             window.location.href="/payment/"+totalPrice;
       });
-
+      
+     
     }
-  
+     
     return(
         <div>
         <h1>Confirm Reservation</h1>

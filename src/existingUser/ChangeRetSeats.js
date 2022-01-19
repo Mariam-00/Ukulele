@@ -21,12 +21,34 @@ import {
   } from "@material-ui/core";
 import { Link } from "react-router-dom";
    
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
 export default function ChangeRetSeats (props)
 {   const[reservation, setReservation]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
     const [seatsClicked, setSeatsClicked] = useState(0);
-   
+    const [arraySeats2, setArraySeats2] = useState([]);
+    const classes = useStyles();
+    const  [newArr,setNewArr]=useState([]);
 
     const customStyles = {
       content : {
@@ -40,22 +62,36 @@ export default function ChangeRetSeats (props)
       }
   };      
     useEffect(()=>{
+      const arr=[];
         axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdChangeRetFlight")).then((response) => {
             setReservation(response.data)
             
             if(response.data.EconomyorBusiness==2) {
             setDepSeats(response.data.FlightRet.ReservedBusinessSeats); 
             setArraySeats(response.data.ReturnseatNrs ); 
+            setArraySeats2(response.data.ReturnseatNrs); 
             setSeatsClicked(response.data.NrPassengers);
             }
             else {
               setDepSeats(response.data.FlightRet.ReservedEconomySeats);
               setArraySeats(response.data.ReturnseatNrs);
+              setArraySeats2(response.data.ReturnseatNrs); 
               setSeatsClicked(response.data.NrPassengers);
 
             }
           
           });
+          axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdChangeRetFlight")).then((response) => {
+
+            if(response.data.EconomyorBusiness==2) {
+              while(response.data.FlightRet.ReservedBusinessSeats.length) arr.push(response.data.FlightRet.ReservedBusinessSeats.splice(0,5));
+              setNewArr(arr);
+            }
+            else{
+              while(response.data.FlightRet.ReservedEconomySeats.length) arr.push(response.data.FlightRet.ReservedEconomySeats.splice(0,5));
+              setNewArr(arr);
+            }
+        });
            
         }, []);
       
@@ -181,30 +217,57 @@ Flight={ReservedBusinessSeats:depSeats};
 
     
 return(
-<div>  
-     {depSeats.map((seatDep)=>(
-    <div>  <l> {seatDep.SeatId}
-    {console.log(seatDep.SeatId +" av:" +seatDep.Available)}
-  
-       
-             <IconButton      
-            color={( arraySeats.includes(seatDep.SeatId) ) ?"success": (seatDep.Available===1)?"primary":"error"} 
+<div> 
+<AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}  style={{textAlign:"left"}}>
+           FlyFast
+          </Typography>
+           
+              
+        </Toolbar>
+      </AppBar>
+      <br/>   <br/>   
+      <h1>Please Choose Your Seat</h1>
+      <Paper elevation={6} style={{margin:"50px",padding:"150px", textAlign:"center"}} >
 
-            disabled={(arraySeats.includes(seatDep.SeatId)||(seatDep.Available==1))?false:true}
-             
-             aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
-                <ChairSeat /> 
-            </IconButton>
-            </l>
-       
 
-    </div>)
-    )
+{newArr.map((row,i) =>(
+                 <div>
+                       <Box display="flex">
+                    { 
+                     
+                      row.map((seatDep,j)=>
+                      <div style={{ display: "flex", justifyContent: "space-between" , padding:10}}>
+
+                       <div>
+                         <l>{seatDep.SeatId}
+                         <IconButton  color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"primary"} 
+
+                          disabled={(arraySeats.includes(seatDep.SeatId) ||arraySeats2.includes(seatDep.SeatId)||(seatDep.Available==1))?false:true}
+ 
+                        aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
+                         <ChairSeat /> 
+                          </IconButton>
+                         
+                         </l> 
+                         
+                       </div>
+                       </div>
+                      )
+                    }
+                    </Box>
+                   </div>
+       ))
+
+   
     } 
 
-
+  </Paper>
   
-     <Button onClick={onSubmit}>Confirm</Button>
+<Button variant="contained" color="primary" display = "flex" onClick={onSubmit}>Confirm</Button>
+
 
 </div>
 );

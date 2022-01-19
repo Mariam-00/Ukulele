@@ -20,38 +20,65 @@ import {
     makeStyles,
   } from "@material-ui/core";
 import { Link } from "react-router-dom";
-   
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
+
 export default function CheckInReturn (props)
 {   const[reservation, setReservation]=useState([]);
+  const  [newArr,setNewArr]=useState([]);
     const[depSeats,setDepSeats]=useState([]);
     const [arraySeats, setArraySeats] = useState([]);
     const [seatsClicked, setSeatsClicked] = useState(0);
-   
+    const classes = useStyles();
+  
 
-    const customStyles = {
-      content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)',
-        backgroundColor       : '#FFFFFF'      
-      }
-  };      
     useEffect(()=>{
+      const arr=[];
+
         axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdCheckIn")).then((response) => {
             setReservation(response.data)
             
             if(response.data.EconomyorBusiness==2) {
-            setDepSeats(response.data.FlightRet.ReservedBusinessSeats); 
+             
+            while(response.data.FlightRet.ReservedBusinessSeats.length) arr.push(response.data.FlightRet.ReservedBusinessSeats.splice(0,2));
+            setNewArr(arr);
             }
             else {
-              setDepSeats(response.data.FlightRet.ReservedEconomySeats);
+             
+              while(response.data.FlightRet.ReservedEconomySeats.length) arr.push(response.data.FlightRet.ReservedEconomySeats.splice(0,5));
+              setNewArr(arr);
             }
           
           });
            
+          axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdCheckIn")).then((response) => {
+          
+            if(response.data.EconomyorBusiness==2) {
+               setDepSeats(response.data.FlightRet.ReservedBusinessSeats);
+            }
+            else{
+              setDepSeats(response.data.FlightRet.ReservedEconomySeats);
+              }
+        });
+
         }, []);
       
      
@@ -132,6 +159,7 @@ export default function CheckInReturn (props)
       alert("Please choose "+ (( reservation.NrPassengers)-seatsClicked) +" more seat(s)")
     return;
   }
+  
 
 
     const FlightNr=reservation.FlightRet.FlightNumber;
@@ -164,7 +192,9 @@ Flight={ReservedBusinessSeats:depSeats};
       .then(res => console.log(res.data))
       .then(
         ()=>{
-         
+          
+            alert("Checked In Successfully!");
+      
           window.location.href="/bookings/"+ localStorage.getItem("userId");
         })
      })
@@ -174,57 +204,55 @@ Flight={ReservedBusinessSeats:depSeats};
   });
     }
 
-  
-
     
 return(
 <div>  
-     {depSeats.map((seatDep)=>(
-    <div>  <l> {seatDep.SeatId}
-    {console.log(seatDep.SeatId +" av:" +seatDep.Available)}
-  
-       
-             <IconButton        color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+<AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}  style={{textAlign:"left"}}>
+           FlyFast
+          </Typography>
+           
+              
+        </Toolbar>
+      </AppBar>
+      <br/>   <br/>   
+      <h1>Please Choose Your Seat</h1>
+      <Paper elevation={6} style={{margin:"50px",padding:"150px", textAlign:"center"}} >
 
-            disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
-             
-             aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
-                <ChairSeat /> 
-            </IconButton>
-            </l>
-       
+{newArr.map((row,i) =>(
+                 <div>
+                       <Box display="flex" >
+                    { 
+                     
+                      row.map((seatDep,j)=>
+                      <div style={{ display: "flex", justifyContent: "space-between" , padding:10}}>
 
-    </div>)
-    )
+                       <div>
+                         <l>{seatDep.SeatId}
+                         <IconButton  color={ arraySeats.includes(seatDep.SeatId)?"success": (seatDep.Available===1)?"primary":"error"} 
+
+                          disabled={(arraySeats.includes(seatDep.SeatId) ||(seatDep.Available==1))?false:true}
+ 
+                        aria-label={seatDep.SeatId}  id={seatDep.SeatId} onClick={handleClickYesDelete}>
+                         <ChairSeat /> 
+                          </IconButton>
+                         
+                         </l> 
+                         
+                       </div>
+                       </div>
+                      )
+                    }
+                    </Box>
+                   </div>
+       ))
+
     } 
 
-    {/* {(depSeats??[]).map((row,i)=>{
-      return(
-<Box>
-  {
-    (row??[]).map((col,j)=> {
-  if(col!=null){
-     return(
- <div>
-   <Button>Pop</Button>
- </div>
-     )
-  }
-    }
-    )
-  }
-</Box>
-
-      )
-    }
-
-
-    )
-  } */}
-
-  
-     <Button onClick={onSubmit}>Confirm</Button>
-
+</Paper>
+<Button variant="contained" color="primary" display = "flex" onClick={onSubmit}>Confirm</Button>
 </div>
 );
 }
