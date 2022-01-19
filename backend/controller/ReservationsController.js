@@ -25,26 +25,6 @@ exports.searchUserReservation= async(req,res)=>
     
 }
 
-// exports.MyBookings= (req,res)=>
-// {
-
-//     Reservation.find(req.query).then(reservationn =>{res.json(reservationn);
-      
-//      for(var i=0;i<reservationn.length;i++){
-//       fl = reservationn[i].FlightDepartureNr;
-//       rt= reservationn[i].FlightReturnNr;
-//       finalresult.push({reservation:reservationn[i]});
-//       Flights.findOne({FlightNumber:fl}).then(flig=>result1.json(flig)).catch(err=>result1.status(400).json('Error:'+err));
-//     //   Flights.find({FlightNumber:fl}).then( flig=> 
-//     //  { console.log(res.json(flig))}).catch(err=>res.status(400).json('Error:'+err))
-//       //Flights.find({FlightNumber:rt}).then(flog=>{ res.json(flog) });
-//     //   result={Reservation: reservationn[i], FlightDeparture: res.json(flig)
-//     //  finalresult.push(result);
-//     // console.log(finalresult);
-//   }
-//    }).catch(err=>res.json(err));
-     
-// }
 
 exports.MyBookings =(req,res)=>
 {

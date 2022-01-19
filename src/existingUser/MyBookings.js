@@ -112,7 +112,7 @@ export default function MyBookings (props)
      resid,
     });
 
-    window.location.href = "/bookings/"+ props.match.params.id;
+    window.location.href = "/bookings/"+ localStorage.getItem("userId");
   });
     }
 
@@ -213,13 +213,13 @@ const setModalIsOpenToFalse =()=>{
               <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
                 Profile
               </Link>
-              <Link to={"/bookings/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
               <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
               </Link>
-              <Link to="/home" className={classes.link}>
+              <Link to="/" className={classes.link}>
                 Sign Out
               </Link>
             </div>

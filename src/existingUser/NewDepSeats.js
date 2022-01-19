@@ -29,6 +29,8 @@ export default function NewDepSeats ()
     const [depFlight , setDepFlight] = useState();
     const[oldSeats,setOldSeats]=useState([]);
   const[oldFlight, setOldFlight]=useState();
+  const [oldPrice,setOldPrice]=useState();
+  const [newPrice,setNewPrice]=useState();
     const customStyles = {
       content : {
         top                   : '50%',
@@ -44,24 +46,27 @@ export default function NewDepSeats ()
         axios.get('http://localhost:8000/reservations/'+localStorage.getItem("reservationIdNewDepSeats")).then((response) => {
             setReservation(response.data)
             setOldFlight(response.data.FlightDep);
-
-            console.log("FlightDeP OLD" + response.data.FlightDep.FlightNumber);
-
             setOldSeats(response.data.DepartureseatNrs);
+           
+            if(response.data.EconomyorBusiness===2){
+             
+            setOldPrice(response.data.FlightDep.PriceBusiness);
+            }
+            else{
+              setOldPrice(response.data.FlightDep.PriceEconomy);
+            }
           });
           axios.get('http://localhost:8000/flights/find/'+ localStorage.getItem("flightIdNewDepSeats")).then((response) => {
-
-           console.log("FLIGHT NEW " +response.data.FlightNumber);
-           console.log(localStorage.getItem("business")=="1");
-           console.log("BUSINESS" );
 
               setDepFlight(response.data);
              
             if(localStorage.getItem("business")=="1") {
                 setDepSeats(response.data.ReservedBusinessSeats); 
+                setNewPrice(response.data.PriceBusiness);
                 }
                 else {
                   setDepSeats(response.data.ReservedEconomySeats);
+                  setNewPrice(response.data.PriceEconomy);
                 }
         });      
          
@@ -96,7 +101,7 @@ export default function NewDepSeats ()
           for(var i=0;i<arr2.length;i++)
           { 
             if(arr2[i].SeatId===seatId)
-            {  console.log("engteredddd")
+            {  
                  arr2[i]={SeatId:seatId,Available:1};
                  break;
             }
@@ -112,13 +117,6 @@ export default function NewDepSeats ()
 
         for(var i=0;i<arr.length;i++)
         { 
-          
-        console.log("for loop");
-        console.log(arr[i].SeatId)
-        console.log(seatId);
-        console.log(arr[i].SeatId===seatId)
-
-
           if(arr[i].SeatId===seatId)
           {  
              flag=false;
@@ -139,10 +137,19 @@ export default function NewDepSeats ()
     return;
   }
 
-     
     const FlightNr=depFlight.FlightNumber;
     const FlightNrOld=oldFlight.FlightNumber;
-
+    localStorage.setItem(" OLD PRICE ",oldPrice);
+    localStorage.setItem(" NEW PRICE ",newPrice);
+    localStorage.setItem(" RESV PRICE ",reservation.TotalPrice);
+    console.log(" OLD PRICE ",oldPrice);
+    console.log("Old Flight "+ oldFlight.FlightNumber);
+    console.log("OLD F P B"+ oldFlight.PriceBusiness);
+    console.log("OLD P CALC" +( oldPrice*Number(reservation.NrPassengers)));
+    console.log("NEW P CALC" +( newPrice*Number(reservation.NrPassengers)));
+    
+    const totalP = Number(reservation.TotalPrice) - ( oldPrice*Number(reservation.NrPassengers)) +(newPrice*Number(reservation.NrPassengers));
+    localStorage.setItem(" NEW TOTAL ",totalP);
     console.log("New Flight" + FlightNr);
     console.log("ArraySeats"+ arraySeats[0]);
     console.log("DEPSEATS"+ depSeats[0].SeatId);
@@ -159,8 +166,8 @@ export default function NewDepSeats ()
     else{
         arrayOfSeats=oldFlight.ReservedBusinessSeats;
     }
-    console.log("arrayOfSeats"+ arrayOfSeats[0]);
-    console.log("oldSeats"+ oldSeats);
+    // console.log("arrayOfSeats"+ arrayOfSeats[0]);
+    // console.log("oldSeats"+ oldSeats);
     var arrr= arrayOfSeats;
     for(var i=0;i<arrr.length;i++)
     { 
@@ -173,8 +180,8 @@ export default function NewDepSeats ()
 
         }
     }
-    console.log("arrayOfSeats"+ arrayOfSeats[0].SeatId + " " +arrayOfSeats[0].Available + ","+ 
-    arrayOfSeats[1].SeatId + " " +arrayOfSeats[1].Available);
+    // console.log("arrayOfSeats"+ arrayOfSeats[0].SeatId + " " +arrayOfSeats[0].Available + ","+ 
+    // arrayOfSeats[1].SeatId + " " +arrayOfSeats[1].Available);
 
 if(reservation.EconomyorBusiness==1){
  FlightOld={ReservedEconomySeats:arrr};
@@ -218,13 +225,14 @@ console.log("THE FLIGHT" + response.data[0]._id)
 
      axios.get('http://localhost:8000/flights/search?FlightNumber='+FlightNr).then((response2)=>{
       console.log(response2.data)
-      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response2.data[0]})
+      axios.put('http://localhost:8000/reservations/update/'+reservation._id,{ DepartureseatNrs: arraySeats,FlightDep:response2.data[0],
+    TotalPrice: totalP})
       .then(res2 => console.log(res2.data))
       .then(
         ()=>{
             alert("Booked Successfully!");
             localStorage.setItem("CheckedInNewDepSeats",1);
-            if(localStorage.getItem("depPriceExtra")==null && localStorage.getItem("depPriceRef")==null){
+            if(localStorage.getItem("depPriceExtra")==null){
               window.location.href="/bookings/"+localStorage.getItem("userId");
               
               }
