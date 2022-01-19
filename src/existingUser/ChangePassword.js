@@ -66,6 +66,8 @@ export default function ChangePassword (props)
                 .then(
                   ()=>{
                    alert("Password Changed Successfully!");
+                 }).catch(err=>{
+                   alert("Invalid Old Password!");
                  })
             }
         )
