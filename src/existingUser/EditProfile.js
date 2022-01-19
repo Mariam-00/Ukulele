@@ -33,7 +33,7 @@ import {
     },
   }))
  
-export default function ExistingUserHome (props)
+export default function EditProfile(props)
 {  const classes = useStyles();
     const customStyles = {
         content : {
@@ -74,10 +74,7 @@ const buttonn= localStorage.getItem("button");
     setUser({...user,[e.target.name]:e.target.value});
   }
 
-  const handleChangePassword =(e)=>
-  {
-    window.location.href="/change-password";
-  }
+
         
     
     return(
@@ -110,6 +107,7 @@ const buttonn= localStorage.getItem("button");
               <div class="wrapper">
               {buttonn==1?(
                   <div>
+                 <h1> Edit Name</h1>
                  <TextField
                  variant="outlined"
                  margin="normal"
@@ -134,7 +132,7 @@ const buttonn= localStorage.getItem("button");
               ):(
                   buttonn==2?(
               <div>
-
+            <h1> Edit Email</h1>
                <TextField
                  variant="outlined"
                  margin="normal"
@@ -149,22 +147,8 @@ const buttonn= localStorage.getItem("button");
               </div>) 
               :buttonn==3?(
               <div>
+             <h1> Edit Mobile Number</h1>
                 <TextField
-                 variant="outlined"
-                 margin="normal"
-                 required
-                 fullWidth
-                 name="Password"
-                 label="Old Password"
-                 id="OldPassword"
-                 onChange={e =>setOldPassword(e.target.value)}
-               />
-              
-
-
-              </div>):buttonn==4?(
-              <div>
-              <TextField
                  variant="outlined"
                  margin="normal"
                  required
@@ -174,7 +158,12 @@ const buttonn= localStorage.getItem("button");
                  id="changeMobile"
                  onChange = {onChange}
                />
-              </div>):buttonn==5?(
+              
+
+
+              </div>):buttonn==4?(
+              <div>
+             <h1> Edit Passport Number</h1>
                <TextField
                  variant="outlined"
                  margin="normal"
@@ -184,7 +173,37 @@ const buttonn= localStorage.getItem("button");
                  label="New Passport Number"
                  id="changePassport"
                  onChange = {onChange}
-               />):(<div></div>)
+               />
+              </div>):buttonn==5?(
+                    <div>
+                    <h1> Edit Address</h1>
+                      <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="Address"
+                        label="New Address"
+                        id="changeAddress"
+                        onChange = {onChange}
+                      />
+                     </div>
+              ):buttonn==6?(
+                <div>
+                <h1> Edit Country Code</h1>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="CountryCode"
+                    label="New Country Code"
+                    id="changeCountryCode"
+                    onChange = {onChange}
+                  />
+                 </div>
+              )
+              :(<div></div>)
               )
               }
             
@@ -192,7 +211,6 @@ const buttonn= localStorage.getItem("button");
         </div>
               </Grid> 
               </Grid> 
-              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={handleChangePassword}>Change Password</Button>
 
       </Paper>
 </div>

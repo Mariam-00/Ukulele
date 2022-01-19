@@ -5,7 +5,36 @@ import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
 import Modal from 'react-modal';
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  CssBaseline,
+  makeStyles,
+  Typography,
+  Toolbar,
+  withMobileDialog,
+} from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
 export default function ConfirmReservation(props)
 {  const[flight1,setFlight1]=useState([]);
    const[flight2,setFlight2]=useState([]);
@@ -14,6 +43,7 @@ export default function ConfirmReservation(props)
    const[nrPassengers,setPass]=useState();
    const[economyOrbusiness,setEco]=useState();
    const[totalPrice, setTotalPrice]=useState(0);
+   const classes=useStyles();
 
    
    const seatNrs=[];
@@ -103,6 +133,30 @@ export default function ConfirmReservation(props)
   
     return(
         <div>
+           <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}>
+           FlyFast
+          </Typography>
+            <div className={classes.navlinks}>
+              <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
+                Profile
+              </Link>
+              <Link to={"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
+                My Bookings
+              </Link>
+              <Link to={"/search-available"} className={classes.link}>
+                Book A Flight
+              </Link>
+              <Link to="/" className={classes.link}>
+                Sign Out
+              </Link>
+            </div>
+        </Toolbar>
+      </AppBar>
+      <br/>
+      <br/>
         <h1>Confirm Reservation</h1>
         <div >
             
@@ -110,6 +164,8 @@ export default function ConfirmReservation(props)
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
               <div class="wrapper">
+             
+              <b> Departure Flight's Number:{flight1.FlightNumber}</b> <br/>
               <b> Departure Flight's Date:{flight1.Date}</b> <br/>
               <b> Departure Flight's Departure Time: {flight1.DepartureTime}</b><br/>
               <b> Departure Flight's Arrival Time: {flight1.ArrivalTime}</b><br/>

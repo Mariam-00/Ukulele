@@ -4,13 +4,44 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import DatePicker from '@mui/lab/DatePicker'
 import Grid from '@material-ui/core/Grid';
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  CssBaseline,
+  makeStyles,
+  Typography,
+  Toolbar,
+  withMobileDialog,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
+
 export default function ListDepartureFlights(props)
 {   
     const[flight,setFlight]=useState([]);
     const passengers=localStorage.getItem("NrPassengers");
     const searchLink=props.match.params.id;
     const[flight2,setFlight2]=useState([]);
-
+    const classes = useStyles();
    
    
     useEffect(()=>{
@@ -40,6 +71,44 @@ export default function ListDepartureFlights(props)
     return(
         
         <div>
+           {
+               (localStorage.getItem("userId")==null)?
+               <AppBar position="static">
+               <CssBaseline />
+               <Toolbar>
+                 <Typography variant="h4" className={classes.logo} style={{textAlign:"left"}}>
+                  FlyFast
+                 </Typography>
+               </Toolbar>
+             </AppBar>
+             :(localStorage.getItem("userId")!==null)?
+             <AppBar position="static">
+             <CssBaseline />
+             <Toolbar>
+               <Typography variant="h4" className={classes.logo}>
+                FlyFast
+               </Typography>
+                 <div className={classes.navlinks}>
+                   <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
+                     Profile
+                   </Link>
+                   <Link to={"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
+                     My Bookings
+                   </Link>
+                   <Link to={"/search-available"} className={classes.link}>
+                     Book A Flight
+                   </Link>
+                   <Link to="/" className={classes.link}>
+                     Sign Out
+                   </Link>
+                 </div>
+             </Toolbar>
+           </AppBar>
+           
+             :(<div></div>)
+           } 
+           <br/>
+           <br/>
         <h1>Choose A Departure Flight</h1>
         <div >
             

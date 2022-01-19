@@ -57,37 +57,45 @@ export default function ExistingUserHome (props)
     const onClickN = async e=>{
         e.preventDefault();
         localStorage.setItem("button",1);
-        window.location.href = "/edit/"+props.match.params.id;
+        window.location.href = "/edit/"+localStorage.getItem("userId");
 
         
     }
     const onClickE = async e=>{
         e.preventDefault();
         localStorage.setItem("button",2);
-        window.location.href = "/edit/"+props.match.params.id;
+        window.location.href = "/edit/"+localStorage.getItem("userId");
     }
-    const onClickP = async e=>{
-        e.preventDefault();
-        localStorage.setItem("button",3);
-        window.location.href = "/edit/"+props.match.params.id;
-    }
+    
     const onClickM = async e=>{
         e.preventDefault();
-        localStorage.setItem("button",4);
-        window.location.href = "/edit/"+props.match.params.id;
+        localStorage.setItem("button",3);
+        window.location.href = "/edit/"+localStorage.getItem("userId");
     }
     const onClickPass = async e=>{
       e.preventDefault();
-      localStorage.setItem("button",5);
-      window.location.href = "/edit/"+props.match.params.id;
+      localStorage.setItem("button",4);
+    window.location.href = "/edit/"+localStorage.getItem("userId");
   }
+   const onClickAdd = async e=>
+   {
+    e.preventDefault();
+    localStorage.setItem("button",5);
+  window.location.href = "/edit/"+localStorage.getItem("userId");
+   }
+   const onClickCC = async e=>
+   {
+    e.preventDefault();
+    localStorage.setItem("button",6);
+  window.location.href = "/edit/"+localStorage.getItem("userId");
+   }
   const handleChangePassword= async e=>
   {
     e.preventDefault();
     window.location.href="/change-password";
   }
     useEffect(()=>{
-        axios.get('http://localhost:8000/users/'+props.match.params.id).then((response) => {
+        axios.get('http://localhost:8000/users/'+localStorage.getItem("userId")).then((response) => {
             setUser(response.data);
           });
         }, []);
@@ -101,17 +109,14 @@ export default function ExistingUserHome (props)
            FlyFast
           </Typography>
             <div className={classes.navlinks}>
-              <Link to={"/user/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/user/"+ localStorage.getItem("userId")} className={classes.link}>
                 Profile
               </Link>
-              <Link to={"/bookings/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
               <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
-              </Link>
-              <Link to="/look-flight" className={classes.link}>
-                Search For A Flight
               </Link>
               <Link to="/home" className={classes.link}>
                 Sign Out
@@ -119,7 +124,9 @@ export default function ExistingUserHome (props)
             </div>
         </Toolbar>
       </AppBar>
-     
+     <br/>
+     <br/>
+     <h1>Edit Your Profile</h1>
       <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
             <Grid container justifyContent="space-between" alignItems="center">
             <Grid item xl>
@@ -142,17 +149,7 @@ export default function ExistingUserHome (props)
               </Grid> 
               </Grid> 
       </Paper>
-       <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
-             <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item xl>
-              <div class="wrapper">
-              <b>Password: ******** </b><br/>
-              </div>
-              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickPass}>Edit</Button>
-        
-              </Grid> 
-              </Grid> 
-      </Paper>
+       
       <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
              <Grid container justifyContent="space-between" alignItems="center">
               <Grid item xl>
@@ -175,7 +172,39 @@ export default function ExistingUserHome (props)
               </Grid> 
               </Grid> 
       </Paper>
-      <Button  variant="contained" color="primary" display = "flex"   marginright onClick={handleChangePassword}>Change Password</Button>
+      <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+             <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item xl>
+              <div class="wrapper">
+              <b>Address: {user.Address} </b><br/>
+            
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickAdd}>Edit</Button>
+        </div>
+              </Grid> 
+              </Grid> 
+      </Paper>
+      <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+             <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item xl>
+              <div class="wrapper">
+              <b>Country Code: {user.CountryCode} </b><br/>
+            
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={onClickCC}>Edit</Button>
+        </div>
+              </Grid> 
+              </Grid> 
+      </Paper>
+      <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
+             <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item xl>
+              <div class="wrapper">
+              <b>Password: ************ </b><br/>
+            
+              <Button  variant="contained" color="primary" display = "flex"   marginright onClick={handleChangePassword}>Edit</Button>
+        </div>
+              </Grid> 
+              </Grid> 
+      </Paper>
 
       </div>
 

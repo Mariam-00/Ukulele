@@ -101,7 +101,7 @@ export default function OneWayRet(props)
     }
     else if(localStorage.getItem("business2")==1)
     {
-      priceFlight=passengers*flight.PriceEconomy;
+      priceFlight=passengers*flight.PriceBusiness;
     }
       if(classFlight==1) // economy
       {
@@ -184,7 +184,7 @@ export default function OneWayRet(props)
               <Link to= {"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
+              <Link to={"/search-available" } className={classes.link}>
                 Book A Flight
               </Link>
               <Link to="/home" className={classes.link}>

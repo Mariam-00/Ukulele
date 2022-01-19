@@ -2,8 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { Container ,Paper,Button} from '@material-ui/core';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-export default function Test(props)
-{ 
+import {Link} from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import { makeStyles,withStyles } from '@material-ui/core/styles';
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  withMobileDialog,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
+export default function Update(props)
+{   const classes = useStyles();
     const[flight,setFlight]=useState({});
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -22,12 +52,35 @@ export default function Test(props)
 
     return(
         <div>
-        <h2>Update Flight</h2>;
+             
+     <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}>
+           FlyFast
+          </Typography>
+            <div className={classes.navlinks}>
+              <Link to={"/create-flights"} className={classes.link}>
+                Create A Flight
+              </Link>
+              <Link to={"/list-flights"} className={classes.link}>
+                List All Flights
+              </Link>
+              <Link to={"/search-flights"} className={classes.link}>
+               Search For A Flight
+              </Link>
+            
+            </div>
+        </Toolbar>
+      </AppBar>
+  
+      <br/>
+      <br/>
+        <h2>Update Flight</h2>
         <TextField
           id="flightNr"
           label="Flight Number"
           name="FlightNumber"
-          //value={this.state.flightNumber}
          onChange={handleChange}
           margin="normal"
         />
@@ -36,7 +89,6 @@ export default function Test(props)
           id="depTime"
           label="Departure Time"
           name="DepartureTime"
-         // value={this.state.name}
           onChange={handleChange}
           margin="normal"
         />
@@ -45,7 +97,6 @@ export default function Test(props)
           id="arrTime"
           label="Arrival Time"
           name="ArrivalTime"
-         // value={this.state.name}
           onChange={handleChange}
           margin="normal"
         /><br/>
@@ -53,7 +104,6 @@ export default function Test(props)
           id="date"
           label="Date"
           name="Date"
-         // value={this.state.name}
           onChange={handleChange}
           margin="normal"
         />
@@ -62,7 +112,6 @@ export default function Test(props)
           id="nrEco"
           label="Number Of Economy Seats"
           name="NrEconomySeats"
-         // value={this.state.name}
          onChange={handleChange}
           margin="normal"
         />
@@ -71,7 +120,6 @@ export default function Test(props)
           id="nrBusiness"
           label="NrBusinessSeats"
           name="NrBusinessSeats"
-         // value={this.state.name}
         onChange={handleChange}
           margin="normal"
         />
@@ -81,7 +129,6 @@ export default function Test(props)
           id="departureAirport"
           label="Departure Airport"
           name="Departure Airport"
-         // value={this.state.name}
         onChange={handleChange}
           margin="normal"
         />
@@ -91,8 +138,7 @@ export default function Test(props)
           id="arrivalAirport"
           label="Arrival Airport"
           name="Arrival Airport"
-         // value={this.state.name}
-        onChange={handleChange}
+         onChange={handleChange}
           margin="normal"
         />
       
@@ -102,7 +148,6 @@ export default function Test(props)
           id="duration"
           label="Duration"
           name="Duration"
-         // value={this.state.name}
         onChange={handleChange}
           margin="normal"
         />

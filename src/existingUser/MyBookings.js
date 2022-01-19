@@ -74,13 +74,13 @@ export default function MyBookings (props)
 
             if(localStorage.getItem("depPriceRef")!=null)
             {
-              window.confirm("The Amount " + localStorage.getItem("depPriceRef") +"Will Be Refunded To Your Account As Soon As Possible");
+              window.confirm("The Amount " + localStorage.getItem("depPriceRef") +"  EGP Will Be Refunded To Your Account As Soon As Possible");
               localStorage.removeItem("depPriceRef");
             } 
             
             if(localStorage.getItem("retPriceRef")!=null)
             {
-              window.confirm("The Amount " + localStorage.getItem("retPriceRef") +"Will Be Refunded To Your Account As Soon As Possible");
+              window.confirm("The Amount " + localStorage.getItem("retPriceRef") +"  EGP Will Be Refunded To Your Account As Soon As Possible");
               localStorage.removeItem("retPriceRef");
             } 
 

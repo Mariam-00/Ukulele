@@ -14,7 +14,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {purple } from '@material-ui/core/colors';
+import {blue, purple } from '@material-ui/core/colors';
 //import Image from '../images/back1.jpeg'; // Import using relative path
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 //import './admin/login.css'
@@ -35,10 +35,10 @@ function Copyright() {
 
 const ColorButton = withStyles((theme) => ({
   root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
+    color: theme.palette.getContrastText(blue[900]),
+    backgroundColor: blue[1000],
     '&:hover': {
-      backgroundColor: purple[700],
+      backgroundColor: blue[700],
     },
   },
 }))(Button);
@@ -109,7 +109,7 @@ export default function Login() {
             //console.log(id);
             const userId=localStorage.getItem("userId");
            
-            if(localStorage.getItem("searchlinkreturn")===null)
+        if(localStorage.getItem("searchlinkreturn")===null)
         {
             window.location.href="/bookings/"+userId;
         }

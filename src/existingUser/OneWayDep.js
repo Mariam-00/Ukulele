@@ -105,7 +105,7 @@ export default function OneWayDep(props)
       }
       else if(localStorage.getItem("business2")==1)
       {
-        priceFlight=passengers*flight.PriceEconomy;
+        priceFlight=passengers*flight.PriceBusiness;
       }
         if(classFlight==1) // economy
         {
@@ -170,33 +170,7 @@ export default function OneWayDep(props)
      "Are you sure you want to select this flight?"
   ))
   { 
-    var priceFlight;
-      var priceOldFlight;
-      if(localStorage.getItem("economy2")==1)
-      {  priceFlight=passengers*flight.PriceEconomy;
-      }
-      else if(localStorage.getItem("business2")==1)
-      {
-        priceFlight=passengers*flight.PriceEconomy;
-      }
-        if(classFlight==1) // economy
-        {
-           priceOldFlight=passengers*priceEconomy;
-        }
-        else if(classFlight==2) // business
-        {
-           priceOldFlight=passengers*priceBusiness;
-        }
-
-        if(priceFlight>priceOldFlight)
-          {   const extra=priceFlight-priceOldFlight;
-              localStorage.setItem("depPriceExtra",extra);
-          }
-          else if(priceFlight<priceOldFlight)
-          {
-              const refund=priceOldFlight-priceFlight;
-              localStorage.setItem("depPriceRef",refund);
-          }
+    
      
     localStorage.setItem("reservationIdNewDepSeats",reservation._id);
     localStorage.setItem("flightIdNewDepSeats",flight._id);
@@ -230,7 +204,7 @@ export default function OneWayDep(props)
               <Link to= {"/bookings/"+ localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
+              <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
               </Link>
               <Link to="/home" className={classes.link}>

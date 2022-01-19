@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container ,Paper,Button} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,17 +14,47 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {Redirect,Link,browserHistory} from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
+
 import Swal from 'sweetalert2';
 //import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Popup from 'reactjs-popup';
+import Popup from 'reactjs-popup'; 
 import Modal from 'react-modal';
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Paper,
+  Grid,
+  Button,
+  Typography,
+  withMobileDialog,
+} from "@material-ui/core";
 
-
+const useStyles = makeStyles((theme) => ({
+  navlinks: {
+    marginLeft: theme.spacing(10),
+    display: "flex",
+  },
+ logo: {
+    flexGrow: "1",
+    cursor: "pointer",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "20px",
+    marginLeft: theme.spacing(20),
+    "&:hover": {
+      color: "yellow",
+      borderBottom: "1px solid white",
+    },
+  },
+}))
 
 export default function AdminListAllFlights()
-{   const[flights,setFlights]=useState([])
+{   const[flights,setFlights]=useState([]);
+    const classes =useStyles();
 
     useEffect(()=>{
         axios.get('http://localhost:8000/flights/findall').then((response) => {
@@ -48,8 +75,15 @@ export default function AdminListAllFlights()
      const handleUpdate = async e=>{
             e.preventDefault();
             const flight=e.currentTarget.id;
+            axios.get('http://localhost:8000/flights/find/'+e.currentTarget.id).then((response) => {
+            
+              localStorage.setItem("FlightToBeUpdated",response.data);
+              window.location.href="/test/"+flight;
+    
+            });
+        
            
-           window.location.href="/test/"+flight;
+           //window.location.href="/test/"+flight;
         }    
 
     const [modalIsOpen,setModalIsOpen] = useState(false);
@@ -81,6 +115,28 @@ export default function AdminListAllFlights()
       }
     return(
         <div>
+             <AppBar position="static">
+        <CssBaseline />
+        <Toolbar>
+          <Typography variant="h4" className={classes.logo}>
+           FlyFast
+          </Typography>
+            <div className={classes.navlinks}>
+              <Link to={"/create-flights"} className={classes.link}>
+                Create A Flight
+              </Link>
+              <Link to={"/list-flights"} className={classes.link}>
+                List All Flights
+              </Link>
+              <Link to={"/search-flights"} className={classes.link}>
+               Search For A Flight
+              </Link>
+            
+            </div>
+        </Toolbar>
+      </AppBar>
+      <br/>
+      <br/>
         <h1>Available Flights</h1>
         <div >
             {flights.map(flight=>(

@@ -8,9 +8,8 @@ import Home from './Home';
 import SearchAvailableFlights from './searchAvailableFlights';
 import Search from './admin/Search';
 import ListSearch from './admin/ListSearch'
-import Test from './admin/Test';
+import Update from './admin/Update';
 import ExistingUserHome from './existingUser/ExistingUserHome';
-import EditProfile from './existingUser/EditProfile';
 import ListDepartureFlights from './existingUser/ListDepartureFlights';
 import DepartureDetail from './existingUser/DepartureDetail';
 import ListReturnFlights from './existingUser/ListReturnFlights';
@@ -35,6 +34,8 @@ import OneWayRet from './existingUser/OneWayRet';
 import Payment from './existingUser/Payment';
 import DepDetailOneWay from './existingUser/DepDetailOneWay';
 import RetDetailOneWay from './existingUser/RetDetailOneWay';
+import EditProfile from './existingUser/EditProfile';
+
 function App() {
 
   return (
@@ -52,9 +53,8 @@ function App() {
     <Route path="/user/:id" exact component={ExistingUserHome}/> 
     <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/bookings/:id" exact component={MyBookings}/> 
-    <Route path="/edit/:id" exact component={EditProfile}/>
     <Route path="/list-search/:id" exact component={ListSearch}/>
-    <Route path="/test/:id" exact component={Test}/>
+    <Route path="/test/:id" exact component={Update}/>
     <Route path="/list-dep/:id" exact component={ListDepartureFlights}/>
     <Route path="/search-available" exact component={SearchAvailableFlights}/>
     <Route path="/dep-det/:id" exact component={DepartureDetail}/>

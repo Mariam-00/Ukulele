@@ -98,11 +98,8 @@ export default function ChangePassword (props)
               <Link to= {"/bookings/"+ props.match.params.id} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/book/"+ props.match.params.id} className={classes.link}>
+              <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
-              </Link>
-              <Link to="/look-flight" className={classes.link}>
-                Search For A Flight
               </Link>
               <Link to="/" className={classes.link}>
                 Sign Out

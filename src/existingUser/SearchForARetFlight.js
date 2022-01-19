@@ -53,7 +53,7 @@ export default function SearchForARetFlight() {
     {
       localStorage.setItem("economy2",0);
       localStorage.setItem("business2",1);
-      localStorage.setItem("class2","Business")
+      localStorage.setItem("class2","Business");
       setValue("Business");
     }
     else{
@@ -97,7 +97,7 @@ export default function SearchForARetFlight() {
               <Link to= {"/bookings/"+localStorage.getItem("userId")} className={classes.link}>
                 My Bookings
               </Link>
-              <Link to={"/book/"+ localStorage.getItem("userId")} className={classes.link}>
+              <Link to={"/search-available"} className={classes.link}>
                 Book A Flight
               </Link>
               <Link to="/home" className={classes.link}>
